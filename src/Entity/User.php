@@ -37,7 +37,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $prenom = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $commentaire = null;
 
     #[ORM\Column(nullable: true)]
@@ -46,7 +46,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $photo_profil = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $ref_statut = null;
 
     public function getId(): ?int
