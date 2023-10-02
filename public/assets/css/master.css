@@ -1,7 +1,8 @@
 .login{
     background-color: #5080B4;
     filter: contrast(1) saturate(1);
-    border-radius: 40px;
+    border-radius: 50%;
+    overflow: hidden;
     transition: 0.8s all 0s;
 }
 .login:hover{

@@ -24,6 +24,15 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $profilePictureFile = $form->get('photo_profil')->getData();
+            if ($profilePictureFile) {
+                // Convertir l'image en base64
+                $profilePictureBase64 = base64_encode(file_get_contents($profilePictureFile));
+                $user->setPhotoProfil($profilePictureBase64);
+            }
+
+
             // encode the plain password
             $user->setPassword(
                 $userPasswordHasher->hashPassword(

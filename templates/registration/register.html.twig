@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Register{% endblock %}
+<script src="/assets/js/registrationForm/updatepp.js"></script>
 
 {% block body %}
 
@@ -35,6 +36,16 @@
                         {{ form_start(registrationForm) }}
                             <div class="row gy-4 counts" style="padding:10px; ">
         
+                                <div class="col-md-12 d-flex justify-content-center align-items-center">
+                                    <div class="login" style="height: 100px; width: 100px; padding: 10px">
+                                        <div class="w-100 h-100 d-flex justify-content-center align-items-center" style="background: url(/assets/images/user1.png) no-repeat; background-size: contain;">
+                                            
+                                            <input type="file" name="{{ field_name(registrationForm.photo_profil) }}" class="form-control w-100 h-100 position-absolute" style="filter: opacity(0);">
+                                            <span style=" margin-top: 30px; font-size: 30px; font-weight: bold;">+</span>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="col-md-6">
                                     <input value="" type="text" class="form-control" id="registration_form_nom" name="{{ field_name(registrationForm.nom) }}" maxlength="255" placeholder="Family-Name" autocomplete="family-name" required="">
                                 </div>
