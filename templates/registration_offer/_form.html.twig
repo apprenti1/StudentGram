@@ -5,6 +5,8 @@
 
 {% block body %}
     {{ form_start(form) }}
+    {{ dump(field_name) }}
+    {# <input type="text" name="{{ field_name(offreForm.titre) }}"> #}
     <input type="submit">
     {{ form_end(form) }}
 
