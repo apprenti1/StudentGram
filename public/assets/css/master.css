@@ -1,3 +1,4 @@
+
 .login{
     background-color: #5080B4;
     filter: contrast(1) saturate(1);
@@ -103,4 +104,14 @@ p{
 }
 .btn-primary{
     background: #4154f1;
+}
+div#inputPP{
+    background: url(/assets/images/user1.png) no-repeat;
+    background-size: contain;
+    filter: opacity(1);
+    transition: 0.5s all 0s;
+}
+div#inputPP:valid{
+    filter: opacity(0);
+    transition: 0.5s all 0s;
 }
