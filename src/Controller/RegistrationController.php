@@ -13,11 +13,14 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+
 
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, LoginAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, LoginAuthenticator $authenticator, EntityManagerInterface $entityManager, Security $security): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -28,7 +31,7 @@ class RegistrationController extends AbstractController
             $profilePictureFile = $form->get('photo_profil')->getData();
             if ($profilePictureFile) {
                 // Convertir l'image en base64
-                $profilePictureBase64 = base64_encode(file_get_contents($profilePictureFile));
+                $profilePictureBase64 = "data:image/".$profilePictureFile->guessExtension().";base64,".base64_encode(file_get_contents($profilePictureFile));
                 $user->setPhotoProfil($profilePictureBase64);
             }
 
@@ -52,8 +55,13 @@ class RegistrationController extends AbstractController
             );
         }
 
+        if ($security->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirectToRoute('app_main');
+        }
+
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
+            'file' => $_FILES,
         ]);
     }
 }
