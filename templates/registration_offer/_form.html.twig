@@ -4,7 +4,58 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    {{ form_start(form) }}
+
+<script src="/assets/js/form/updatepp.js"></script>
+    <section class="position-absolute w-100">
+        {{ component('Navbar') }}
+    </section>
+    <section class="hero d-flex align-items-center" id="hero" style="padding-top:90px; height: auto; min-height: 100vh;">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 d-flex flex-column justify-content-center" style="display: flex;align-items: center; padding: 30px;">
+                    <h1 data-aos="fade-up" class="aos-init aos-animate">Ajout d'offre</h1>
+                </div>
+            
+    
+                <div class="col-lg-6 contact">
+                    <div class="php-email-form" name="registration_form" style="height: auto; background-color: #ffffff08; padding: 30px; margin: 30px; ">
+                        {{ form_start(form) }}
+                            <div class="row gy-4 counts" style="padding:10px; ">
+
+                                <div class="col-md-6">
+                                    <input value="" type="text" class="form-control" id="registration_form_nom" name="{{ field_name(form.titre  ) }}" maxlength="255" placeholder="Titre" required="">
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <input value="" type="text" class="form-control" id="registration_form_prenom" name="{{ field_name(form.description) }}" maxlength="255" placeholder="Description" required="">
+                                </div>
+                                
+                                <div class="col-md-12">
+                                    <input value="" type="text" class="form-control" id="registration_form_email" name="{{ field_name(form.type_de_contrat) }}" placeholder="Type de contrat" maxlength="180" required="required">
+                                </div>
+                                
+        
+
+        
+                                <div class="col-md-12 text-center">
+                                    {% if form_errors(form) %}
+                                    <div class="alert alert-danger">{{ form_errors(form) }}</div>
+                                    {% endif %}
+                                    <button class="btn btn-lg btn-primary" type="submit">Creer</button>
+                                </div>
+        
+                            </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {# {{ form_row(form.titre) }} #}
+    {# {{ dump(field_name) }} #}
+    {# <input type="text" name="{{ field_name(form.titre) }}">
+    <input type="text" name="{{ field_name(form.description) }}">
+    <input type="text" name="{{ field_name(form.type_de_contrat) }}"> #}
     <input type="submit">
     {{ form_end(form) }}
 

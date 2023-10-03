@@ -40,6 +40,10 @@ class RegistrationOfferController extends AbstractController
             'offre' => $offre,
             'form' => $form,
         ]);
+
+        return $this->render('registration_offer/new.html.twig', [
+            'offreForm' => $form->createView(),
+        ]);
     }
 
     #[Route('/{id}', name: 'app_registration_offer_show', methods: ['GET'])]
