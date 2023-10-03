@@ -39,7 +39,7 @@
                     <a class="nav-link d-flex align-items-center" style="height: 40px; top: -8px;" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                         {{ app.user.prenom }}
                         <p class="nav-item nav-link login m-0" style="margin-left: 10px !important;">
-                            <img alt="prophil" src="{{ '/assets/images/user1.png' }}" style="height: 40px;">
+                            <img alt="prophil" src="{{ (app.user.getPhotoProfil())?app.user.getPhotoProfil():'/assets/images/user1.png' }}" style="height: 40px;">
                         </p>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end">

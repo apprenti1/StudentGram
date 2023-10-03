@@ -3,38 +3,41 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-
-<section class="position-absolute w-100">
-    {{ component('Navbar') }}
+    <script src="/assets/js/registrationForm/updatepp.js"></script>
+    <section class="position-absolute w-100">
+        {{ component('Navbar') }}
     </section>
     <section class="hero d-flex align-items-center" id="hero" style="padding-top:90px; height: auto; min-height: 100vh;">
         <div class="container">
-            {% if app.user %}
-                <div class="mb-3">
-                    You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
-                </div>
-            {% endif %}
             <div class="row align-items-center">
-            <div class="col-lg-6 d-flex flex-column justify-content-center" style="display: flex;align-items: center; padding: 30px;">
-                <h1 data-aos="fade-up" class="aos-init aos-animate">Inscription</h1>
-                <h2 data-aos="fade-up" data-aos-delay="400" class="aos-init aos-animate">ou</h2>
-                <div data-aos="fade-up" data-aos-delay="600" class="aos-init aos-animate">
-                <div class="text-center text-lg-start">
-                    <a href="/register" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
-                    <span>Se connecter</span>
-                    <img alt="arrow" src="/assets/images/arrow.png" height="30px" class="arrow">
-                    </a>
+                <div class="col-lg-6 d-flex flex-column justify-content-center" style="display: flex;align-items: center; padding: 30px;">
+                    <h1 data-aos="fade-up" class="aos-init aos-animate">Inscription</h1>
+                    <h2 data-aos="fade-up" data-aos-delay="400" class="aos-init aos-animate">ou</h2>
+                    <div data-aos="fade-up" data-aos-delay="600" class="aos-init aos-animate">
+                        <div class="text-center text-lg-start">
+                            <a href="/register" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
+                            <span>Se connecter</span>
+                            <img alt="arrow" src="/assets/images/arrow.png" height="30px" class="arrow">
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                </div>
-            </div>
             
-                
     
                 <div class="col-lg-6 contact">
-                    <div class="php-email-form" name="registration_form" style="height: auto; background-color: #ffffff08; padding: 30px; ">
+                    <div class="php-email-form" name="registration_form" style="height: auto; background-color: #ffffff08; padding: 30px; margin: 30px; ">
                         {{ form_start(registrationForm) }}
                             <div class="row gy-4 counts" style="padding:10px; ">
         
+                                <div class="col-md-12 d-flex justify-content-center align-items-center">
+                                    <div class="login" style="height: 100px; width: 100px; padding: 10px">
+                                        <div class="w-100 h-100 d-flex justify-content-center align-items-center" id="inputPP">
+                                            <input type="file" name="{{ field_name(registrationForm.photo_profil) }}" class="form-control w-100 h-100 position-absolute" style="filter: opacity(0);" accept="image">
+                                            <span style=" margin-top: 30px; font-size: 30px; font-weight: bold;">+</span>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="col-md-6">
                                     <input value="" type="text" class="form-control" id="registration_form_nom" name="{{ field_name(registrationForm.nom) }}" maxlength="255" placeholder="Family-Name" autocomplete="family-name" required="">
                                 </div>
