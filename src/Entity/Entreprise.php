@@ -22,6 +22,12 @@ class Entreprise
     #[ORM\Column(length: 255)]
     private ?string $fonction_employe = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $ville = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $cp = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +65,30 @@ class Entreprise
     public function setFonctionEmploye(string $fonction_employe): static
     {
         $this->fonction_employe = $fonction_employe;
+
+        return $this;
+    }
+
+    public function getVille(): ?string
+    {
+        return $this->ville;
+    }
+
+    public function setVille(string $ville): static
+    {
+        $this->ville = $ville;
+
+        return $this;
+    }
+
+    public function getCp(): ?string
+    {
+        return $this->cp;
+    }
+
+    public function setCp(string $cp): static
+    {
+        $this->cp = $cp;
 
         return $this;
     }
