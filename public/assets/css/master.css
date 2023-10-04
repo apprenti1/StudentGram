@@ -123,3 +123,7 @@ div#inputPP:valid{
     background: #ffffff1c;
     box-shadow: 0px 0 30px rgba(1, 41, 112, 0.08);
 }
+div#companyform{
+    visibility: hidden;
+    height: 0;
+}

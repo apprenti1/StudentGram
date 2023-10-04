@@ -5,6 +5,7 @@
 {% block body %}
 <script src="/assets/js/registrationForm/updatepp.js"></script>
 <script src="/assets/js/registrationForm/switchcompany.js"></script>
+<script src="/assets/js/registrationForm/map.js" defer></script>
 
 <!-- Map integration -->
   <link rel="stylesheet" href="//cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
@@ -45,16 +46,27 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-12" id="companyform">
+                                <div class="col-md-12 row m-0 mt-3 p-0" id="companyform">
+
                                     <div class="col-md-12">
                                         <input value="" id="adress" type="text" class="form-control" name="adress" placeholder="Adresse" required="">
-                                      </div>
-                                      <div class="count-box" style="margin: 20px 20px 0; padding: 10px; width: fit-content; font-size: 0.5em;">
-                                        <span id="adresstext" style="font-size: 2.2em;">Adresse</span>
-                                      </div>
-                                      <input value="" id="rue" type="hidden" class="form-control" name="rue" placeholder="Adresse" required="">
-                                      <input value="" id="cp" type="hidden" class="form-control" name="cp" placeholder="Adresse" required="">
-                                      <input value="" id="ville" type="hidden" class="form-control" name="ville" placeholder="Adresse" required="">
+                                        <div class="count-box" style="margin: 20px 20px 0; padding: 10px; width: fit-content; font-size: 0.5em;">
+                                            <span id="adresstext" style="font-size: 2.2em;">Adresse</span>
+                                        </div>
+                                        <input value="" id="rue" type="hidden" class="form-control" name="rue" placeholder="Adresse" required="">
+                                        <input value="" id="cp" type="hidden" class="form-control" name="cp" placeholder="Adresse" required="">
+                                        <input value="" id="ville" type="hidden" class="form-control" name="ville" placeholder="Adresse" required="">
+                                
+                                    </div>
+                                    
+                                    <div class="col-md-6 mt-3">
+                                        <input value="" type="text" class="form-control" id="registration_form_nom" name="company" maxlength="255" placeholder="Company-Name">
+                                    </div>
+                                    
+                                    <div class="col-md-6 mt-3">
+                                        <input value="" type="text" class="form-control" id="registration_form_prenom" name="poste" maxlength="255" placeholder="Position-Held">
+                                    </div>
+                                
                                 </div>
                 
 
@@ -76,7 +88,7 @@
                                 
                                 <div class="col-md-6">
                                     <div class="form-check d-flex align-items-center">
-                                        <input class="form-check-input" type="checkbox" value="" id="registration_form_agreeTerms" name="{{ field_name(registrationForm.agreeTerms) }}" checked="" required="required" style="height: 28px; width: 28px; margin-right: 10px; ">
+                                        <input class="form-check-input" type="checkbox" value="" id="registration_form_agreeTerms" name="{{ field_name(registrationForm.agreeTerms) }}" checked="" required="" style="height: 28px; width: 28px; margin-right: 10px; ">
                                         <label class="form-check-label" for="flexCheckChecked">
                                         Agree Terms
                                         </label>
@@ -85,7 +97,7 @@
                                 
                                 <div class="col-md-6">
                                     <div class="form-check d-flex align-items-center">
-                                        <input class="form-check-input" type="checkbox" value="" id="registration_form_agreeTerms" name="{{ field_name(registrationForm.agreeTerms) }}" checked="" required="required" style="height: 28px; width: 28px; margin-right: 10px; ">
+                                        <input class="form-check-input" type="checkbox" value="" id="registration_form_agreeTerms" name="{{ field_name(registrationForm.agreeTerms) }}" required="" style="height: 28px; width: 28px; margin-right: 10px; ">
                                         <label class="form-check-label" for="flexCheckChecked">
                                         Company ?
                                         </label>
