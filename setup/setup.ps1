@@ -262,8 +262,8 @@ Write-Host "Be sure to make the following sql server available:" -ForegroundColo
 Write-Host $bdd -ForegroundColor Green
 Pause
 
-echo "composer require symfony runtime"
-composer require symfony runtime
+echo "composer require symfony/runtime"
+composer require symfony/runtime
 echo "php bin/console doctrine:database:create"
 php bin/console doctrine:database:create
 echo "php bin/console doctrine:migrations:version --add --all"
