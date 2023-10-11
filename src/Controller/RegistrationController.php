@@ -15,6 +15,8 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Form\FormError;
+
 
 
 class RegistrationController extends AbstractController
@@ -53,6 +55,14 @@ class RegistrationController extends AbstractController
                 $authenticator,
                 $request
             );
+        }
+
+        if ($form->isSubmitted()) {
+            if (!$security->isGranted('IS_AUTHENTICATED_FULLY')) {
+                $error = new FormError('Problem found with your registration éléments.');
+                $form->addError($error);
+            }
+            
         }
 
         if ($security->isGranted('IS_AUTHENTICATED_FULLY')) {

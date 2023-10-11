@@ -5,6 +5,8 @@
     border-radius: 50%;
     overflow: hidden;
     transition: 0.8s all 0s;
+    width: fit-content;
+    padding: 10px !important;
 }
 .login:hover{
     border-radius: 20px;
@@ -126,4 +128,12 @@ div#inputPP:valid{
 div#companyform{
     visibility: hidden;
     height: 0;
+    filter: opacity(0);
+    transition: 1s height 0s, 0.5s all 0s;
+}
+.alert ul{
+    margin: 0;
+}
+.navbar-collapse{
+    transition: 0.5s all 0s;
 }
