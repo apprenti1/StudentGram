@@ -3,18 +3,121 @@
 {% block title %}Hello EditUserController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <script src="/assets/js/registrationForm/updatepp.js"></script>
+    <script src="/assets/js/registrationForm/switchcompany.js"></script>
+    <script src="/assets/js/registrationForm/map.js" defer></script>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <!-- Map integration -->
+    <link rel="stylesheet" href="//cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <script src="//cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/wamp64/www/projet phpSLAM2/StudentGram/src/Controller/EditUserController.php'|file_link(0) }}">src/Controller/EditUserController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/wamp64/www/projet phpSLAM2/StudentGram/templates/edit_user/index.html.twig'|file_link(0) }}">templates/edit_user/index.html.twig</a></code></li>
-    </ul>
-</div>
+
+    <section class="position-absolute w-100">
+        {{ component('Navbar') }}
+    </section>
+    <section class="hero d-flex align-items-center" id="hero" style="padding-top:90px; height: auto; min-height: 100vh;">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 d-flex flex-column justify-content-center" style="display: flex;align-items: center; padding: 30px;">
+                    <h1 data-aos="fade-up" class="aos-init aos-animate">Inscription</h1>
+                    <h2 data-aos="fade-up" data-aos-delay="400" class="aos-init aos-animate">ou</h2>
+                    <div data-aos="fade-up" data-aos-delay="600" class="aos-init aos-animate">
+                        <div class="text-center text-lg-start">
+                            <a href="/register" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
+                                <span>Se connecter</span>
+                                <img alt="arrow" src="/assets/images/arrow.png" height="30px" class="arrow">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-6 contact">
+                    <div class="php-email-form" name="registration_form" style="height: auto; background-color: #ffffff08; padding: 30px; margin: 30px; ">
+                        {{ form_start(UserType) }}
+                        <div class="row gy-4 counts" style="padding:10px; ">
+
+                            <div class="col-md-12 d-flex justify-content-center align-items-center">
+                                <div class="login" style="height: 100px; width: 100px; padding: 10px">
+                                    <div class="w-100 h-100 d-flex justify-content-center align-items-center" id="inputPP">
+                                        <input type="file" name="{{ field_name(UserType.photo_profil) }}" class="form-control w-100 h-100 position-absolute" style="filter: opacity(0);" accept="image">
+                                        <span style=" margin-top: 30px; font-size: 30px; font-weight: bold;">+</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 row m-0 mt-3 p-0" id="companyform">
+
+                                <div class="col-md-12">
+                                    <input value="" id="adress" type="text" class="form-control" name="adress" placeholder="Adresse">
+                                    <div class="count-box" style="margin: 20px 20px 0; padding: 10px; width: fit-content; font-size: 0.5em;">
+                                        <span id="adresstext" style=" font-size: 2.2em;">Adresse</span>
+                                    </div>
+                                    <input value="" id="rue" type="hidden" class="form-control" name="rue" placeholder="Adresse">
+                                    <input value="" id="cp" type="hidden" class="form-control" name="cp" placeholder="Adresse">
+                                    <input value="" id="ville" type="hidden" class="form-control" name="ville" placeholder="Adresse">
+
+                                </div>
+
+                                <div class="col-md-6 mt-3">
+                                    <input value="" type="text" class="form-control" id="registration_form_nom" name="company" maxlength="255" placeholder="Company-Name">
+                                </div>
+
+                                <div class="col-md-6 mt-3">
+                                    <input value="" type="text" class="form-control" id="registration_form_prenom" name="poste" maxlength="255" placeholder="Position-Held">
+                                </div>
+
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <input value="" type="text" class="form-control" id="registration_form_nom" name="{{ field_name(UserType.nom) }}" maxlength="255" placeholder="Family-Name" autocomplete="family-name" required="">
+                            </div>
+
+                            <div class="col-md-6">
+                                <input value="" type="text" class="form-control" id="registration_form_prenom" name="{{ field_name(UserType.prenom) }}" maxlength="255" placeholder="Name" autocomplete="given-name" required="">
+                            </div>
+
+                            <div class="col-md-12">
+                                <input value="" type="email" class="form-control" id="registration_form_email" name="{{ field_name(UserType.email) }}" placeholder="E-mail" autocomplete="email" maxlength="180" required="required">
+                            </div>
+
+                            <div class="col-md-6">
+                                <input value="" type="password" id="registration_form_plainPassword" name="{{ field_name(UserType.plainPassword) }}" autocomplete="new-password" class="form-control" placeholder="Password" required="required">
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-check d-flex align-items-center">
+                                    <input class="form-check-input" type="checkbox" value="" id="registration_form_agreeTerms" name="{{ field_name(UserType.agreeTerms) }}" checked="" required="" style="height: 28px; width: 28px; margin-right: 10px; ">
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Agree Terms
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-check d-flex align-items-center">
+                                    <input class="form-check-input" type="checkbox" value="" id="registration_form_agreeTerms" name="{{ field_name(UserType.agreeTerms) }}" style="height: 28px; width: 28px; margin-right: 10px; ">
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Company ?
+                                    </label>
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-md-12 text-center">
+                                {% if form_errors(UserType) %}
+                                    <div class="alert alert-danger">{{ form_errors(UserType) }}</div>
+                                {% endif %}
+                                <button class="btn btn-lg btn-primary" type="submit">S'inscrire</button>
+                            </div>
+
+                        </div>
+                        {{ form_end(UserType) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock %}
