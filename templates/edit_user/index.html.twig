@@ -40,7 +40,7 @@
                             <div class="col-md-12 d-flex justify-content-center align-items-center">
                                 <div class="login" style="height: 100px; width: 100px; padding: 10px">
                                     <div class="w-100 h-100 d-flex justify-content-center align-items-center" id="inputPP">
-                                        <input type="file" name="{{ field_name(registrationForm.photo_profil) }}" class="form-control w-100 h-100 position-absolute" style="filter: opacity(0);" accept="image">
+                                        <input type="file" name="{{ field_name(UserType.photo_profil) }}" class="form-control w-100 h-100 position-absolute" style="filter: opacity(0);" accept="image">
                                         <span style=" margin-top: 30px; font-size: 30px; font-weight: bold;">+</span>
                                     </div>
                                 </div>
@@ -51,7 +51,7 @@
                                 <div class="col-md-12">
                                     <input value="" id="adress" type="text" class="form-control" name="adress" placeholder="Adresse">
                                     <div class="count-box" style="margin: 20px 20px 0; padding: 10px; width: fit-content; font-size: 0.5em;">
-                                        <span id="adresstext" style="font-size: 2.2em;">Adresse</span>
+                                        <span id="adresstext" style=" font-size: 2.2em;">Adresse</span>
                                     </div>
                                     <input value="" id="rue" type="hidden" class="form-control" name="rue" placeholder="Adresse">
                                     <input value="" id="cp" type="hidden" class="form-control" name="cp" placeholder="Adresse">
@@ -71,24 +71,24 @@
 
 
                             <div class="col-md-6">
-                                <input value="" type="text" class="form-control" id="registration_form_nom" name="{{ field_name(registrationForm.nom) }}" maxlength="255" placeholder="Family-Name" autocomplete="family-name" required="">
+                                <input value="" type="text" class="form-control" id="registration_form_nom" name="{{ field_name(UserType.nom) }}" maxlength="255" placeholder="Family-Name" autocomplete="family-name" required="">
                             </div>
 
                             <div class="col-md-6">
-                                <input value="" type="text" class="form-control" id="registration_form_prenom" name="{{ field_name(registrationForm.prenom) }}" maxlength="255" placeholder="Name" autocomplete="given-name" required="">
+                                <input value="" type="text" class="form-control" id="registration_form_prenom" name="{{ field_name(UserType.prenom) }}" maxlength="255" placeholder="Name" autocomplete="given-name" required="">
                             </div>
 
                             <div class="col-md-12">
-                                <input value="" type="email" class="form-control" id="registration_form_email" name="{{ field_name(registrationForm.email) }}" placeholder="E-mail" autocomplete="email" maxlength="180" required="required">
+                                <input value="" type="email" class="form-control" id="registration_form_email" name="{{ field_name(UserType.email) }}" placeholder="E-mail" autocomplete="email" maxlength="180" required="required">
                             </div>
 
                             <div class="col-md-6">
-                                <input value="" type="password" id="registration_form_plainPassword" name="{{ field_name(registrationForm.plainPassword) }}" autocomplete="new-password" class="form-control" placeholder="Password" required="required">
+                                <input value="" type="password" id="registration_form_plainPassword" name="{{ field_name(UserType.plainPassword) }}" autocomplete="new-password" class="form-control" placeholder="Password" required="required">
                             </div>
 
                             <div class="col-md-6">
                                 <div class="form-check d-flex align-items-center">
-                                    <input class="form-check-input" type="checkbox" value="" id="registration_form_agreeTerms" name="{{ field_name(registrationForm.agreeTerms) }}" checked="" required="" style="height: 28px; width: 28px; margin-right: 10px; ">
+                                    <input class="form-check-input" type="checkbox" value="" id="registration_form_agreeTerms" name="{{ field_name(UserType.agreeTerms) }}" checked="" required="" style="height: 28px; width: 28px; margin-right: 10px; ">
                                     <label class="form-check-label" for="flexCheckChecked">
                                         Agree Terms
                                     </label>
@@ -97,7 +97,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-check d-flex align-items-center">
-                                    <input class="form-check-input" type="checkbox" value="" id="registration_form_agreeTerms" name="{{ field_name(registrationForm.agreeTerms) }}" style="height: 28px; width: 28px; margin-right: 10px; ">
+                                    <input class="form-check-input" type="checkbox" value="" id="registration_form_agreeTerms" name="{{ field_name(UserType.agreeTerms) }}" style="height: 28px; width: 28px; margin-right: 10px; ">
                                     <label class="form-check-label" for="flexCheckChecked">
                                         Company ?
                                     </label>
@@ -107,14 +107,14 @@
 
 
                             <div class="col-md-12 text-center">
-                                {% if form_errors(registrationForm) %}
-                                    <div class="alert alert-danger">{{ form_errors(registrationForm) }}</div>
+                                {% if form_errors(UserType) %}
+                                    <div class="alert alert-danger">{{ form_errors(UserType) }}</div>
                                 {% endif %}
                                 <button class="btn btn-lg btn-primary" type="submit">S'inscrire</button>
                             </div>
 
                         </div>
-                        {{ form_end(registrationForm) }}
+                        {{ form_end(UserType) }}
                     </div>
                 </div>
             </div>
