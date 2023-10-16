@@ -3,6 +3,7 @@
 {% block title %}Hello EditUserController!{% endblock %}
 
 {% block body %}
+    <link rel="stylesheet" href="/assets/css/commentbutton.css">
     <script src="/assets/js/registrationForm/updatepp.js"></script>
     <script src="/assets/js/registrationForm/switchcompany.js"></script>
     <script src="/assets/js/registrationForm/map.js" defer></script>
@@ -14,6 +15,7 @@
 
     <section class="position-absolute w-100">
         {{ component('Navbar') }}
+        {{ dump(form) }}
     </section>
     <section class="hero d-flex align-items-center" id="hero" style="padding-top:90px; height: auto; min-height: 100vh;">
         <div class="container">
@@ -24,7 +26,7 @@
                     <div data-aos="fade-up" data-aos-delay="600" class="aos-init aos-animate">
                         <div class="text-center text-lg-start">
                             <a href="/register" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
-                                <span>Se connecter</span>
+                                <span>Retour acceuil</span>
                                 <img alt="arrow" src="/assets/images/arrow.png" height="30px" class="arrow">
                             </a>
                         </div>
@@ -34,13 +36,13 @@
 
                 <div class="col-lg-6 contact">
                     <div class="php-email-form" name="registration_form" style="height: auto; background-color: #ffffff08; padding: 30px; margin: 30px; ">
-                        {{ form_start(UserType) }}
+                        {{ form_start(form) }}
                         <div class="row gy-4 counts" style="padding:10px; ">
 
                             <div class="col-md-12 d-flex justify-content-center align-items-center">
                                 <div class="login" style="height: 100px; width: 100px; padding: 10px">
                                     <div class="w-100 h-100 d-flex justify-content-center align-items-center" id="inputPP">
-                                        <input type="file" name="{{ field_name(UserType.photo_profil) }}" class="form-control w-100 h-100 position-absolute" style="filter: opacity(0);" accept="image">
+                                        <input type="file" name="{{ field_name(form.photo_profil) }}" class="form-control w-100 h-100 position-absolute" style="filter: opacity(0);" accept="image">
                                         <span style=" margin-top: 30px; font-size: 30px; font-weight: bold;">+</span>
                                     </div>
                                 </div>
@@ -71,50 +73,85 @@
 
 
                             <div class="col-md-6">
-                                <input value="" type="text" class="form-control" id="registration_form_nom" name="{{ field_name(UserType.nom) }}" maxlength="255" placeholder="Family-Name" autocomplete="family-name" required="">
+                                <input value="" type="text" class="form-control" id="registration_form_nom" name="{{ field_name(form.nom) }}" maxlength="255" placeholder="Family-Name" autocomplete="family-name" required="">
                             </div>
 
                             <div class="col-md-6">
-                                <input value="" type="text" class="form-control" id="registration_form_prenom" name="{{ field_name(UserType.prenom) }}" maxlength="255" placeholder="Name" autocomplete="given-name" required="">
+                                <input value="" type="text" class="form-control" id="registration_form_prenom" name="{{ field_name(form.prenom) }}" maxlength="255" placeholder="Name" autocomplete="given-name" required="">
                             </div>
 
                             <div class="col-md-12">
-                                <input value="" type="email" class="form-control" id="registration_form_email" name="{{ field_name(UserType.email) }}" placeholder="E-mail" autocomplete="email" maxlength="180" required="required">
+                                <input value="" type="email" class="form-control" id="registration_form_email" name="{{ field_name(form.email) }}" placeholder="E-mail" autocomplete="email" maxlength="180" required="required">
                             </div>
 
                             <div class="col-md-6">
-                                <input value="" type="password" id="registration_form_plainPassword" name="{{ field_name(UserType.plainPassword) }}" autocomplete="new-password" class="form-control" placeholder="Password" required="required">
+                                <input value="" type="password" id="registration_form_plainPassword" name="{{ field_name(form.password) }}" autocomplete="new-password" class="form-control" placeholder="Password" required="required">
                             </div>
 
-                            <div class="col-md-6">
-                                <div class="form-check d-flex align-items-center">
-                                    <input class="form-check-input" type="checkbox" value="" id="registration_form_agreeTerms" name="{{ field_name(UserType.agreeTerms) }}" checked="" required="" style="height: 28px; width: 28px; margin-right: 10px; ">
-                                    <label class="form-check-label" for="flexCheckChecked">
-                                        Agree Terms
+
+                            <div class="comment">
+                                <div>
+                                    <button class="bookmarkBtn" id="viewCommentCard" name="{{ field_name(form.commentaire) }}">
+                                        <span class="IconContainer"> 
+                                            <svg fill="white" viewBox="0 0 512 512" height="1em"><path d="M123.6 391.3c12.9-9.4 29.6-11.8 44.6-6.4c26.5 9.6 56.2 15.1 87.8 15.1c124.7 0 208-80.5 208-160s-83.3-160-208-160S48 160.5 48 240c0 32 12.4 62.8 35.7 89.2c8.6 9.7 12.8 22.5 11.8 35.5c-1.4 18.1-5.7 34.7-11.3 49.4c17-7.9 31.1-16.7 39.4-22.7zM21.2 431.9c1.8-2.7 3.5-5.4 5.1-8.1c10-16.6 19.5-38.4 21.4-62.9C17.7 326.8 0 285.1 0 240C0 125.1 114.6 32 256 32s256 93.1 256 208s-114.6 208-256 208c-37.1 0-72.3-6.4-104.1-17.9c-11.9 8.7-31.3 20.6-54.3 30.6c-15.1 6.6-32.3 12.6-50.1 16.1c-.8 .2-1.6 .3-2.4 .5c-4.4 .8-8.7 1.5-13.2 1.9c-.2 0-.5 .1-.7 .1c-5.1 .5-10.2 .8-15.3 .8c-6.5 0-12.3-3.9-14.8-9.9c-2.5-6-1.1-12.8 3.4-17.4c4.1-4.2 7.8-8.7 11.3-13.5c1.7-2.3 3.3-4.6 4.8-6.9c.1-.2 .2-.3 .3-.5z"></path></svg>
+                                        </span>
+                                        <p class="text">Comment</p>
+                                    </button>
+                                </div>
+                                <div class="card" style="height: 0px; filter: opacity(0); visibility: hidden">
+
+                                <div class="rating col-lg-12">
+                                    <input type="radio" id="star-1" name="star-radio" value="star-1">
+                                    <label for="star-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24">
+                                            <path pathlength="360" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"></path>
+                                        </svg>
+                                    </label>
+                                    <input type="radio" id="star-2" name="star-radio" value="star-1">
+                                    <label for="star-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24">
+                                            <path pathlength="360" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"></path>
+                                        </svg>
+                                    </label>
+                                    <input type="radio" id="star-3" name="star-radio" value="star-1">
+                                    <label for="star-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24">
+                                            <path pathlength="360" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"></path>
+                                        </svg>
+                                    </label>
+                                    <input type="radio" id="star-4" name="star-radio" value="star-1">
+                                    <label for="star-4">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24">
+                                            <path pathlength="360" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"></path>
+                                        </svg>
+                                    </label>
+                                    <input type="radio" id="star-5" name="star-radio" value="star-1">
+                                    <label for="star-5">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24">
+                                            <path pathlength="360" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"></path>
+                                        </svg>
                                     </label>
                                 </div>
-                            </div>
 
-                            <div class="col-md-6">
-                                <div class="form-check d-flex align-items-center">
-                                    <input class="form-check-input" type="checkbox" value="" id="registration_form_agreeTerms" name="{{ field_name(UserType.agreeTerms) }}" style="height: 28px; width: 28px; margin-right: 10px; ">
-                                    <label class="form-check-label" for="flexCheckChecked">
-                                        Company ?
-                                    </label>
+                                    <div class="col-md-12">
+                                        <input value="" type="text" name="{{ field_name(form.commentaire) }}" class="form-control" placeholder="Comment">
+                                    </div>
+
+                                    
+                                    <p class="card-text">
+                                        
+                                    </p>
                                 </div>
                             </div>
-
-
-
                             <div class="col-md-12 text-center">
-                                {% if form_errors(UserType) %}
-                                    <div class="alert alert-danger">{{ form_errors(UserType) }}</div>
+                                {% if form_errors(form) %}
+                                    <div class="alert alert-danger">{{ form_errors(form) }}</div>
                                 {% endif %}
-                                <button class="btn btn-lg btn-primary" type="submit">S'inscrire</button>
+                                <button class="btn btn-lg btn-primary" type="submit">Modifier</button>
                             </div>
 
                         </div>
-                        {{ form_end(UserType) }}
+                        {{ form_end(form) }}
                     </div>
                 </div>
             </div>
