@@ -60,6 +60,7 @@
     transform: scale(0.95);
     transition-duration: .3s;
 }
+
 .card {
     margin-top: var(--bs-gutter-y);
     position: relative;
@@ -77,7 +78,7 @@
         rgba(0, 0, 0, 0.23) 0px 6px 6px,
         inset rgba(0, 0, 0, 0.19) 0px 10px 20px,
         inset rgba(0, 0, 0, 0.23) 0px 6px 6px;
-    transition: all ease-in-out 0.3s;
+    transition: all ease-in-out 0.5s;
     overflow: hidden;
 }
 
