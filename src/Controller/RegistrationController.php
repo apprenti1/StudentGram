@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Entreprise;
 use App\Form\RegistrationFormType;
 use App\Security\LoginAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,26 +29,42 @@ class RegistrationController extends AbstractController
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid() && false) {
 
             $profilePictureFile = $form->get('photo_profil')->getData();
             if ($profilePictureFile) {
                 // Convertir l'image en base64
                 $profilePictureBase64 = "data:image/".$profilePictureFile->guessExtension().";base64,".base64_encode(file_get_contents($profilePictureFile));
+                //$profilePictureBase64 = "test";
                 $user->setPhotoProfil($profilePictureBase64);
             }
 
-
+            
+            
             // encode the plain password
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
                     $form->get('plainPassword')->getData()
-                )
+                    )
             );
+                
+            $entreprise = new Entreprise();
+            $entreprise->setAdresse($form->get("entreprises")->get("adresse")->getData());
+            $entreprise->setCp($form->get("entreprises")->get("cp")->getData());
+            $entreprise->setVille($form->get("entreprises")->get("ville")->getData());
+            $entreprise->setNomEntreprise($form->get("entreprises")->get("nom_entreprise")->getData());
+            $entreprise->setFonctionEmploye($form->get("entreprises")->get("fonction_employe")->getData());
+            
+        // Liez l'entreprise à l'utilisateur
+        $entreprise->setRefUser($user);
 
-            $entityManager->persist($user);
-            $entityManager->flush();
+        // Persister l'entreprise
+        $entityManager->persist($entreprise);
+
+        $entityManager->persist($user);
+        $entityManager->flush();
+
             // do anything else you need here, like send an email
 
             return $userAuthenticator->authenticateUser(
@@ -71,6 +88,8 @@ class RegistrationController extends AbstractController
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
+            'registrationForm1' => $form->get("entreprises")->getData(),
+            'registrationForm2' => $user,
             'file' => $_FILES,
         ]);
     }

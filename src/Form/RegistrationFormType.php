@@ -51,6 +51,10 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
+            ->add('entreprises', EntrepriseType::class, array(
+                'mapped'=>true,
+                'data_class' => null,
+        ));
         ;
     }
 

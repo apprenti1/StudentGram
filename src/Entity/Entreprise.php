@@ -28,6 +28,10 @@ class Entreprise
     #[ORM\Column(length: 255)]
     private ?string $cp = null;
 
+    #[ORM\ManyToOne(inversedBy: 'entreprises')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $ref_user = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -89,6 +93,18 @@ class Entreprise
     public function setCp(string $cp): static
     {
         $this->cp = $cp;
+
+        return $this;
+    }
+
+    public function getRefUser(): ?User
+    {
+        return $this->ref_user;
+    }
+
+    public function setRefUser(?User $ref_user): static
+    {
+        $this->ref_user = $ref_user;
 
         return $this;
     }
