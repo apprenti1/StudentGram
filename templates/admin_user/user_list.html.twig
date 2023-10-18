@@ -1,0 +1,23 @@
+
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Utilisateurs{% endblock %}
+
+{% block body %}
+    <h1>Liste des Utilisateurs en Attente de Validation</h1>
+
+    {% if users is empty %}
+        <p>Aucun utilisateur en attente de validation.</p>
+    {% else %}
+        <ul>
+            {% for user in users %}
+                <li>
+                    {{ user.username }}
+                    <a href="{{ path('admin_user_validate', {'id': user.id}) }}">Valider</a>
+                    <a href="{{ path('admin_user_reject', {'id': user.id}) }}">Rejeter</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}
