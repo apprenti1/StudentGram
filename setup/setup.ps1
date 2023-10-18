@@ -85,14 +85,26 @@ function installPHP(){
     Write-Host "`n`n`n`n`nsrc:` " -ForegroundColor White -NoNewline
     Write-Host $findrelease -foregroundcolor Blue
     Write-Host "destination:` " -ForegroundColor White -NoNewline 
-    Write-Host "c:\Users\$($env:USERNAME)\appdata\roaming\php" -ForegroundColor Blue
+    $path = "c:\Users\$($env:USERNAME)\appdata\roaming\php"
+    Write-Host $path -ForegroundColor Blue
     Invoke-WebRequest -Uri $findrelease -OutFile "c:/Users/$env:USERNAME/php.zip"
-    if(Test-Path -Path "c:\Users\$($env:USERNAME)\appdata\roaming\php"){
-        Remove-Item -Path "c:\Users\$($env:USERNAME)\appdata\roaming\php" -recurse -force
+    if(Test-Path -Path $path){
+        Remove-Item -Path $path -recurse -force
     }
-    Expand-Archive -LiteralPath "c:\Users\$($env:USERNAME)\php.zip" -DestinationPath "c:\Users\$($env:USERNAME)\appdata\roaming\php" -Force
+    Expand-Archive -LiteralPath "c:\Users\$($env:USERNAME)\php.zip" -DestinationPath $path -Force
+    if (Test-Path -Path ($path+"\php.ini-development")) {
+        $phpIniFile = ($path+"\php.ini-development");
+    }
+    elseif (Test-Path -Path ($path+"\php.ini")) {
+        $phpIniFile = ($path+"\php.ini");
+    }
+    $extensiolist = @("bz2", "curl", "com_dotnet", "fileinfo", "gd", "gettext", "gmp", "intl", "imap", "ldap", "mbstring", "exif", "mysqli", "openssl", "pdo_mysql", "pdo_sqlite", "soap", "socketso", "sqlite3", "xsl", "zip");
+    $content = Get-Content -Path $phpIniFile
+    foreach ($ext in $extensiolist) {
+        $content = $content -replace (';extension='+$ext), ('extension='+$path+'\ext\php_'+$ext+'.dll')
+    }
+    Set-Content -Path ($path+"\php.ini") -Value $content
     [System.Environment]::SetEnvironmentVariable("PATH", "c:\Users\$($env:USERNAME)\appdata\roaming\php;$([System.Environment]::GetEnvironmentVariable("PATH", [System.EnvironmentVariableTarget]::User))", [System.EnvironmentVariableTarget]::User)
-    $PROFILE.CurrentUserCurrentHost
     $Env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
     $Env:Path = [System.Environment]::GetEnvironmentVariable("Path","User")
     Remove-Item -Path "c:/Users/$env:USERNAME/php.zip"
@@ -103,6 +115,15 @@ $global:valid = @(
     @{"installed" = 0; "version" = "` ---` "; "name" = "Symfony` "; "command" = "symfony -v"; "splitNumber" = 3; "split" = "Symfony"; "install" = "symfony.exe"; "installer" = "installSymfony"; "nbPkBefore" = 1},
     @{"installed" = 0; "version" = "` ---` "; "name" = "Composer"; "command" = "composer -v"; "splitNumber" = 2; "split" = "Composer"; "install" = "composer.bat"; "installer" = "installComposer"; "nbPkBefore" = 2}
 )
+
+$options = @{
+    MenuInfoColor = [ConsoleColor]::DarkYellow;
+    QuestionColor = [ConsoleColor]::DarkGreen;
+    HelpColor = [ConsoleColor]::Cyan;
+    ErrorColor = [ConsoleColor]::DarkRed;
+    HighlightColor = [ConsoleColor]::DarkGreen;
+    OptionSeparator = " | ";
+}
 
 $global:max = 0
 verrifinstall;
@@ -150,8 +171,6 @@ do{
             } elseif ($answer -ne 0) {
                 exit
             }
-        }
-        if ($item['installed'] -eq 0) {
             $allgood = 0;
         }
     }
@@ -166,7 +185,7 @@ do{
             $answers += `
                 Get-InteractiveChooseMenuOption `
                 -Label (($item['name']).Replace(" ", "")) `
-                -Value "@(`"$($item['command'])`", `"$($item['name'])`", $($item['nbPkBefore']))" `
+                -Value "@(`"$($item['command'])`", `"$($item['name'])`", $($item['nbPkBefore']), `"$($item['installer'])`")" `
                 -Info "(esc) to escape | Delete $($item['name'])"
         }
         $options = @{
@@ -196,11 +215,11 @@ do{
             Get-InteractiveChooseMenuOption `
                 -Label "Delete to upgrade" `
                 -Value 1 `
-                -Info "(esc) to escape | delete $($element['name'])"
+                -Info "(esc) to escape | delete $($element[1])"
             Get-InteractiveChooseMenuOption `
                 -Label "Upgrade" `
                 -Value 0 `
-                -Info "(esc) to escape | Upgrade $($element['name']) with install at other path"
+                -Info "(esc) to escape | Upgrade $($element[1].Replace(' ', '')) with install at other path"
         )
             $options = @{
                 MenuInfoColor = [ConsoleColor]::DarkYellow;
@@ -214,7 +233,7 @@ do{
             $answer = Get-InteractiveMenuChooseUserSelection -Question "
             Write-Host `"`n`";
             
-            Write-Host `"`nDo you want to delete $($element['name']) for upgrade?`nor just upgrade/install $($element['name']) at other path?`n(Favorite to upgrade if you want it)`n`" -ForegroundColor DarkGreen
+            Write-Host `"`nDo you want to delete $($element[1]) for upgrade?`nor just upgrade/install $($element[1]) at other path?`n(Favorite to upgrade if you want it)`n`" -ForegroundColor DarkGreen
             " -Answers $answers -Options $options
             Remove-Module InteractiveMenu
             if ($answer -eq 1) {
@@ -235,8 +254,8 @@ do{
             }
             elseif ($answer -eq 0) {
                 Clear-Host
-                Write-Host "$--------------------Install $($element['name'].Replace(' ', ''))--------------------$" -ForegroundColor Blue
-                Invoke-Expression -Command $item['installer'];
+                Write-Host "$--------------------Install $($element[1].Replace(' ', ''))--------------------$" -ForegroundColor Blue
+                Invoke-Expression -Command $element[3];
 
             }
             verrifinstall;
@@ -262,15 +281,109 @@ Write-Host "Be sure to make the following sql server available:" -ForegroundColo
 Write-Host $bdd -ForegroundColor Green
 Pause
 
-echo "composer require symfony/runtime"
-composer require symfony/runtime
-echo "php bin/console doctrine:database:create"
-php bin/console doctrine:database:create
-echo "php bin/console doctrine:migrations:version --add --all"
-php bin/console doctrine:migrations:version --add --all
-echo "php bin/console doctrine:migrations:migrate"
-php bin/console doctrine:migrations:migrate
-echo "symfony server:ca:install"
-symfony server:ca:install
-echo "symfony serve"
-symfony serve
+
+Import-Module .\setup\InteractiveMenu.psd1
+$answers = @(
+    Get-InteractiveChooseMenuOption `
+        -Label "Yes" `
+        -Value 1 `
+        -Info "(esc) to escape | add symfony/runtime package (recommended after clone)"
+    Get-InteractiveChooseMenuOption `
+        -Label "No" `
+        -Value 0 `
+        -Info "(esc) to escape | skip add symfony/runtime package"
+)
+$answer = Get-InteractiveMenuChooseUserSelection -Question "
+Write-Host `"`nDo you want to add symfony/runtime package ?`n(composer require symfony/runtime)`n`" -ForegroundColor DarkGreen
+" -Answers $answers -Options $options
+Remove-Module InteractiveMenu
+if ($answer -eq 1) {
+    Clear-Host
+    composer require symfony/runtime
+}
+
+
+Import-Module .\setup\InteractiveMenu.psd1
+$answers = @(
+    Get-InteractiveChooseMenuOption `
+        -Label "Yes" `
+        -Value 1 `
+        -Info "(esc) to escape | create database"
+    Get-InteractiveChooseMenuOption `
+        -Label "No" `
+        -Value 0 `
+        -Info "(esc) to escape | skip database creation"
+)
+$answer = Get-InteractiveMenuChooseUserSelection -Question "
+Write-Host `"`nDo you want to create database at host $bdd ?`n(php bin/console doctrine:database:create)`n`" -ForegroundColor DarkGreen
+" -Answers $answers -Options $options
+Remove-Module InteractiveMenu
+if ($answer -eq 1) {
+    Clear-Host
+    php bin/console doctrine:database:create
+    pause
+}
+
+Import-Module .\setup\InteractiveMenu.psd1
+$answers = @(
+    Get-InteractiveChooseMenuOption `
+        -Label "Yes" `
+        -Value 1 `
+        -Info "(esc) to escape | synchronize doctrines (recommended)"
+    Get-InteractiveChooseMenuOption `
+        -Label "No" `
+        -Value 0 `
+        -Info "(esc) to escape | skip doctrines synchronization"
+)
+$answer = Get-InteractiveMenuChooseUserSelection -Question "
+Write-Host `"`nDo you want to sync doctrines between local and database ?`n(bin/console doctrine:migrations:version --add --all)`n(php bin/console doctrine:migrations:migrate)`n`" -ForegroundColor DarkGreen
+" -Answers $answers -Options $options
+Remove-Module InteractiveMenu
+if ($answer -eq 1) {
+    Clear-Host
+    php bin/console doctrine:migrations:version --add --all --no-interaction
+    php bin/console doctrine:migrations:migrate --no-interaction
+    pause
+}
+
+Import-Module .\setup\InteractiveMenu.psd1
+$answers = @(
+    Get-InteractiveChooseMenuOption `
+        -Label "No" `
+        -Value 0 `
+        -Info "(esc) to escape | skip generation of certificate"
+        Get-InteractiveChooseMenuOption `
+        -Label "Yes" `
+        -Value 1 `
+        -Info "(esc) to escape | generate certificate (recommended after symfony installation)"
+)
+$answer = Get-InteractiveMenuChooseUserSelection -Question "
+Write-Host `"`nDo you want to generate development SSL certificate ?`n(symfony server:ca:install)`n`" -ForegroundColor DarkGreen
+" -Answers $answers -Options $options
+Remove-Module InteractiveMenu
+if ($answer -eq 1) {
+    Clear-Host
+    symfony server:ca:install
+    pause
+}
+
+
+Import-Module .\setup\InteractiveMenu.psd1
+$answers = @(
+    Get-InteractiveChooseMenuOption `
+        -Label "Yes" `
+        -Value 1 `
+        -Info "(esc) to escape | add symfony/runtime package (recommended after clone)"
+    Get-InteractiveChooseMenuOption `
+        -Label "No" `
+        -Value 0 `
+        -Info "(esc) to escape | skip add symfony/runtime package"
+)
+$answer = Get-InteractiveMenuChooseUserSelection -Question "
+Write-Host `"`nDo you want to start symfony server ?`n(symfony serve)`n`" -ForegroundColor DarkGreen
+" -Answers $answers -Options $options
+Remove-Module InteractiveMenu
+if ($answer -eq 1) {
+    Clear-Host
+    symfony serve
+}
