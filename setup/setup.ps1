@@ -160,7 +160,7 @@ do{
                 lineVersionTable 0 `$global:max `$item['installed'] `$item['name'] `$item['version']
             }
             lineVersionTable 1  `$global:max;
-            Write-Host `"`nIt seems that $($item['name']) is not installed. `nDo you want to do the automatic installation?`n`" -ForegroundColor DarkGreen
+            Write-Host `"`nIt seems that $($item['name'].Replace(' ', '')) is not installed. `nDo you want to do the automatic installation?`n`" -ForegroundColor DarkGreen
             " -Answers $answers -Options $options
             Remove-Module InteractiveMenu
             if ($answer -eq 1) {
@@ -212,14 +212,14 @@ do{
             $path = (Resolve-Path -Path (((Get-Command (($element[0]).Substring(0, ($element[0]).indexof(" ")))).Source)+("\.."*$element[2]))).Path
             Import-Module .\setup\InteractiveMenu.psd1
             $answers = @(
-            Get-InteractiveChooseMenuOption `
-                -Label "Delete to upgrade" `
-                -Value 1 `
-                -Info "(esc) to escape | delete $($element[1])"
-            Get-InteractiveChooseMenuOption `
-                -Label "Upgrade" `
-                -Value 0 `
-                -Info "(esc) to escape | Upgrade $($element[1].Replace(' ', '')) with install at other path"
+                Get-InteractiveChooseMenuOption `
+                    -Label "Upgrade" `
+                    -Value 0 `
+                    -Info "(esc) to escape | Upgrade $($element[1].Replace(' ', '')) with install at other path"
+                Get-InteractiveChooseMenuOption `
+                    -Label "Delete to upgrade" `
+                    -Value 1 `
+                    -Info "(esc) to escape | delete $($element[1])"
         )
             $options = @{
                 MenuInfoColor = [ConsoleColor]::DarkYellow;
@@ -233,7 +233,7 @@ do{
             $answer = Get-InteractiveMenuChooseUserSelection -Question "
             Write-Host `"`n`";
             
-            Write-Host `"`nDo you want to delete $($element[1]) for upgrade?`nor just upgrade/install $($element[1]) at other path?`n(Favorite to upgrade if you want it)`n`" -ForegroundColor DarkGreen
+            Write-Host `"`nDo you want to delete $($element[1].Replace(' ', '')) for upgrade?`nor just upgrade/install $($element[1].Replace(' ', '')) at other path?`n(Favorite to upgrade if you want it)`n`" -ForegroundColor DarkGreen
             " -Answers $answers -Options $options
             Remove-Module InteractiveMenu
             if ($answer -eq 1) {
