@@ -52,7 +52,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $ref_statut = null;
 
     #[ORM\OneToMany(mappedBy: 'ref_user', targetEntity: Entreprise::class, orphanRemoval: true)]
-    private ArrayCollection $entreprises;
+    private Collection $entreprises;
 
     public function __construct()
     {

@@ -29,7 +29,7 @@ class RegistrationController extends AbstractController
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid() && false) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $profilePictureFile = $form->get('photo_profil')->getData();
             if ($profilePictureFile) {
@@ -49,21 +49,8 @@ class RegistrationController extends AbstractController
                     )
             );
                 
-            $entreprise = new Entreprise();
-            $entreprise->setAdresse($form->get("entreprises")->get("adresse")->getData());
-            $entreprise->setCp($form->get("entreprises")->get("cp")->getData());
-            $entreprise->setVille($form->get("entreprises")->get("ville")->getData());
-            $entreprise->setNomEntreprise($form->get("entreprises")->get("nom_entreprise")->getData());
-            $entreprise->setFonctionEmploye($form->get("entreprises")->get("fonction_employe")->getData());
-            
-        // Liez l'entreprise à l'utilisateur
-        $entreprise->setRefUser($user);
-
-        // Persister l'entreprise
-        $entityManager->persist($entreprise);
-
-        $entityManager->persist($user);
-        $entityManager->flush();
+            $entityManager->persist($user);
+            $entityManager->flush();
 
             // do anything else you need here, like send an email
 
