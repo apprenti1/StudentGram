@@ -51,13 +51,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?int $ref_statut = null;
 
-    #[ORM\OneToMany(mappedBy: 'ref_user', targetEntity: Entreprise::class, orphanRemoval: true)]
-    private Collection $entreprises;
-
-    public function __construct()
-    {
-        $this->entreprises = new ArrayCollection();
-    }
+    #[ORM\OneToOne(mappedBy: 'ref_user', cascade: ['persist', 'remove'])]
+    private ?Entreprise $entreprise = null;
 
     public function getId(): ?int
     {
@@ -201,32 +196,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Entreprise>
-     */
-    public function getEntreprises(): Collection
+    public function getEntreprise(): ?Entreprise
     {
-        return $this->entreprises;
+        return $this->entreprise;
     }
 
-    public function addEntreprise(Entreprise $entreprise): static
+    public function setEntreprise(?Entreprise $entreprise): static
     {
-        if (!$this->entreprises->contains($entreprise)) {
-            $this->entreprises->add($entreprise);
+        // unset the owning side of the relation if necessary
+        if ($entreprise === null && $this->entreprise !== null) {
+            $this->entreprise->setRefUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($entreprise !== null && $entreprise->getRefUser() !== $this) {
             $entreprise->setRefUser($this);
         }
 
-        return $this;
-    }
-
-    public function removeEntreprise(Entreprise $entreprise): static
-    {
-        if ($this->entreprises->removeElement($entreprise)) {
-            // set the owning side to null (unless already changed)
-            if ($entreprise->getRefUser() === $this) {
-                $entreprise->setRefUser(null);
-            }
-        }
+        $this->entreprise = $entreprise;
 
         return $this;
     }

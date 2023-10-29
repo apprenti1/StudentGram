@@ -23,7 +23,14 @@ use Symfony\Component\Form\FormError;
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, LoginAuthenticator $authenticator, EntityManagerInterface $entityManager, Security $security): Response
+    public function register(
+        Request $request,
+        UserPasswordHasherInterface $userPasswordHasher,
+        UserAuthenticatorInterface $userAuthenticator,
+        LoginAuthenticator $authenticator,
+        EntityManagerInterface $entityManager,
+        Security $security
+    ): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -34,8 +41,12 @@ class RegistrationController extends AbstractController
             $profilePictureFile = $form->get('photo_profil')->getData();
             if ($profilePictureFile) {
                 // Convertir l'image en base64
-                $profilePictureBase64 = "data:image/".$profilePictureFile->guessExtension().";base64,".base64_encode(file_get_contents($profilePictureFile));
-                //$profilePictureBase64 = "test";
+                $profilePictureBase64 =
+                    "data:image/".
+                    $profilePictureFile->guessExtension().
+                    ";base64,".
+                    base64_encode(file_get_contents($profilePictureFile))
+                ;
                 $user->setPhotoProfil($profilePictureBase64);
             }
 
@@ -61,12 +72,12 @@ class RegistrationController extends AbstractController
             );
         }
 
-        if ($form->isSubmitted()) {
-            if (!$security->isGranted('IS_AUTHENTICATED_FULLY')) {
-                $error = new FormError('Problem found with your registration éléments.');
-                $form->addError($error);
-            }
-            
+        if (
+                $form->isSubmitted() &&
+                (!$security->isGranted('IS_AUTHENTICATED_FULLY'))
+            ) {
+            $error = new FormError('Problem found with your registration éléments.');
+            $form->addError($error);
         }
 
         if ($security->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -75,7 +86,7 @@ class RegistrationController extends AbstractController
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
-            'registrationForm1' => $form->get("entreprises")->getData(),
+            'registrationForm1' => $form->get("entreprise")->getData(),
             'registrationForm2' => $user,
             'file' => $_FILES,
         ]);

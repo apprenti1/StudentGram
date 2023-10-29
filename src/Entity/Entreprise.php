@@ -28,8 +28,7 @@ class Entreprise
     #[ORM\Column(length: 255)]
     private ?string $cp = null;
 
-    #[ORM\ManyToOne(inversedBy: 'entreprises')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\OneToOne(inversedBy: 'entreprise', cascade: ['persist', 'remove'])]
     private ?User $ref_user = null;
 
     public function getId(): ?int
@@ -45,7 +44,6 @@ class Entreprise
     public function setAdresse(string $adresse): static
     {
         $this->adresse = $adresse;
-
         return $this;
     }
 
