@@ -37,39 +37,47 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if (
+                strpos($form->get('entreprise')->get('adresse')->getData(), "undefined") === false &&
+                strpos($form->get('entreprise')->get('cp')->getData(), "undefined")  === false &&
+                strpos($form->get('entreprise')->get('ville')->getData(), "undefined") === false
+                ){
+                $profilePictureFile = $form->get('photo_profil')->getData();
+                if ($profilePictureFile) {
+                    // Convertir l'image en base64
+                    $profilePictureBase64 =
+                        "data:image/".
+                        $profilePictureFile->guessExtension().
+                        ";base64,".
+                        base64_encode(file_get_contents($profilePictureFile))
+                    ;
+                    $user->setPhotoProfil($profilePictureBase64);
+                }
 
-            $profilePictureFile = $form->get('photo_profil')->getData();
-            if ($profilePictureFile) {
-                // Convertir l'image en base64
-                $profilePictureBase64 =
-                    "data:image/".
-                    $profilePictureFile->guessExtension().
-                    ";base64,".
-                    base64_encode(file_get_contents($profilePictureFile))
-                ;
-                $user->setPhotoProfil($profilePictureBase64);
-            }
-
-            
-            
-            // encode the plain password
-            $user->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-                    )
-            );
                 
-            $entityManager->persist($user);
-            $entityManager->flush();
+                
+                // encode the plain password
+                $user->setPassword(
+                    $userPasswordHasher->hashPassword(
+                        $user,
+                        $form->get('plainPassword')->getData()
+                        )
+                );
+                    
+                $entityManager->persist($user);
+                $entityManager->flush();
 
-            // do anything else you need here, like send an email
+                // do anything else you need here, like send an email
 
-            return $userAuthenticator->authenticateUser(
-                $user,
-                $authenticator,
-                $request
-            );
+                return $userAuthenticator->authenticateUser(
+                    $user,
+                    $authenticator,
+                    $request
+                );
+            } else {
+                $error = new FormError('Adress not compleate !');
+                $form->addError($error);
+            }
         }
 
         if (
@@ -87,7 +95,7 @@ class RegistrationController extends AbstractController
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
             'registrationForm1' => $form->get("entreprise")->getData(),
-            'registrationForm2' => $user,
+            'registrationForm2' => strpos($form->get('entreprise')->get('adresse')->getData(), "undefined"),
             'file' => $_FILES,
         ]);
     }
