@@ -1,7 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello EditUserController!
-{% endblock %}
+{% block title %}Hello EditUserController!{% endblock %}
 
 {% block body %}
     <link rel="stylesheet" href="/assets/css/commentbutton.css">
@@ -47,41 +46,43 @@
 									</div>
 								</div>
 							</div>
+							{% if app.user.entreprise %}
 
-							<div class="col-md-12 row m-0 mt-3 p-0" id="companyform">
+								<div class="col-md-12 row m-0 mt-3 p-0" id="companyform" style="visibility: visible;height: fit-content;filter: opacity(1);">
 
-								<div class="col-md-12">
-									<input value="" id="adress" type="text" class="form-control" name="adress" placeholder="Adresse">
-									<div class="count-box" style="margin: 20px 20px 0; padding: 10px; width: fit-content; font-size: 0.5em;">
-										<span id="adresstext" style=" font-size: 2.2em;">Adresse</span>
+									<div class="col-md-12">
+										<input value="{{ app.user.entreprise.adresse }} {{ app.user.entreprise.cp }} {{ app.user.entreprise.ville }}" id="adress" type="text" class="form-control inputcompany" name="adress" placeholder="Adresse">
+										<div class="count-box" style="margin: 20px 20px 0; padding: 10px; width: fit-content; font-size: 0.5em;">
+											<span id="adresstext" style="font-size: 2.2em;">Adresse</span>
+										</div>
+										<input value="" id="rue" type="hidden" class="form-control inputcompany" name="{{ field_name(form.entreprise.adresse) }}" placeholder="Adresse">
+										<input value="" id="cp" type="hidden" class="form-control inputcompany" name="{{ field_name(form.entreprise.cp) }}" placeholder="Adresse">
+										<input value="" id="ville" type="hidden" class="form-control inputcompany" name="{{ field_name(form.entreprise.ville) }}" placeholder="Adresse">
 									</div>
-									<input value="" id="rue" type="hidden" class="form-control" name="rue" placeholder="Adresse">
-									<input value="" id="cp" type="hidden" class="form-control" name="cp" placeholder="Adresse">
-									<input value="" id="ville" type="hidden" class="form-control" name="ville" placeholder="Adresse">
+
+									<div class="col-md-6 mt-3">
+										<input value="" type="text" class="form-control inputcompany" id="registration_form_nom" name="{{ field_name(form.entreprise.nom_entreprise) }}" maxlength="255" placeholder="Company-Name">
+									</div>
+
+									<div class="col-md-6 mt-3">
+										<input value="" type="text" class="form-control inputcompany" id="registration_form_prenom" name="{{ field_name(form.entreprise.fonction_employe) }}" maxlength="255" placeholder="Position-Held">
+									</div>
 
 								</div>
-
-								<div class="col-md-6 mt-3">
-									<input value="" type="text" class="form-control" id="registration_form_nom" name="company" maxlength="255" placeholder="Company-Name">
-								</div>
-
-								<div class="col-md-6 mt-3">
-									<input value="" type="text" class="form-control" id="registration_form_prenom" name="poste" maxlength="255" placeholder="Position-Held">
-								</div>
-
-							</div>
+								{% else %}
 
 
+							{% endif %}
 							<div class="col-md-6">
-								<input value="{{ form.children.nom.vars.value }}" type="text" class="form-control" id="registration_form_nom" name="{{ field_name(form.nom) }}" maxlength="255" placeholder="Family-Name" autocomplete="family-name" required="">
+								<input value="{{ app.user.nom }}" type="text" class="form-control" id="registration_form_nom" name="{{ field_name(form.nom) }}" maxlength="255" placeholder="Family-Name" autocomplete="family-name" required="">
 							</div>
 
 							<div class="col-md-6">
-								<input value="{{ form.children.prenom.vars.value }}" type="text" class="form-control" id="registration_form_prenom" name="{{ field_name(form.prenom) }}" maxlength="255" placeholder="Name" autocomplete="given-name" required="">
+								<input value="{{ app.user.prenom }}" type="text" class="form-control" id="registration_form_prenom" name="{{ field_name(form.prenom) }}" maxlength="255" placeholder="Name" autocomplete="given-name" required="">
 							</div>
 
 							<div class="col-md-12">
-								<input value="{{ form.children.email.vars.value }}" type="email" class="form-control" id="registration_form_email" name="{{ field_name(form.email) }}" placeholder="E-mail" autocomplete="email" maxlength="180" required="required">
+								<input value="{{ app.user.email }}" type="email" class="form-control" id="registration_form_email" name="{{ field_name(form.email) }}" placeholder="E-mail" autocomplete="email" maxlength="180" required="required">
 							</div>
 
 							<div class="col-md-6">
@@ -136,9 +137,9 @@
 									</div>
 
 									<div class="col-md-12">
-										<input value="{{ form.children.commentaire.vars.value }}" type="text" name="{{ field_name(form.commentaire) }}" class="form-control" placeholder="Comment">
+										<input value="{{ app.user.commentaire }}" type="text" name="{{ field_name(form.commentaire) }}" class="form-control" placeholder="Comment">
 									</div>
-									
+
 								</div>
 							</div>
 							<div class="col-md-12 text-center">
@@ -147,10 +148,7 @@
 								{% endif %}
 								<button class="btn btn-lg btn-primary" type="submit">Modifier</button>
 							</div>
-							{% if app.user.entreprise %}
-							coucou
-							
-							{% endif %} 
+
 						</div>
 						{{ form_end(form) }}
 					</div>
