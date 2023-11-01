@@ -19,6 +19,8 @@ class UserType extends AbstractType
             ->add('commentaire')
             ->add('note')
             ->add('photo_profil')
+            ->add('entreprise', EntrepriseType::class)
+
         ;
     }
 
