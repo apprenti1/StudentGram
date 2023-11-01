@@ -137,3 +137,9 @@ div.optionalform{
 .navbar-collapse{
     transition: 0.5s all 0s;
 }
+.selectinput:valid{
+    color: #000000;
+}
+.selectinput:invalid{
+    color: #878787;
+}

@@ -1,10 +1,10 @@
 document.addEventListener("DOMContentLoaded", ()=>{
     document.getElementById("companycheck").addEventListener("change", ()=>{
         if (document.getElementById("companycheck").checked) {
+            document.getElementsByClassName("etudiantinput")[0].required = false;
             console.log(document.getElementsByClassName("inputcompany"));
             document.getElementById("etudiantform").style.filter = "opacity(0)";
             document.getElementById("etudiantform").style.value = "";
-            document.getElementById("etudiantform").required = false;
             Array.from(document.getElementsByClassName("inputcompany")).forEach(element => {
                 element.required = true;
             });
@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
             }, 600);
         }
         else{
+            document.getElementsByClassName("etudiantinput")[0].required = true;
             document.getElementById("etudiantform").style.visibility = "visible";
             document.getElementById("companyform").style.height = "0";
             document.getElementById("companyform").style.filter = "opacity(0)";
@@ -25,7 +26,6 @@ document.addEventListener("DOMContentLoaded", ()=>{
             setTimeout(() => {
                 document.getElementById("companyform").style.visibility = "hidden";
                 document.getElementById("etudiantform").style.filter = "opacity(1)";
-                document.getElementById("etudiantform").required = true;
             }, 600);
         }
 

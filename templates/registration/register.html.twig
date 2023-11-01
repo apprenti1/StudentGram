@@ -49,49 +49,54 @@
                                 <div class="col-md-12 row m-0 mt-3 p-0 optionalform" id="companyform">
 
                                     <div class="col-md-12">
-                                        <input value="" id="adress" type="text" class="form-control inputcompany" name="adress" placeholder="Adresse">
+                                        <input id="adress" type="text" class="form-control inputcompany" name="adress" placeholder="Adresse">
                                         <div class="count-box" style="margin: 20px 20px 0; padding: 10px; width: fit-content; font-size: 0.5em;">
                                             <span id="adresstext" style="font-size: 2.2em;">Adresse</span>
                                         </div>
-                                        <input value="" id="rue" type="hidden" class="form-control inputcompany" name="{{ field_name(registrationForm.entreprise.adresse) }}" placeholder="Adresse">
-                                        <input value="" id="cp" type="hidden" class="form-control inputcompany" name="{{ field_name(registrationForm.entreprise.cp) }}" placeholder="Adresse">
-                                        <input value="" id="ville" type="hidden" class="form-control inputcompany" name="{{ field_name(registrationForm.entreprise.ville) }}" placeholder="Adresse">
+                                        <input id="rue" type="hidden" class="form-control inputcompany" name="{{ field_name(registrationForm.entreprise.adresse) }}" placeholder="Adresse">
+                                        <input id="cp" type="hidden" class="form-control inputcompany" name="{{ field_name(registrationForm.entreprise.cp) }}" placeholder="Adresse">
+                                        <input id="ville" type="hidden" class="form-control inputcompany" name="{{ field_name(registrationForm.entreprise.ville) }}" placeholder="Adresse">
                                     </div>
                                     
                                     <div class="col-md-6 mt-3">
-                                        <input value="" type="text" class="form-control inputcompany" id="registration_form_nom" name="{{ field_name(registrationForm.entreprise.nom_entreprise) }}" maxlength="255" placeholder="Company-Name">
+                                        <input type="text" class="form-control inputcompany" id="registration_form_nom" name="{{ field_name(registrationForm.entreprise.nom_entreprise) }}" maxlength="255" placeholder="Company-Name">
                                     </div>
                                     
                                     <div class="col-md-6 mt-3">
-                                        <input value="" type="text" class="form-control inputcompany" id="registration_form_prenom" name="{{ field_name(registrationForm.entreprise.fonction_employe) }}" maxlength="255" placeholder="Position-Held">
+                                        <input type="text" class="form-control inputcompany" id="registration_form_prenom" name="{{ field_name(registrationForm.entreprise.fonction_employe) }}" maxlength="255" placeholder="Position-Held">
                                     </div>
                                 
                                 </div>
                 
 
                                 <div class="col-md-6">
-                                    <input value="" type="text" class="form-control" id="registration_form_nom" name="{{ field_name(registrationForm.nom) }}" maxlength="255" placeholder="Family-Name" autocomplete="family-name" required="">
+                                    <input type="text" class="form-control" id="registration_form_nom" name="{{ field_name(registrationForm.nom) }}" maxlength="255" placeholder="Family-Name" autocomplete="family-name" required="">
                                 </div>
                                 
                                 <div class="col-md-6">
-                                    <input value="" type="text" class="form-control" id="registration_form_prenom" name="{{ field_name(registrationForm.prenom) }}" maxlength="255" placeholder="Name" autocomplete="given-name" required="">
+                                    <input type="text" class="form-control" id="registration_form_prenom" name="{{ field_name(registrationForm.prenom) }}" maxlength="255" placeholder="Name" autocomplete="given-name" required="">
                                 </div>
                                 
                                 <div class="col-md-12">
-                                    <input value="" type="email" class="form-control" id="registration_form_email" name="{{ field_name(registrationForm.email) }}" placeholder="E-mail" autocomplete="email" maxlength="180" required="required">
+                                    <input type="email" class="form-control" id="registration_form_email" name="{{ field_name(registrationForm.email) }}" placeholder="E-mail" autocomplete="email" maxlength="180" required="required">
                                 </div>
 
                                 <div class="col-md-6 optionalform" id="etudiantform"  style="filter: opacity(1); visibility: visible;">
-                                    <input value="" type="text" id="registration_form_plainPassword" name="{{ field_name(registrationForm.etudiant.domaine_etude) }}" autocomplete="new-password" class="form-control" placeholder="Domaine d'étude">
+                                    <select name="{{ field_name(registrationForm.etudiant.domaine_etude) }}" class="form-control selectinput etudiantinput" required="required">
+                                        <option value="" disabled selected hidden>Domaine d'étude</option>
+                                        <option value="option1">Option 1</option>
+                                        <option value="option2">Option 2</option>
+                                        <option value="option3">Option 3</option>
+                                      </select>
                                 </div>
                                 
                                 <div class="col-md-6">
-                                    <input value="" type="password" id="registration_form_plainPassword" name="{{ field_name(registrationForm.plainPassword) }}" autocomplete="new-password" class="form-control" placeholder="Password" required="required">
+                                    <input type="password" id="registration_form_plainPassword" name="{{ field_name(registrationForm.plainPassword) }}" autocomplete="new-password" class="form-control" placeholder="Password" required="required">
                                 </div>
                                 
                                 <div class="col-md-6">
                                     <div class="form-check d-flex align-items-center">
-                                        <input class="form-check-input" type="checkbox" value="" id="registration_form_agreeTerms" name="{{ field_name(registrationForm.agreeTerms) }}" checked="" required="" style="height: 28px; width: 28px; margin-right: 10px; ">
+                                        <input class="form-check-input" type="checkbox" id="registration_form_agreeTerms" name="{{ field_name(registrationForm.agreeTerms) }}" checked="" required="" style="height: 28px; width: 28px; margin-right: 10px; ">
                                         <label class="form-check-label" for="flexCheckChecked">
                                         Agree Terms
                                         </label>
@@ -100,7 +105,7 @@
                                 
                                 <div class="col-md-6">
                                     <div class="form-check d-flex align-items-center">
-                                        <input class="form-check-input" type="checkbox" value="" id="companycheck" name="" style="height: 28px; width: 28px; margin-right: 10px; ">
+                                        <input class="form-check-input" type="checkbox" id="companycheck" name="" style="height: 28px; width: 28px; margin-right: 10px; ">
                                         <label class="form-check-label" for="flexCheckChecked">
                                         Company ?
                                         </label>
