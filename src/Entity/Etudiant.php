@@ -16,6 +16,9 @@ class Etudiant
     #[ORM\Column(length: 255)]
     private ?string $domaine_etude = null;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?User $ref_user = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -29,6 +32,18 @@ class Etudiant
     public function setDomaineEtude(string $domaine_etude): static
     {
         $this->domaine_etude = $domaine_etude;
+
+        return $this;
+    }
+
+    public function getRefUser(): ?User
+    {
+        return $this->ref_user;
+    }
+
+    public function setRefUser(?User $ref_user): static
+    {
+        $this->ref_user = $ref_user;
 
         return $this;
     }

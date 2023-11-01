@@ -51,8 +51,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?int $ref_statut = null;
 
-    #[ORM\OneToOne(mappedBy: 'ref_user', cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(inversedBy: 'ref_user', cascade: ["persist", "remove"])]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Entreprise $entreprise = null;
+
+    #[ORM\ManyToOne(inversedBy: 'ref_user', cascade: ["persist", "remove"])]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Etudiant $etudiant = null;
 
     public function getId(): ?int
     {
@@ -203,17 +208,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setEntreprise(?Entreprise $entreprise): static
     {
-        // unset the owning side of the relation if necessary
-        if ($entreprise === null && $this->entreprise !== null) {
-            $this->entreprise->setRefUser(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($entreprise !== null && $entreprise->getRefUser() !== $this) {
-            $entreprise->setRefUser($this);
-        }
-
         $this->entreprise = $entreprise;
+
+        return $this;
+    }
+
+    public function getEtudiant(): ?Etudiant
+    {
+        return $this->etudiant;
+    }
+
+    public function setEtudiant(?Etudiant $etudiant): static
+    {
+        $this->etudiant = $etudiant;
 
         return $this;
     }

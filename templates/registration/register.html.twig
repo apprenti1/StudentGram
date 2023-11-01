@@ -8,8 +8,8 @@
 <script src="/assets/js/registrationForm/map.js" defer></script>
 
 <!-- Map integration -->
-  <link rel="stylesheet" href="//cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
-  <script src="//cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+  <link rel="stylesheet" href="https://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+  <script src="https://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
 
 
 <section class="position-absolute w-100">
@@ -35,9 +35,6 @@
                 <div class="col-lg-6 contact">
                     <div class="php-email-form" name="registration_form" style="height: auto; background-color: #ffffff08; padding: 30px; margin: 30px; ">
                         {{ form_start(registrationForm) }}
-                        {{ dump(registrationForm) }}
-                        {{ dump(registrationForm1) }}
-                        {{ dump(registrationForm2) }}
                             <div class="row gy-4 counts" style="padding:10px; ">
         
                                 <div class="col-md-12 d-flex justify-content-center align-items-center">
@@ -49,7 +46,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-12 row m-0 mt-3 p-0" id="companyform">
+                                <div class="col-md-12 row m-0 mt-3 p-0 optionalform" id="companyform">
 
                                     <div class="col-md-12">
                                         <input value="" id="adress" type="text" class="form-control inputcompany" name="adress" placeholder="Adresse">
@@ -84,6 +81,10 @@
                                 <div class="col-md-12">
                                     <input value="" type="email" class="form-control" id="registration_form_email" name="{{ field_name(registrationForm.email) }}" placeholder="E-mail" autocomplete="email" maxlength="180" required="required">
                                 </div>
+
+                                <div class="col-md-6 optionalform" id="etudiantform"  style="filter: opacity(1); visibility: visible;">
+                                    <input value="" type="text" id="registration_form_plainPassword" name="{{ field_name(registrationForm.etudiant.domaine_etude) }}" autocomplete="new-password" class="form-control" placeholder="Domaine d'étude">
+                                </div>
                                 
                                 <div class="col-md-6">
                                     <input value="" type="password" id="registration_form_plainPassword" name="{{ field_name(registrationForm.plainPassword) }}" autocomplete="new-password" class="form-control" placeholder="Password" required="required">
@@ -100,7 +101,7 @@
                                 
                                 <div class="col-md-6">
                                     <div class="form-check d-flex align-items-center">
-                                        <input class="form-check-input" type="checkbox" value="" id="companycheck" name="{{ field_name(registrationForm.agreeTerms) }}" style="height: 28px; width: 28px; margin-right: 10px; ">
+                                        <input class="form-check-input" type="checkbox" value="" id="companycheck" name="" style="height: 28px; width: 28px; margin-right: 10px; ">
                                         <label class="form-check-label" for="flexCheckChecked">
                                         Company ?
                                         </label>

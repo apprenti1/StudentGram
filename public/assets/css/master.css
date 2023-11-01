@@ -125,11 +125,11 @@ div#inputPP:valid{
     background: #ffffff1c;
     box-shadow: 0px 0 30px rgba(1, 41, 112, 0.08);
 }
-div#companyform{
+div.optionalform{
     visibility: hidden;
     height: 0;
     filter: opacity(0);
-    transition: 1s height 0s, 0.5s all 0s;
+    transition: 0.5s all 0s, 0.7s height 0s;
 }
 .alert ul{
     margin: 0;

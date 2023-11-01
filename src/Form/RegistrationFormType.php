@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use App\Entity\Entreprise;
+use App\Entity\Etudiant;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -51,7 +52,8 @@ class RegistrationFormType extends AbstractType
                 ]),
             ],
         ])
-        ->add('entreprise', EntrepriseType::class)
+        ->add('entreprise', EntrepriseType::class, ['required' => false,])
+        ->add('etudiant', EtudiantType::class, ['required' => false,])
         ;
     }
 

@@ -94,8 +94,6 @@ class RegistrationController extends AbstractController
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
-            'registrationForm1' => $form->get("entreprise")->getData(),
-            'registrationForm2' => strpos($form->get('entreprise')->get('adresse')->getData(), "undefined"),
             'file' => $_FILES,
         ]);
     }
