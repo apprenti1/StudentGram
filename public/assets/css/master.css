@@ -1,4 +1,32 @@
 
+html{
+    scrollbar-color: var(--scroll-thumb-color, grey) var(--scroll-track, transparent);
+    scrollbar-width: thin;
+  }
+  html::-webkit-scrollbar {
+    width: var(--scroll-size, 10px);
+    height: var(--scroll-size, 10px);
+  }
+  html::-webkit-scrollbar-track {
+    background-color: var(--scroll-track, transparent);
+  }
+  html::-webkit-scrollbar-thumb {
+    background-color: var(--scroll-thumb-color, grey);
+    background-image: var(--scroll-thumb, none);
+    border-radius: var(--scroll-thumb-radius, var(--scroll-radius));
+  }
+  html {
+    --scroll-size: 15px;
+    --scroll-radius: 20px;
+    --scroll-track: rgb(48, 48, 50, 255);
+    --scroll-thumb: linear-gradient(45deg, #00aeff, #a68eff);
+  }
+  body, html{
+      min-height: 100vh;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+  }
 .login{
     background-color: #5080B4;
     filter: contrast(1) saturate(1);
@@ -143,3 +171,67 @@ div.optionalform{
 .selectinput:invalid{
     color: #878787;
 }
+
+
+
+
+/* atravailler */
+.preview-section {
+    background-color: #ffffff0c;
+    max-width: calc(100% - 60px);
+    border-radius: 20px;
+    padding: 20px;
+    margin: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; 
+  }
+  .preview {
+    border-radius: 20px;
+    background-color: #ffffff17;
+    color: #cecece;
+    transition: 0.5s all 0s;
+  }
+  .preview:hover {
+    border-radius: 10px;
+    background-color: #ffffff31;
+    color: #fff;
+  }
+  .icon {
+    background-color: #ffffff7c;
+    border-radius: 25px;
+    padding: 5px;
+    margin: 5px !important;
+    width: fit-content;
+    overflow: hidden;
+    transition: 0.4s ease-in-out 0s;
+  }
+  .icon:hover {
+    background-color: #ffffffa1;
+    border-radius: 15px;
+    filter: saturate(2);
+  }
+  .icon img {
+    margin: 0;
+    height: 40px;
+  }
+  .content-edit-icon-card {
+    width: fit-content;
+    filter: opacity(0);
+    height: 0px;
+    visibility: hidden;
+    transition: 0.5s all 0s;
+  }
+  .preview:hover .content-edit-icon-card{
+    filter: opacity(1);
+    height: 60px;
+    visibility: visible;
+  }
+  .inside-preview-section {
+    border-radius: 10px;
+    padding: 5px;
+    padding-top: 10px;
+    background-color: #ffffff2c;
+  }

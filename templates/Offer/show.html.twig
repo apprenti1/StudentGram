@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Offre{% endblock %}
+
+{% block body %}
+<div class="w-100 d-flex justify-content-center">
+    <div class="col-6 m-5">    
+        {{ include('Offer/_preview.html.twig', {'offre': offre}) }}
+    </div>
+</div>
+
+
+    liste des utilisateurs ayant fait la demmande
+    utilisation de datatable 
+    
+    
+{% endblock %}

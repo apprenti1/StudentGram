@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Offre index{% endblock %}
+
+{% block body %}
+    <section class="preview-section">
+        {% for offre in offres %}
+            {{ include('Offer/_preview.html.twig', {'offre': offre}) }}
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        <div class="form-box m-1 p-0 preview">
+            <a class="d-flex align-items-center justify-content-center h-1" href="{{ path('app_registration_offer_new') }}" style="text-decoration: none; height:200px; width:100px; font-size: 4em; font-weight: blod;">
+                +
+            </a>
+        </div>
+    </section>
+
+{% endblock %}
