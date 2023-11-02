@@ -15,7 +15,6 @@
 
 
     <section class="position-absolute w-100">
-		{{ dump(form) }}
 	</section>
 	<section class="hero d-flex align-items-center" id="hero" style="padding-top:90px; height: auto; min-height: 100vh;">
 		<div class="container">
@@ -45,7 +44,7 @@
 									</div>
 								</div>
 							</div>
-							{% if app.user.entreprise %}
+							{% if is_granted('ROLE_ENTREPRISE') %}
 
 								<div class="col-md-12 row m-0 mt-3 p-0" id="companyform" style="visibility: visible;height: fit-content;filter: opacity(1);">
 
@@ -60,18 +59,14 @@
 									</div>
 
 									<div class="col-md-6 mt-3">
-										<input value="" type="text" class="form-control inputcompany" id="registration_form_nom" name="{{ field_name(form.entreprise.nom_entreprise) }}" maxlength="255" placeholder="Company-Name">
+										<input value="{{ app.user.entreprise.nomEntreprise }}" type="text" class="form-control inputcompany" id="registration_form_nom" name="{{ field_name(form.entreprise.nom_entreprise) }}" maxlength="255" placeholder="Company-Name">
 									</div>
 
 									<div class="col-md-6 mt-3">
-										<input value="" type="text" class="form-control inputcompany" id="registration_form_prenom" name="{{ field_name(form.entreprise.fonction_employe) }}" maxlength="255" placeholder="Position-Held">
+										<input value="{{ app.user.entreprise.fonctionEmploye }}" type="text" class="form-control inputcompany" id="registration_form_prenom" name="{{ field_name(form.entreprise.fonction_employe) }}" maxlength="255" placeholder="Position-Held">
 									</div>
-
 								</div>
-								{% else %}
-
-
-							{% endif %}
+								{% endif %}
 							<div class="col-md-6">
 								<input value="{{ app.user.nom }}" type="text" class="form-control" id="registration_form_nom" name="{{ field_name(form.nom) }}" maxlength="255" placeholder="Family-Name" autocomplete="family-name" required="">
 							</div>
@@ -84,8 +79,19 @@
 								<input value="{{ app.user.email }}" type="email" class="form-control" id="registration_form_email" name="{{ field_name(form.email) }}" placeholder="E-mail" autocomplete="email" maxlength="180" required="required">
 							</div>
 
+							{% if not is_granted('ROLE_ENTREPRISE') %}
+							<div class="col-md-6 optionalform" id="etudiantform"  style="filter: opacity(1); visibility: visible;">
+								<select name="{{ field_name(form.etudiant.domaine_etude) }}" class="form-control selectinput etudiantinput" required="required">
+									<option value="" disabled selected hidden>Domaine d'étude</option>
+									<option value="option1">Option 1</option>
+									<option value="option2">Option 2</option>
+									<option value="option3">Option 3</option>
+								  </select>
+							</div>
+							{% endif %}
+
 							<div class="col-md-6">
-								<input value="" type="password" id="registration_form_plainPassword" name="{{ field_name(form.password) }}" autocomplete="new-password" class="form-control" placeholder="Password" required="required">
+								<input value="" type="password" id="registration_form_plainPassword" name="{{ field_name(form.plainPassword) }}" autocomplete="new-password" class="form-control" placeholder="Password">
 							</div>
 
 
@@ -103,31 +109,31 @@
 								<div class="card" id="viewCard" style="height: 0px; filter: opacity(0); visibility: hidden; margin: 0; padding: 0;">
 
 									<div class="rating col-lg-12">
-										<input type="radio" id="star-1" name="{{ field_name(form.note) }}" value="star-1" id="star-1" name="star-radio" value="star-1">
+										<input type="radio" id="star-1" name="{{ field_name(form.note) }}" value="1"{{ ( app.user.note == 1 )?' checked':'' }}>
 										<label for="star-1">
 											<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24">
 												<path pathlength="360" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"></path>
 											</svg>
 										</label>
-										<input type="radio" id="star-2" name="{{ field_name(form.note) }}" value="star-1">
+										<input type="radio" id="star-2" name="{{ field_name(form.note) }}" value="2"{{ ( app.user.note == 2 )?' checked':'' }}>
 										<label for="star-2">
 											<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24">
 												<path pathlength="360" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"></path>
 											</svg>
 										</label>
-										<input type="radio" id="star-3" name="{{ field_name(form.note) }}" value="star-1">
+										<input type="radio" id="star-3" name="{{ field_name(form.note) }}" value="3"{{ ( app.user.note == 3 )?' checked':'' }}>
 										<label for="star-3">
 											<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24">
 												<path pathlength="360" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"></path>
 											</svg>
 										</label>
-										<input type="radio" id="star-4" name="{{ field_name(form.note) }}" value="star-1">
+										<input type="radio" id="star-4" name="{{ field_name(form.note) }}" value="4"{{ ( app.user.note == 4 )?' checked':'' }}>
 										<label for="star-4">
 											<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24">
 												<path pathlength="360" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"></path>
 											</svg>
 										</label>
-										<input type="radio" id="star-5" name="{{ field_name(form.note) }}" value="star-1">
+										<input type="radio" id="star-5" name="{{ field_name(form.note) }}" value="5"{{ ( app.user.note == 5 )?' checked':'' }}>
 										<label for="star-5">
 											<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24">
 												<path pathlength="360" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"></path>
@@ -149,7 +155,8 @@
 							</div>
 
 						</div>
-						{{ form_end(form) }}
+						{{ form_widget(form._token) }}
+						{{ form_end(form, {'render_rest': false}) }}
 					</div>
 				</div>
 			</div>

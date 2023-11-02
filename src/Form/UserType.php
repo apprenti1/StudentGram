@@ -4,8 +4,12 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class UserType extends AbstractType
 {
@@ -13,14 +17,30 @@ class UserType extends AbstractType
     {
         $builder
             ->add('email')
-            ->add('password')
             ->add('nom')
             ->add('prenom')
             ->add('commentaire')
             ->add('note')
-            ->add('photo_profil')
+            ->add('photo_profil', FileType::class, [
+                'label' => 'photo de profil',
+                'required' => false,
+            ])
             ->add('entreprise', EntrepriseType::class)
-
+            ->add('plainPassword', PasswordType::class, [
+                'required' => false,
+                'mapped' => false,
+                'attr' => ['autocomplete' => 'new-password'],
+                'constraints' => [
+                    new Length([
+                        'min' => 6,
+                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        'max' => 4096,
+                    ]),
+                ],
+            ])
+            ->add('entreprise', EntrepriseType::class, ['required' => false,])
+            ->add('etudiant', EtudiantType::class, ['required' => false,])
+            ;
         ;
     }
 
