@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\EvnementRepository;
+use App\Repository\EvenementRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: EvnementRepository::class)]
+#[ORM\Entity(repositoryClass: EvenementRepository::class)]
 class Evenement
 {
     #[ORM\Id]
@@ -18,7 +18,7 @@ class Evenement
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $descirption = null;
+    private ?string $description = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date = null;
@@ -48,12 +48,12 @@ class Evenement
 
     public function getDescirption(): ?string
     {
-        return $this->descirption;
+        return $this->description;
     }
 
     public function setDescirption(string $descirption): static
     {
-        $this->descirption = $descirption;
+        $this->description = $descirption;
 
         return $this;
     }
