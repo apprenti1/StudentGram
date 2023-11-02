@@ -7,6 +7,11 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarColor01">
             <ul class="navbar-nav me-auto">
+                {% if is_granted('ROLE_ENTREPRISE') %}
+                <li class="nav-item">
+                    <a class="nav-link{{ (route starts with 'app_registration_offer')?' active':'' }}" href="/registration/offer">My offers</a>
+                </li>
+                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link active" href="/">Home
                         <span class="visually-hidden">(current)</span>

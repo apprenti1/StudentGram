@@ -8,5 +8,6 @@ use Symfony\UX\LiveComponent\DefaultActionTrait;
 #[AsLiveComponent()]
 final class Navbar
 {
+    public string $route;
     use DefaultActionTrait;
 }
