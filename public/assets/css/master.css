@@ -194,6 +194,7 @@ div.optionalform{
     color: #cecece;
     transition: 0.5s all 0s;
     max-width: 300px;
+    overflow: hidden;
   }
   .preview:hover {
     border-radius: 10px;
