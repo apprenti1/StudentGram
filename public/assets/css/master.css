@@ -194,7 +194,6 @@ div.optionalform{
     color: #cecece;
     transition: 0.5s all 0s;
     max-width: 300px;
-    overflow: hidden;
   }
   .preview:hover {
     border-radius: 10px;
@@ -228,7 +227,6 @@ div.optionalform{
     display: flex;
     justify-content: center;
     margin: 0;
-}
     transition: 0.5s all 0s;
   }
   .preview:hover .content-edit-icon-card{
