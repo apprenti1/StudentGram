@@ -81,20 +81,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *
      * @see UserInterface
      */
-
-    // src/Entity/User.php
-// ...
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private bool $validated = false;
-
-    /**
-     * @ORM\Column(type="json")
-     */
-
-// ...
-
     public function getUserIdentifier(): string
     {
         return (string) $this->email;
@@ -103,7 +89,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see UserInterface
      */
-
     public function getRoles(): array
     {
         $roles = $this->roles;
@@ -112,26 +97,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return array_unique($roles);
     }
-// src/Entity/User.php
-// ...
-    ///**
-  //   * @ORM\Column(type="boolean")
- //    */
-    //private $validated = false;
-
-    public function getValidated(): ?bool
-    {
-        return $this->validated;
-    }
-
-    public function setValidated(bool $validated): self
-    {
-        $this->validated = $validated;
-
-        return $this;
-    }
-
-// ...
 
     public function setRoles(array $roles): static
     {

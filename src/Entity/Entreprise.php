@@ -33,6 +33,10 @@ class Entreprise
     #[ORM\OneToOne(inversedBy: 'entreprise', cascade: ['persist', 'remove'])]
     private ?User $ref_user = null;
 
+    #[ORM\ManyToOne(inversedBy: 'ref_entreprise', cascade: ["persist", "remove"])]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Offre $offres = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -105,6 +109,18 @@ class Entreprise
     public function setRefUser(?User $ref_user): static
     {
         $this->ref_user = $ref_user;
+
+        return $this;
+    }
+
+    public function getOffres(): ?Offre
+    {
+        return $this->offres;
+    }
+
+    public function setOffres(?Offre $offres): static
+    {
+        $this->offres = $offres;
 
         return $this;
     }

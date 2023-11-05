@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\OffreRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: OffreRepository::class)]
@@ -21,6 +22,13 @@ class Offre
 
     #[ORM\Column(length: 255)]
     private ?string $type_de_contrat = null;
+
+    #[ORM\OneToOne()]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Entreprise $ref_entreprise = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $image = null;
 
     public function getId(): ?int
     {
@@ -59,6 +67,30 @@ class Offre
     public function setTypeDeContrat(string $type_de_contrat): static
     {
         $this->type_de_contrat = $type_de_contrat;
+
+        return $this;
+    }
+
+    public function getRefEntreprise(): ?Entreprise
+    {
+        return $this->ref_entreprise;
+    }
+
+    public function setRefEntreprise(Entreprise $ref_entreprise): static
+    {
+        $this->ref_entreprise = $ref_entreprise;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): static
+    {
+        $this->image = $image;
 
         return $this;
     }

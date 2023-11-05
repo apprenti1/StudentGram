@@ -59,24 +59,24 @@
 									</div>
 
 									<div class="col-md-6 mt-3">
-										<input value="{{ app.user.entreprise.nomEntreprise }}" type="text" class="form-control inputcompany" id="registration_form_nom" name="{{ field_name(form.entreprise.nom_entreprise) }}" maxlength="255" placeholder="Company-Name">
+										<input value="{{ app.user.entreprise.nomEntreprise }}" type="text" class="form-control inputcompany" name="{{ field_name(form.entreprise.nom_entreprise) }}" maxlength="255" placeholder="Company-Name">
 									</div>
 
 									<div class="col-md-6 mt-3">
-										<input value="{{ app.user.entreprise.fonctionEmploye }}" type="text" class="form-control inputcompany" id="registration_form_prenom" name="{{ field_name(form.entreprise.fonction_employe) }}" maxlength="255" placeholder="Position-Held">
+										<input value="{{ app.user.entreprise.fonctionEmploye }}" type="text" class="form-control inputcompany" name="{{ field_name(form.entreprise.fonction_employe) }}" maxlength="255" placeholder="Position-Held">
 									</div>
 								</div>
 								{% endif %}
 							<div class="col-md-6">
-								<input value="{{ app.user.nom }}" type="text" class="form-control" id="registration_form_nom" name="{{ field_name(form.nom) }}" maxlength="255" placeholder="Family-Name" autocomplete="family-name" required="">
+								<input value="{{ app.user.nom }}" type="text" class="form-control" name="{{ field_name(form.nom) }}" maxlength="255" placeholder="Family-Name" autocomplete="family-name" required="">
 							</div>
 
 							<div class="col-md-6">
-								<input value="{{ app.user.prenom }}" type="text" class="form-control" id="registration_form_prenom" name="{{ field_name(form.prenom) }}" maxlength="255" placeholder="Name" autocomplete="given-name" required="">
+								<input value="{{ app.user.prenom }}" type="text" class="form-control" name="{{ field_name(form.prenom) }}" maxlength="255" placeholder="Name" autocomplete="given-name" required="">
 							</div>
 
 							<div class="col-md-12">
-								<input value="{{ app.user.email }}" type="email" class="form-control" id="registration_form_email" name="{{ field_name(form.email) }}" placeholder="E-mail" autocomplete="email" maxlength="180" required="required">
+								<input value="{{ app.user.email }}" type="email" class="form-control" name="{{ field_name(form.email) }}" placeholder="E-mail" autocomplete="email" maxlength="180" required="required">
 							</div>
 
 							{% if not is_granted('ROLE_ENTREPRISE') %}
@@ -91,7 +91,7 @@
 							{% endif %}
 
 							<div class="col-md-6">
-								<input value="" type="password" id="registration_form_plainPassword" name="{{ field_name(form.plainPassword) }}" autocomplete="new-password" class="form-control" placeholder="Password">
+								<input value="" type="password" name="{{ field_name(form.plainPassword) }}" autocomplete="new-password" class="form-control" placeholder="Password">
 							</div>
 
 
