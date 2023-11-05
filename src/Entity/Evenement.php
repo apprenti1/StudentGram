@@ -29,6 +29,10 @@ class Evenement
     #[ORM\Column(type: Types::TIME_MUTABLE)]
     private ?\DateTimeInterface $duree = null;
 
+    #[ORM\ManyToOne(targetEntity: Salle::class)]
+    #[ORM\JoinColumn(nullable: true)]
+    private $salle;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -90,6 +94,18 @@ class Evenement
     public function setDuree(\DateTimeInterface $duree): static
     {
         $this->duree = $duree;
+
+        return $this;
+    }
+
+    public function getSalle(): ?Salle
+    {
+        return $this->salle;
+    }
+
+    public function setSalle(?Salle $salle): self
+    {
+        $this->salle = $salle;
 
         return $this;
     }
