@@ -46,14 +46,14 @@ class Evenement
         return $this;
     }
 
-    public function getDescirption(): ?string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    public function setDescirption(string $descirption): static
+    public function setDescription(string $description): static
     {
-        $this->description = $descirption;
+        $this->description = $description;
 
         return $this;
     }
