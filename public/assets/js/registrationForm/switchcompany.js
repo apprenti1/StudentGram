@@ -1,10 +1,10 @@
 document.addEventListener("DOMContentLoaded", ()=>{
-    document.getElementById("companycheck").addEventListener("change", ()=>{
+    function companycheck() {
         if (document.getElementById("companycheck").checked) {
             document.getElementsByClassName("etudiantinput")[0].required = false;
             console.log(document.getElementsByClassName("inputcompany"));
             document.getElementById("etudiantform").style.filter = "opacity(0)";
-            document.getElementById("etudiantform").style.value = "";
+            document.getElementById("etudiantform").firstElementChild.firstElementChild.selected = "selected"
             Array.from(document.getElementsByClassName("inputcompany")).forEach(element => {
                 element.required = true;
             });
@@ -20,6 +20,12 @@ document.addEventListener("DOMContentLoaded", ()=>{
             document.getElementById("etudiantform").style.visibility = "visible";
             document.getElementById("companyform").style.height = "0";
             document.getElementById("companyform").style.filter = "opacity(0)";
+            document.getElementById("adress").value = "";
+            document.getElementById("rue").value = "";
+            document.getElementById("cp").value = "";
+            document.getElementById("ville").value = "";
+            document.getElementById("nom_entreprise").value = "";
+            document.getElementById("fonction_employe").value = "";
             Array.from(document.getElementsByClassName("inputcompany")).forEach(element => {
                 element.required = false;
             });
@@ -30,7 +36,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
         }
 
 
-
-
-    })
+    }
+    companycheck();
+    document.getElementById("companycheck").addEventListener("change", companycheck)
 })

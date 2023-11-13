@@ -1,0 +1,22 @@
+<div class="form-box m-1 p-3 preview">
+    <h3 class="text-center">
+        {{ evenement.nom }}
+    </h3>
+    <p class="text-center">
+        {{ evenement.description }}<br>
+    </p>
+    <p class="text-center inside-preview-section mt-2">
+        {{ evenement.salle }}<br>
+    </p>
+    <p class="text-center inside-preview-section mt-2">
+        5 réponses
+    </p>
+    <div class="row flex-nowrap content-edit-icon-card">
+        <form class="col-4 icon" method="post" action="" onsubmit="return confirm('Are you sure you want to delete this item?');">
+            <input type="hidden" name="_token" value="">
+            <button class="icon p-0 m-0 bg-transparent border-0" style="margin: 0 !important;">
+                <img src="/assets/images/delete.png" alt="icon">
+            </button>
+        </form>
+    </div>
+</div>

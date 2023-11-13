@@ -46,7 +46,7 @@
                                 <div class="col-md-12 row m-0 mt-3 p-0 optionalform" id="companyform">
 
                                     <div class="col-md-12">
-                                        <input id="adress" type="text" class="form-control inputcompany" name="adress" placeholder="Adresse">
+                                        <input value="{{ registrationForm.entreprise.adresse.vars.value }} {{ registrationForm.entreprise.cp.vars.value }} {{ registrationForm.entreprise.ville.vars.value }}" id="adress" type="text" class="form-control inputcompany" name="adress" placeholder="Adresse">
                                         <div class="count-box" style="margin: 20px 20px 0; padding: 10px; width: fit-content; font-size: 0.5em;">
                                             <span id="adresstext" style="font-size: 2.2em;">Adresse</span>
                                         </div>
@@ -56,26 +56,26 @@
                                     </div>
                                     
                                     <div class="col-md-6 mt-3">
-                                        <input type="text" class="form-control inputcompany" name="{{ field_name(registrationForm.entreprise.nom_entreprise) }}" maxlength="255" placeholder="Company-Name">
+                                        <input id="nom_entreprise" value="{{ registrationForm.entreprise.nom_entreprise.vars.value }}" type="text" class="form-control inputcompany" name="{{ field_name(registrationForm.entreprise.nom_entreprise) }}" maxlength="255" placeholder="Company-Name">
                                     </div>
                                     
                                     <div class="col-md-6 mt-3">
-                                        <input type="text" class="form-control inputcompany" name="{{ field_name(registrationForm.entreprise.fonction_employe) }}" maxlength="255" placeholder="Position-Held">
+                                        <input id="fonction_employe" value="{{ registrationForm.entreprise.fonction_employe.vars.value }}" type="text" class="form-control inputcompany" name="{{ field_name(registrationForm.entreprise.fonction_employe) }}" maxlength="255" placeholder="Position-Held">
                                     </div>
                                 
                                 </div>
                 
 
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" name="{{ field_name(registrationForm.nom) }}" maxlength="255" placeholder="Family-Name" autocomplete="family-name" required="">
+                                    <input value="{{ registrationForm.nom.vars.value }}" type="text" class="form-control" name="{{ field_name(registrationForm.nom) }}" maxlength="255" placeholder="Family-Name" autocomplete="family-name" required="">
                                 </div>
                                 
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" name="{{ field_name(registrationForm.prenom) }}" maxlength="255" placeholder="Name" autocomplete="given-name" required="">
+                                    <input value="{{ registrationForm.prenom.vars.value }}" type="text" class="form-control" name="{{ field_name(registrationForm.prenom) }}" maxlength="255" placeholder="Name" autocomplete="given-name" required="">
                                 </div>
                                 
                                 <div class="col-md-12">
-                                    <input type="email" class="form-control" name="{{ field_name(registrationForm.email) }}" placeholder="E-mail" autocomplete="email" maxlength="180" required="required">
+                                    <input value="{{ registrationForm.email.vars.value }}" type="email" class="form-control" name="{{ field_name(registrationForm.email) }}" placeholder="E-mail" autocomplete="email" maxlength="180" required="required">
                                 </div>
 
                                 <div class="col-md-6 optionalform" id="etudiantform"  style="filter: opacity(1); visibility: visible;">
@@ -102,7 +102,13 @@
                                 
                                 <div class="col-md-6">
                                     <div class="form-check d-flex align-items-center">
-                                        <input class="form-check-input" type="checkbox" name="" id="companycheck" style="height: 28px; width: 28px; margin-right: 10px; ">
+                                        <input class="form-check-input" type="checkbox" {{ (
+                                                (registrationForm.entreprise.adresse.vars.value != null) or 
+                                                (registrationForm.entreprise.cp.vars.value != null) or 
+                                                (registrationForm.entreprise.ville.vars.value != null) or 
+                                                (registrationForm.entreprise.nom_entreprise.vars.value != null) or 
+                                                (registrationForm.entreprise.fonction_employe.vars.value != null)
+                                            )?"checked ":"" }}name="" id="companycheck" style="height: 28px; width: 28px; margin-right: 10px; ">
                                         <label class="form-check-label" for="flexCheckChecked">
                                         Company ?
                                         </label>
