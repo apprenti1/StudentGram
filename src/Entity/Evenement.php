@@ -28,10 +28,9 @@ class Evenement
 
     #[ORM\Column(type: Types::TIME_MUTABLE)]
     private ?\DateTimeInterface $duree = null;
-
-    #[ORM\ManyToOne(targetEntity: Salle::class)]
-    #[ORM\JoinColumn(nullable: true)]
-    private $salle;
+    #[ORM\OneToOne(inversedBy: 'evenements', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Salle $ref_salle = null;
 
     public function getId(): ?int
     {
@@ -97,16 +96,16 @@ class Evenement
 
         return $this;
     }
-
-    public function getSalle(): ?Salle
+    public function getRefSalle(): ?Salle
     {
-        return $this->salle;
+        return $this->ref_salle;
     }
 
-    public function setSalle(?Salle $salle): self
+    public function setRefSalle(Salle $ref_salle): static
     {
-        $this->salle = $salle;
+        $this->ref_salle = $ref_salle;
 
         return $this;
     }
+
 }
