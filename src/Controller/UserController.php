@@ -75,12 +75,15 @@ class UserController extends AbstractController
                 $entityManager->flush();
 
                 // do anything else you need here, like send an email
-
-                return $userAuthenticator->authenticateUser(
-                    $user,
-                    $authenticator,
-                    $request
-                );
+                if (!$security->isGranted('IS_AUTHENTICATED_FULLY')){
+                    return $userAuthenticator->authenticateUser(
+                        $user,
+                        $authenticator,
+                        $request
+                    );
+                } else {
+                    return $this->redirectToRoute('app_admin_user_index');
+                }
             } else {
                 $error = new FormError('Adress not compleate !');
                 $form->addError($error);
@@ -95,7 +98,7 @@ class UserController extends AbstractController
             $form->addError($error);
         }
 
-        if ($security->isGranted('IS_AUTHENTICATED_FULLY')) {
+        if ($security->isGranted('IS_AUTHENTICATED_FULLY') && !($security->isGranted('ROLE_ADMIN') && isset($_POST['new']) && isset($_POST['new']) == true)) {
             return $this->redirectToRoute('app_main');
         }
 
