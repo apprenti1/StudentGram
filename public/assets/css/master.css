@@ -240,3 +240,6 @@ div.optionalform{
     padding: 5px;
     background-color: #ffffff2c;
   }
+  td{
+    color: #ffffff !important;
+  }

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New TypeOffreEmploi{% endblock %}
+
+{% block body %}
+    <h1>Create new TypeOffreEmploi</h1>
+
+    {{ include('admin/type_offre_emploi/_form.html.twig') }}
+
+    <a href="{{ path('app_type_offre_emploi_index') }}">back to list</a>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit TypeOffreEmploi{% endblock %}
+
+{% block body %}
+    <h1>Edit TypeOffreEmploi</h1>
+
+    {{ include('admin/type_offre_emploi/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_type_offre_emploi_index') }}">back to list</a>
+
+    {{ include('type_offre_emploi/_delete_form.html.twig') }}
+{% endblock %}

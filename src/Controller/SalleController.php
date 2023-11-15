@@ -2,38 +2,80 @@
 
 namespace App\Controller;
 
+use App\Entity\Salle;
+use App\Form\SalleType;
+use App\Repository\SalleRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/salle')]
 class SalleController extends AbstractController
 {
-    #[Route('/salles', name: 'app_salle_list')]
-    public function list(): Response
+    #[Route('/', name: 'app_salle_index', methods: ['GET'])]
+    public function index(SalleRepository $salleRepository): Response
     {
-        // Ajoutez ici la logique pour récupérer et afficher la liste des salles depuis la base de données
-        return $this->render('salle/list.html.twig', [
-            'controller_name' => 'SalleController',
+        return $this->render('admin/salle/index.html.twig', [
+            'salles' => $salleRepository->findAll(),
         ]);
     }
 
-    #[Route('/salle/{id}', name: 'app_salle_detail')]
-    public function detail($id): Response
+    #[Route('/new', name: 'app_salle_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-        // Ajoutez ici la logique pour récupérer et afficher les détails d'une salle en fonction de son ID
-        return $this->render('salle/detail.html.twig', [
-            'controller_name' => 'SalleController',
-            'salle_id' => $id,
+        $salle = new Salle();
+        $form = $this->createForm(SalleType::class, $salle);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($salle);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_salle_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('admin/salle/new.html.twig', [
+            'salle' => $salle,
+            'form' => $form,
         ]);
     }
 
-    // Vous pouvez ajouter d'autres actions personnalisées en fonction de vos besoins
-
-    // Exemple d'une action pour affecter une salle à un événement
-    #[Route('/salle/{id}/assign', name: 'app_salle_assign')]
-    public function assignSalle($id): Response
+    #[Route('/{id}', name: 'app_salle_show', methods: ['GET'])]
+    public function show(Salle $salle): Response
     {
-        // Ajoutez ici la logique pour affecter une salle à un événement
-        return $this->redirectToRoute('app_salle_list');
+        return $this->render('admin/salle/show.html.twig', [
+            'salle' => $salle,
+        ]);
+    }
+
+    #[Route('/{id}/edit', name: 'app_salle_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Salle $salle, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(SalleType::class, $salle);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_salle_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('admin/salle/edit.html.twig', [
+            'salle' => $salle,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/{id}', name: 'app_salle_delete', methods: ['POST'])]
+    public function delete(Request $request, Salle $salle, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$salle->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($salle);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_salle_index', [], Response::HTTP_SEE_OTHER);
     }
 }
