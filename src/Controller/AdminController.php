@@ -11,14 +11,30 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+
 #[Route('/admin')]
 class AdminController extends AbstractController
 {
-    #[Route('/', name: 'app_admin_user_index', methods: ['GET'])]
-    public function index(UserRepository $userRepository): Response
+    #[Route('/', name: 'app_admin_user_index')]
+    public function index(UserRepository $userRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
+        $validlist = $request->get('valid');
+        if (isset($validlist)) {
+            foreach ($validlist as $id => $isvalid) {
+                $user = $userRepository->find($id);
+                $roles = $user->getRoles();
+                if ($isvalid == "on" && !in_array("ROLE_VALID", $roles)) {
+                    $user->setRoles(array_merge($roles, ["ROLE_VALID"]));
+                } elseif ($isvalid != "on" && in_array("ROLE_VALID", $roles)) {
+                    $user->setRoles(array_diff($roles, ["ROLE_VALID"]));
+                }
+            }
+            $entityManager->persist($user);
+            $entityManager->flush();
+        }
         return $this->render('admin/user/index.html.twig', [
             'users' => $userRepository->findAll(),
+            'post' => $request->get('valid'),
         ]);
     }
 

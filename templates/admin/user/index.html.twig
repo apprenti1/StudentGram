@@ -6,12 +6,22 @@
     <link rel="stylesheet" href="/assets/css/commentbutton.css">
     <script src="/assets/js/registrationForm/updatepp.js"></script>
     <script src="/assets/js/comment/comment.js" defer></script>
-
-    <h1>User index</h1>
+    <link rel="stylesheet" href="//cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="//cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 
     <section class="preview-section flex-column">
+        <div class="col-6 d-flex flex-row mb-3">
+            <h3 class="text-center col-6">Utilisateurs</h3>
+            <form class="col-6 d-flex justify-content-center align-items-center" action="{{ path('app_register') }}" method="post">
+                <button class="btn btn-lg btn-primary" type="submit" value="true" name="new">
+                    Create new
+                </button>
+            </form>
+        </div>
         <form action="" method="post">
-            <table class="table">
+            <table class="table" id="usertable">
+                <caption>Studentgram Admin/User</caption>
                 <thead>
                     <tr>
                         <th>Photo_profil</th>
@@ -64,13 +74,13 @@
                         <td>{{ user.email }}</td>
                         <td>
                             {% for role in user.roles %}
-                                {% if role == "ROLE_ADMIN" or role == "ROLE_ENTREPRISE" or role == "ROLE_ETUDIANT" %}
-                                    <button type="button" class="btn btn-outline-{{ (role == 'ROLE_ADMIN')?'danger' }}{{ (role == 'ROLE_ENTREPRISE')?'warning' }}{{ (role == 'ROLE_ETUDIANT')?'success' }}">
+                                {% if role == "ROLE_ADMIN" or role == "ROLE_ENTREPRISE" or role == "ROLE_USER" %}
+                                    <button type="button" class="btn m-1 btn-outline-{{ (role == 'ROLE_ADMIN')?'danger' }}{{ (role == 'ROLE_ENTREPRISE')?'warning' }}{{ (role == 'ROLE_USER')?'success' }}">
                                         {% if role == "ROLE_ADMIN" %}
                                             Administrateur
                                         {% elseif role == "ROLE_ENTREPRISE" %}
                                             Entreprise
-                                        {% elseif role == "ROLE_ETUDIANT" %}
+                                        {% elseif role == "ROLE_USER" %}
                                             Etudiant
                                         {% endif %}
                                     </button>
@@ -78,7 +88,8 @@
                             {% endfor %}
                         </td>
                         <td>
-                            <input type="checkbox">
+                            <input type="hidden" name="valid[{{user.id}}]" value="false">
+                            <input type="checkbox" name="valid[{{user.id}}]" {{ ('ROLE_VALID' in user.roles)?'checked' }}>
                         </td>
                         <td>
                             <div class="comment">
@@ -134,6 +145,7 @@
                                 </div>
                             </div>
                         </td>
+                        <td></td>
                     </tr>
                 {% else %}
                     <tr>
@@ -142,11 +154,12 @@
                 {% endfor %}
                 </tbody>
             </table>
-        </form>
-        <form action="{{ path('app_register') }}" method="post">
-            <button class="btn btn-lg btn-primary" type="submit" value="true" name="new">
-                Create new
-            </button>
+            <script>
+                let table = new DataTable('#usertable');
+            </script>
+            <div class="w-100 d-flex justify-content-center align-items-center">
+                <button class="btn btn-lg btn-primary" type="submit" name="submit" value="true">enregistrer</button>
+            </div>
         </form>
     </section>
 {% endblock %}
