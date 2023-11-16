@@ -34,7 +34,6 @@ class AdminController extends AbstractController
         }
         return $this->render('admin/user/index.html.twig', [
             'users' => $userRepository->findAll(),
-            'post' => $request->get('valid'),
         ]);
     }
 

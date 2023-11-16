@@ -1,6 +1,8 @@
+
 {% extends 'base.html.twig' %}
 
 {% block title %}User index{% endblock %}
+
 
 {% block body %}
     <link rel="stylesheet" href="/assets/css/commentbutton.css">
@@ -19,7 +21,7 @@
                 </button>
             </form>
         </div>
-        <form action="" method="post">
+        <form action="{{ path('app_admin_user_index') }}" method="post">
             <table class="table" id="usertable">
                 <caption>Studentgram Admin/User</caption>
                 <thead>
