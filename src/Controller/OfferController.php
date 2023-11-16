@@ -18,13 +18,17 @@ class OfferController extends AbstractController
     #[Route('/', name: 'app_offer', methods: ['GET'])]
     public function index(OffreRepository $offreRepository): Response
     {
+        $offres = $offreRepository->findBy(['ref_entreprise' => $this->getUser()->getEntreprise()->getId()]);
         return $this->render('Offer/index.html.twig', [
-            'offres' => $offreRepository->findAll(),
+            'offres' => $offres,
         ]);
     }
 
     #[Route('/new', name: 'app_offer_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(
+        Request $request,
+        EntityManagerInterface $entityManager
+        ): Response
     {
         $offre = new Offre();
         $form = $this->createForm(OffreFormType::class, $offre);
@@ -53,7 +57,11 @@ class OfferController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_offer_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Offre $offre, EntityManagerInterface $entityManager): Response
+    public function edit(
+        Request $request,
+        Offre $offre,
+        EntityManagerInterface $entityManager
+        ): Response
     {
         $form = $this->createForm(OffreFormType::class, $offre);
         $form->handleRequest($request);

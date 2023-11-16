@@ -251,8 +251,8 @@ div.optionalform{
     border-collapse: collapse;
     white-space: nowrap;
 }
-@media (max-width: 767px) {
-    .responsive-hide {
+@media (max-width: 1200px) {
+    .responsive-hide-1200 {
         display: none;
     }
 }

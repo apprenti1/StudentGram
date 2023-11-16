@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\Security;
 #[Route('/admin')]
 class AdminController extends AbstractController
 {
-    #[Route('/', name: 'app_admin_user_index')]
+    #[Route('/user', name: 'app_admin_user_index')]
     public function index(
         UserRepository $userRepository,
         Request $request,
@@ -56,26 +56,6 @@ class AdminController extends AbstractController
         }
         return $this->render('admin/user/index.html.twig', [
             'users' => $userRepository->findAll(),
-        ]);
-    }
-
-    #[Route('/new', name: 'app_admin_user_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $user = new User();
-        $form = $this->createForm(AdminUserType::class, $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_admin_user_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('admin/user/new.html.twig', [
-            'user' => $user,
-            'form' => $form,
         ]);
     }
 

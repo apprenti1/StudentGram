@@ -15,7 +15,7 @@
     </head>
     <body>
         
-        <section class="position-sticky w-100 top-0">
+        <section class="position-sticky w-100 top-0 z-3">
             {{ component('Navbar', {route: app.request.attributes.get('_route')}) }}
         </section>
         {% block body %}{% endblock %}

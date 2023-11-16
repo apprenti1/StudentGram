@@ -12,7 +12,12 @@ use Symfony\Component\Security\Core\Security;
 class MainController extends AbstractController
 {
     #[Route('/', name: 'app_main')]
-    public function index(OffreRepository $offresrespo, EvenementRepository $evenementrepo, UserRepository $userRepository, Security $security): Response
+    public function index(
+        OffreRepository $offresrespo,
+        EvenementRepository $evenementrepo,
+        UserRepository $userRepository,
+        Security $security
+        ): Response
     {
         if ($security->isGranted("ROLE_ADMIN")) {
             $users = $userRepository->findAll();

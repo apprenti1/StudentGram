@@ -9,7 +9,7 @@
         <div class="col-md-6 col-12 d-flex flex-row mb-3">
             <h3 class="text-center col-6">Utilisateurs</h3>
             <form class="col-md-6 col-12 d-flex justify-content-start align-items-center" action="{{ path('app_register') }}" method="post">
-                <button class="btn btn-lg btn-primary" type="submit" value="true" name="new">
+                <button class="btn btn-lg btn-primary" type="submit" value="true" name="new" style="font-size: 2em; font-weight: bolder; inline-size: 2em; padding: 0; width: 1.5em; height: 1.5em;">
                     +
                 </button>
             </form>
@@ -21,12 +21,12 @@
                     <tr>
                         <th>Photo_profil</th>
                         <th>Email</th>
-                        <th class="responsive-hide">Roles</th>
+                        <th class="responsive-hide-1200">Roles</th>
                         <th>Valid</th>
                         {% if is_granted("ROLE_SUPERADMIN") %}
                             <th>Admin</th>
                         {% endif %}
-                        <th class="responsive-hide">Commentaire</th>
+                        <th class="responsive-hide-1200">Commentaire</th>
                         <th>Show</th>
                     </tr>
                 </thead>
@@ -70,11 +70,13 @@
                             </div>
                         </td>
                         <td>{{ user.email }}</td>
-                        <td class="responsive-hide">
+                        <td class="responsive-hide-1200">
                             {% for role in user.roles %}
-                                {% if role == "ROLE_ADMIN" or role == "ROLE_ENTREPRISE" or role == "ROLE_USER" %}
-                                    <button type="button" class="btn m-1 btn-outline-{{ (role == 'ROLE_ADMIN')?'danger' }}{{ (role == 'ROLE_ENTREPRISE')?'warning' }}{{ (role == 'ROLE_USER')?'success' }}">
-                                        {% if role == "ROLE_ADMIN" %}
+                                {% if role == "ROLE_SUPERADMIN" or role == "ROLE_ADMIN" or role == "ROLE_ENTREPRISE" or role == "ROLE_USER" %}
+                                    <button type="button" class="btn m-1 btn-outline-{{ (role == 'ROLE_ADMIN' or role == 'ROLE_SUPERADMIN')?'danger' }}{{ (role == 'ROLE_ENTREPRISE')?'warning' }}{{ (role == 'ROLE_USER')?'success' }}">
+                                        {% if role == "ROLE_SUPERADMIN" %}
+                                            Super Administrateur
+                                        {% elseif role == "ROLE_ADMIN" %}
                                             Administrateur
                                         {% elseif role == "ROLE_ENTREPRISE" %}
                                             Entreprise
@@ -95,7 +97,7 @@
                                 <input type="checkbox" name="admin[{{user.id}}]" {{ ('ROLE_ADMIN' in user.roles)?'checked' }}>
                             </td>
                         {% endif %}
-                        <td class="responsive-hide">
+                        <td class="responsive-hide-1200">
                             <div class="comment">
                                 <div>
                                     <button type="button" class="bookmarkBtn" id="viewCommentCard" onclick="viewcard({{ user.id }})" name="">
