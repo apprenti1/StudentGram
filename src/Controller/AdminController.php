@@ -10,23 +10,45 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 
 #[Route('/admin')]
 class AdminController extends AbstractController
 {
     #[Route('/', name: 'app_admin_user_index')]
-    public function index(UserRepository $userRepository, Request $request, EntityManagerInterface $entityManager): Response
+    public function index(
+        UserRepository $userRepository,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        Security $security
+        ): Response
     {
         $validlist = $request->get('valid');
+        $adminlist = $request->get('admin');
         if (isset($validlist)) {
             foreach ($validlist as $id => $isvalid) {
                 $user = $userRepository->find($id);
                 $roles = $user->getRoles();
-                if ($isvalid == "on" && !in_array("ROLE_VALID", $roles)) {
-                    $user->setRoles(array_merge($roles, ["ROLE_VALID"]));
-                } elseif ($isvalid != "on" && in_array("ROLE_VALID", $roles)) {
-                    $user->setRoles(array_diff($roles, ["ROLE_VALID"]));
+                if (!in_array("ROLE_ADMIN", $roles) || $security->isGranted("ROLE_SUPERADMIN")) {
+                    if ($isvalid == "on" && !in_array("ROLE_VALID", $roles)) {
+                        $user->setRoles(array_merge($roles, ["ROLE_VALID"]));
+                    } elseif ($isvalid != "on" && in_array("ROLE_VALID", $roles)) {
+                        $user->setRoles(array_diff($roles, ["ROLE_VALID"]));
+                    }
+                }
+            }
+            $entityManager->persist($user);
+            $entityManager->flush();
+        }
+        if (isset($validlist) && $security->isGranted("ROLE_SUPERADMIN")) {
+            foreach ($adminlist as $id => $isadmin) {
+                $user = $userRepository->find($id);
+                $roles = $user->getRoles();
+                if ($isadmin == "on" && !in_array("ROLE_ADMIN", $roles)) {
+                    $user->setRoles(array_merge($roles, ["ROLE_ADMIN"]));
+                } elseif ($isadmin != "on" && in_array("ROLE_ADMIN", $roles)) {
+                    $user->setRoles(array_diff($roles, ["ROLE_ADMIN"]));
                 }
             }
             $entityManager->persist($user);

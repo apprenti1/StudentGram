@@ -243,3 +243,16 @@ div.optionalform{
   td, th{
     color: #ffffff !important;
   }
+  .table-container {
+    overflow-x: auto;
+}
+.responsive-table {
+    width: 100%;
+    border-collapse: collapse;
+    white-space: nowrap;
+}
+@media (max-width: 767px) {
+    .responsive-hide {
+        display: none;
+    }
+}
