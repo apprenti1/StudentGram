@@ -21,7 +21,7 @@ class MainController extends AbstractController
             'controller_name' => 'MainController',
             'offres'=> $offresrespo ->findAll(),
             'evenements'=> $evenementrepo ->findAll(),
-            'users'=> $users,
+            'users' => $userRepository->findAll(),
         ]);
     }
 }
