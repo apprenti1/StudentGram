@@ -10,21 +10,23 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-
+{% if is_granted("ROLE_ADMIN") or is_granted("ROLE_SUPERADMIN") %}
 {{ include('admin/user/_index.html.twig', {'users': users}) }}
-
-<section class="preview-section">
-    <div class="w-100">
-        <h3>Offres</h3>
-    </div>
-    {% for offre in offres %}
-        {{ include('main/_viewOffre.html.twig', {'offre': offre}) }}
-    {% else %}
-        <tr>
-            <td colspan="5">no records found</td>
-        </tr>
-    {% endfor %}
-</section>
+{% endif %}
+{% if is_granted("ROLE_USER") or is_granted("ROLE_ENTREPRISE") and is_granted("ROLE_VALID")%}
+    <section class="preview-section">
+        <div class="w-100">
+            <h3>Offres</h3>
+        </div>
+        {% for offre in offres %}
+            {{ include('main/_viewOffre.html.twig', {'offre': offre}) }}
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+    </section>
+{% endif %}
 <section class="preview-section">
     <div class="w-100">
         <h3>Evenements</h3>

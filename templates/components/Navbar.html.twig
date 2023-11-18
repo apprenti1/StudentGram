@@ -1,4 +1,5 @@
 <div{{ attributes }}>
+    <script src="/assets/js/navbar/delscreen.js"></script>
     <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">StudentGram</a>
@@ -12,6 +13,22 @@
                     <a class="nav-link{{ (route starts with 'app_registration_offer')?' active':'' }}" href="/registration/offer">My offers</a>
                 </li>
                 {% endif %}
+                {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPERADMIN') %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Gestion</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Utilisateur</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Offres</a>
+                        <a class="dropdown-item" href="#">Type d'offres</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Evenements</a>
+                        <a class="dropdown-item" href="#">Salles</a>
+                    </div>
+                </li>
+                {% endif %}
+
+
                 <li class="nav-item">
                     <a class="nav-link active" href="/">Home
                         <span class="visually-hidden">(current)</span>
@@ -26,16 +43,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">About</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Separated link</a>
-                    </div>
-                </li>
+                
             </ul>
             
             <ul class="navbar-nav">
@@ -63,11 +71,11 @@
                                 </a>
                             </div>
                             <div>
-                                <a href="/delete">
+                                <div onclick="delscreenUpd()">
                                     <div class="btn btn-outline-danger trash">
                                         <img alt="login" src="/assets/images/trash.png" style="height: 20px;">
                                     </div>
-                                </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -83,5 +91,22 @@
             </div>
         </div>
     </nav>
+    <div class="delscreen" id="delscreen" style="filter: opacity(0); visibility: hidden;">
+        <div class="delscreen-card">
+            <div class="delscreen-header">
+              <div class="delscreen-image"><svg aria-hidden="true" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" fill="none">
+                          <path d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" stroke-linejoin="round" stroke-linecap="round"></path>
+                        </svg></div>
+              <div class="delscreen-content">
+                 <span class="delscreen-title">Suppression de compte</span>
+                 <p class="delscreen-message">Toutes les données seront supprimé! <br> Action irréversible!</p>
+              </div>
+               <div class="delscreen-actions">
+                 <a class="delscreen-desactivate" href="/delete" style="text-decoration: none;">Supprimer</a>
+                 <button class="delscreen-cancel" type="button" onclick="delscreenUpd()">Anuler</button>
+              </div>
+            </div>
+            </div>
+    </div>
     
 </div>
