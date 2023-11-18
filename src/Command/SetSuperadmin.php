@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\User;
 
-class UserValidateCommand extends Command
+class SetSuperadmin extends Command
 {
     private $entityManager;
 
@@ -24,35 +24,36 @@ class UserValidateCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('app:user:validate')
-            ->setDescription('Validate a user account')
-            ->addArgument('user-id', InputArgument::REQUIRED, 'User ID to validate')
-            ->addOption('validate', null, InputOption::VALUE_NONE, 'Validate the user account');
+            ->setName('set:superadmin')
+            ->setDescription('Mettre un utilisateur en superadmin')
+            ->addArgument('email', InputArgument::REQUIRED, 'Email utilisateur');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $userId = $input->getArgument('user-id');
-        $validate = $input->getOption('validate');
+        $email = $input->getArgument('email');
 
         $userRepository = $this->entityManager->getRepository(User::class);
-        $user = $userRepository->find($userId);
+        $user = $userRepository->findOneBy(['email'=> $email]);
+        $roles = $user->getRoles();
 
         if ($user) {
-            // Set the "validated" field to true
-            if ($validate) {
-                $user->setValidated(true);
-            }else{
-                $user->setValidated(false);
-            }
-            // Add additional roles if necessary
-            $user->setRoles(['ROLE_USER', 'ROLE_VALIDATED']); // Example roles
+            if (in_array("ROLE_SUPERADMIN", $roles)) {
+                $user->setRoles(array_diff($roles, ["ROLE_SUPERADMIN"]));
+                $output->writeln('User '.$email.$user->getEmail().' no longer has the superadmin role');
 
+            }else{
+                $roles = array_diff($roles, ["ROLE_ADMIN"]);
+                $user->setRoles(array_merge($roles, ["ROLE_SUPERADMIN"]));
+                $output->writeln('User '.$email.' now has the superadmin role');
+            }
+            
+            $this->entityManager->persist($user);
             $this->entityManager->flush();
 
-            $output->writeln('User account has been validated.');
+
         } else {
-            $output->writeln('User not found.');
+            $output->writeln('User '.$email.' not found.');
         }
 
         return Command::SUCCESS;

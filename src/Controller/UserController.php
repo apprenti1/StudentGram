@@ -68,7 +68,7 @@ class UserController extends AbstractController
                 if ($form->get('entreprise')->getData()) {
                     $user->setRoles(['ROLE_ENTREPRISE']);
                 } else {
-                    $user->setRoles(['ROLE_USER']);
+                    $user->setRoles(['ROLE_ETUDIANT']);
                 }
 
                 $entityManager->persist($user);
@@ -98,7 +98,7 @@ class UserController extends AbstractController
             $form->addError($error);
         }
 
-        if ($security->isGranted('IS_AUTHENTICATED_FULLY') && !($security->isGranted('ROLE_ADMIN') && isset($_POST['new']) && isset($_POST['new']) == true)) {
+        if ($security->isGranted('IS_AUTHENTICATED_FULLY') && (!($security->isGranted('ROLE_ADMIN') || $security->isGranted('ROLE_SUPERADMIN')) && isset($_POST['new']) && isset($_POST['new']) == true)) {
             return $this->redirectToRoute('app_main');
         }
 
@@ -194,11 +194,26 @@ class UserController extends AbstractController
             }
         }
         if ($form->isSubmitted()) {
-        $error = new FormError('Problem found with your registration éléments.');
-        $form->addError($error);
-    }
+            $error = new FormError('Problem found with your registration éléments.');
+            $form->addError($error);
+        }
         return $this->render('User/edit.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route('/delete', name: 'app_delete')]
+    public function index(EntityManagerInterface $entityManager, FlashBagInterface $flashBag): Response
+    {
+
+        $user = $this->getUser();
+        if (!$user) {
+            $flashBag->add('warning', 'Vous devez être connecté pour supprimer votre compte.');
+        } else {
+            $entityManager->remove($user);
+            $entityManager->flush();
+            $flashBag->add('success', 'Votre compte a été supprimé avec succès.');
+        }
+        return $this->redirectToRoute('app_main');
     }
 }

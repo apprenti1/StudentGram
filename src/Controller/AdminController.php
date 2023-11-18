@@ -38,8 +38,6 @@ class AdminController extends AbstractController
                     }
                 }
             }
-            $entityManager->persist($user);
-            $entityManager->flush();
         }
         if (isset($validlist) && $security->isGranted("ROLE_SUPERADMIN")) {
             foreach ($adminlist as $id => $isadmin) {
