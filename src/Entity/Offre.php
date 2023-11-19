@@ -20,15 +20,16 @@ class Offre
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $type_de_contrat = null;
-
     #[ORM\OneToOne()]
     #[ORM\JoinColumn(nullable: false)]
     private ?Entreprise $ref_entreprise = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $image = null;
+
+    #[ORM\ManyToOne(inversedBy: 'Offres', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?TypeContrat $ref_type_contrat = null;
 
     public function getId(): ?int
     {
@@ -59,18 +60,6 @@ class Offre
         return $this;
     }
 
-    public function getTypeDeContrat(): ?string
-    {
-        return $this->type_de_contrat;
-    }
-
-    public function setTypeDeContrat(string $type_de_contrat): static
-    {
-        $this->type_de_contrat = $type_de_contrat;
-
-        return $this;
-    }
-
     public function getRefEntreprise(): ?Entreprise
     {
         return $this->ref_entreprise;
@@ -91,6 +80,18 @@ class Offre
     public function setImage(?string $image): static
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getRefTypeContrat(): ?TypeContrat
+    {
+        return $this->ref_type_contrat;
+    }
+
+    public function setRefTypeContrat(TypeContrat $ref_type_contrat): static
+    {
+        $this->ref_type_contrat = $ref_type_contrat;
 
         return $this;
     }

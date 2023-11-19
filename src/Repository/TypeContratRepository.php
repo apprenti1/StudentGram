@@ -2,27 +2,27 @@
 
 namespace App\Repository;
 
-use App\Entity\TypeOffreEmploi;
+use App\Entity\TypeContrat;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<TypeOffreEmploi>
+ * @extends ServiceEntityRepository<TypeContrat>
  *
- * @method TypeOffreEmploi|null find($id, $lockMode = null, $lockVersion = null)
- * @method TypeOffreEmploi|null findOneBy(array $criteria, array $orderBy = null)
- * @method TypeOffreEmploi[]    findAll()
- * @method TypeOffreEmploi[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method TypeContrat|null find($id, $lockMode = null, $lockVersion = null)
+ * @method TypeContrat|null findOneBy(array $criteria, array $orderBy = null)
+ * @method TypeContrat[]    findAll()
+ * @method TypeContrat[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class TypeOffreEmploiRepository extends ServiceEntityRepository
+class TypeContratRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, TypeOffreEmploi::class);
+        parent::__construct($registry, TypeContrat::class);
     }
 
 //    /**
-//     * @return TypeOffreEmploi[] Returns an array of TypeOffreEmploi objects
+//     * @return TypeContrat[] Returns an array of TypeContrat objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -36,7 +36,7 @@ class TypeOffreEmploiRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?TypeOffreEmploi
+//    public function findOneBySomeField($value): ?TypeContrat
 //    {
 //        return $this->createQueryBuilder('t')
 //            ->andWhere('t.exampleField = :val')

@@ -1,0 +1,48 @@
+    <link rel="stylesheet" href="/assets/css/commentbutton.css">
+    <script src="/assets/js/registrationForm/updatepp.js"></script>
+    <script src="/assets/js/comment/comment.js" defer></script>
+    <link rel="stylesheet" href="//cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="//cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+
+    <section class="preview-section flex-column">
+        <div class="col-md-6 col-12 d-flex flex-row mb-3">
+            <h3 class="text-center col-6">Offres</h3>
+        </div>
+        <form action="{{ path('app_admin_user_index') }}" class="col-12 col-md-10 table-container" method="post">
+            <table class="table responsive-table" id="usertable">
+                <caption>Studentgram Admin/offre</caption>
+                <thead>
+                    <tr>
+                        <th>titre</th>
+                        <th>description</th>
+                        <th>type</th>
+                        <th>entreprise</th>
+                        <th>valid</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                {% for offre in offres %}
+                    <tr>
+                        <td>{{ offre.titre }}</td>
+                        <td>{{ offre.description }}</td>
+                        <td>{{ offre.typeDeContrat }}</td>
+                        <td>{{ offre.refEntreprise.nomEntreprise }}</td>
+                        <td>{{ offre.titre }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="11">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <script>
+                let table = new DataTable('#usertable');
+            </script>
+            <div class="w-100 d-flex justify-content-center align-items-center">
+                <button class="btn btn-lg btn-primary m-2" type="submit" name="submit" value="true">enregistrer</button>
+            </div>
+        </form>
+    </section>
