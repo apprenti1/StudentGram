@@ -6,6 +6,7 @@ use App\Entity\Offre;
 use App\Entity\User;
 use App\Form\OffreFormType;
 use App\Repository\OffreRepository;
+use App\Repository\TypeContratRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,6 +28,7 @@ class OfferController extends AbstractController
     #[Route('/new', name: 'app_offer_new', methods: ['GET', 'POST'])]
     public function new(
         Request $request,
+        TypeContratRepository $contratRepository,
         EntityManagerInterface $entityManager
         ): Response
     {
@@ -45,6 +47,7 @@ class OfferController extends AbstractController
         return $this->render('Offer/new.html.twig', [
             'offre' => $offre,
             'form' => $form,
+            'type_contrats' => $contratRepository->findAll(),
         ]);
     }
 
