@@ -2,11 +2,15 @@
 
 namespace App\Controller;
 
+
+use App\Entity\Salle;
 use App\Entity\TypeContrat;
 use App\Entity\Offre;
 use App\Entity\User;
+use App\Form\SalleType;
 use App\Form\TypeContratType;
 use App\Form\OffreType;
+use App\Repository\SalleRepository;
 use App\Repository\TypeContratRepository;
 use App\Repository\OffreRepository;
 use App\Repository\UserRepository;
@@ -147,7 +151,7 @@ class AdminController extends AbstractController
 
 
     #[Route('/typecontrat', name: 'app_type_contrat_index', methods: ['GET'])]
-    public function index(TypeContratRepository $typeContratRepository): Response
+    public function typecontratIndex(TypeContratRepository $typeContratRepository): Response
     {
         return $this->render('admin/type_contrat/index.html.twig', [
             'type_contrats' => $typeContratRepository->findAll(),
@@ -155,7 +159,7 @@ class AdminController extends AbstractController
     }
 
     #[Route('/typecontrat/new', name: 'app_type_contrat_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function typecontratNew(Request $request, EntityManagerInterface $entityManager): Response
     {
         $typeContrat = new TypeContrat();
         $form = $this->createForm(TypeContratType::class, $typeContrat);
@@ -175,7 +179,7 @@ class AdminController extends AbstractController
     }
 
     #[Route('/typecontrat/{id}', name: 'app_type_contrat_show', methods: ['GET'])]
-    public function show(TypeContrat $typeContrat): Response
+    public function typecontratShow(TypeContrat $typeContrat): Response
     {
         return $this->render('admin/type_contrat/show.html.twig', [
             'type_contrat' => $typeContrat,
@@ -183,7 +187,7 @@ class AdminController extends AbstractController
     }
 
     #[Route('/typecontrat/{id}/edit', name: 'app_type_contrat_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, TypeContrat $typeContrat, EntityManagerInterface $entityManager): Response
+    public function typecontratEdit(Request $request, TypeContrat $typeContrat, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(TypeContratType::class, $typeContrat);
         $form->handleRequest($request);
@@ -201,7 +205,7 @@ class AdminController extends AbstractController
     }
 
     #[Route('/typecontrat/{id}', name: 'app_type_contrat_delete', methods: ['POST'])]
-    public function delete(Request $request, TypeContrat $typeContrat, EntityManagerInterface $entityManager): Response
+    public function typecontratDelete(Request $request, TypeContrat $typeContrat, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$typeContrat->getId(), $request->request->get('_token'))) {
             $entityManager->remove($typeContrat);
@@ -209,5 +213,70 @@ class AdminController extends AbstractController
         }
 
         return $this->redirectToRoute('app_type_contrat_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/salle', name: 'app_salle_index', methods: ['GET'])]
+    public function salleIndex(SalleRepository $salleRepository): Response
+    {
+        return $this->render('admin/salle/index.html.twig', [
+            'salles' => $salleRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/salle/new', name: 'app_salle_new', methods: ['GET', 'POST'])]
+    public function salleNew(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $salle = new Salle();
+        $form = $this->createForm(SalleType::class, $salle);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($salle);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_salle_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('admin/salle/new.html.twig', [
+            'salle' => $salle,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/salle/{id}', name: 'app_salle_show', methods: ['GET'])]
+    public function salleShow(Salle $salle): Response
+    {
+        return $this->render('admin/salle/show.html.twig', [
+            'salle' => $salle,
+        ]);
+    }
+
+    #[Route('/salle/{id}/edit', name: 'app_salle_edit', methods: ['GET', 'POST'])]
+    public function salleEdit(Request $request, Salle $salle, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(SalleType::class, $salle);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_salle_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('admin/salle/edit.html.twig', [
+            'salle' => $salle,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/salle/{id}', name: 'app_salle_delete', methods: ['POST'])]
+    public function salleDelete(Request $request, Salle $salle, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$salle->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($salle);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_salle_index', [], Response::HTTP_SEE_OTHER);
     }
 }

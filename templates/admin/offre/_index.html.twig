@@ -27,13 +27,17 @@
                     <tr>
                         <td>{{ offre.titre }}</td>
                         <td>{{ offre.description }}</td>
-                        <td>{{ offre.typeDeContrat }}</td>
+                        <td>{{ offre.refTypeContrat.label }}</td>
                         <td>{{ offre.refEntreprise.nomEntreprise }}</td>
                         <td>{{ offre.titre }}</td>
                     </tr>
                 {% else %}
                     <tr>
-                        <td colspan="11">no records found</td>
+                        <td>no records found</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                     </tr>
                 {% endfor %}
                 </tbody>
