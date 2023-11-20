@@ -31,6 +31,9 @@ class Offre
     #[ORM\JoinColumn(nullable: false)]
     private ?TypeContrat $ref_type_contrat = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $valid = false;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -92,6 +95,18 @@ class Offre
     public function setRefTypeContrat(TypeContrat $ref_type_contrat): static
     {
         $this->ref_type_contrat = $ref_type_contrat;
+
+        return $this;
+    }
+
+    public function isValid(): ?bool
+    {
+        return $this->valid;
+    }
+
+    public function setValid(bool $valid): static
+    {
+        $this->valid = $valid;
 
         return $this;
     }
