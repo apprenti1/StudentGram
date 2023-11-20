@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\EvenementRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\Callback;
 
 #[ORM\Entity(repositoryClass: EvenementRepository::class)]
 class Evenement
@@ -28,9 +29,27 @@ class Evenement
 
     #[ORM\Column(type: Types::TIME_MUTABLE)]
     private ?\DateTimeInterface $duree = null;
-    #[ORM\OneToOne(inversedBy: 'evenements', cascade: ['persist', 'remove'])]
+
+    #[ORM\ManyToOne(inversedBy: 'evenements')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Salle $ref_salle = null;
+    private ?Salle $salle = null;
+
+
+
+    #[Assert\Callback]
+    public function validate(ExecutionContextInterface $context, mixed $payload): void
+    {
+        // somehow you have an array of "fake names"
+        $fakeNames = [/* ... */];
+
+        // check if the name is actually a fake name
+
+        #if ( $this->date<new \DateTime() ) {
+            $context->buildViolation("Choisissez une date à partir d'aujourd'hui !")
+                ->atPath('date')
+                ->addViolation();
+        #}
+    }
 
     public function getId(): ?int
     {
@@ -96,14 +115,15 @@ class Evenement
 
         return $this;
     }
-    public function getRefSalle(): ?Salle
+
+    public function getSalle(): ?Salle
     {
-        return $this->ref_salle;
+        return $this->salle;
     }
 
-    public function setRefSalle(Salle $ref_salle): static
+    public function setSalle(?Salle $salle): static
     {
-        $this->ref_salle = $ref_salle;
+        $this->salle = $salle;
 
         return $this;
     }

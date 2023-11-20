@@ -36,6 +36,11 @@ class EvenementController extends AbstractController
             return $this->redirectToRoute('app_evenement_index', [], Response::HTTP_SEE_OTHER);
         }
 
+        if( ! $form->isSubmitted() ){
+            $evenement->setDate( new \DateTime() );
+            $form->setData($evenement);
+        }
+
         return $this->render('admin/evenement/new.html.twig', [
             'evenement' => $evenement,
             'form' => $form,
