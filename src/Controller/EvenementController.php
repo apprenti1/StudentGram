@@ -14,6 +14,16 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/evenement')]
 class EvenementController extends AbstractController
 {
+    #[Route('/valide/{id}',name: 'admin-evenement-valide')]
+    public function valider($id, EvenementRepository $evenementRepository, EntityManagerInterface $entityManager){
+
+        $evenement = $evenementRepository->find($id);
+        $evenement->setValide(true);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_evenement_index');
+    }
+
     #[Route('/', name: 'app_evenement_index', methods: ['GET'])]
     public function index(EvenementRepository $evenementRepository): Response
     {

@@ -34,6 +34,9 @@ class Evenement
     #[ORM\JoinColumn(nullable: false)]
     private ?Salle $salle = null;
 
+    #[ORM\Column]
+    private ?bool $valide = null;
+
 
 
     #[Assert\Callback]
@@ -124,6 +127,18 @@ class Evenement
     public function setSalle(?Salle $salle): static
     {
         $this->salle = $salle;
+
+        return $this;
+    }
+
+    public function isValide(): ?bool
+    {
+        return $this->valide;
+    }
+
+    public function setValide(bool $valide): static
+    {
+        $this->valide = $valide;
 
         return $this;
     }

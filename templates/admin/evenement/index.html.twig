@@ -32,6 +32,9 @@
                             <td>
                                 <a href="{{ path('app_evenement_show', {'id': evenement.id}) }}" class="btn btn-primary btn-sm">Voir</a>
                                 <a href="{{ path('app_evenement_edit', {'id': evenement.id}) }}" class="btn btn-secondary btn-sm">Modifier</a>
+                                {% if not evenement.valide %}
+                                    <a href="{{ path('admin-evenement-valide', {'id': evenement.id}) }}" class="btn btn-secondary btn-sm">Valider</a>
+                                {% endif %}
                             </td>
                         </tr>
                     {% endfor %}
