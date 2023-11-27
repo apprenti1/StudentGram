@@ -359,3 +359,17 @@ th {
     border: 1px solid #ffffff27;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   }
+
+
+
+  .presentation h1{
+    text-align: center;
+    margin: 30px;
+  }
+  .presentation a{
+    width: fit-content;
+    margin: 50px;
+  }
+  .presentation .arrow{
+    height: 30px;
+  }

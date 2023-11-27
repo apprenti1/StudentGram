@@ -5,6 +5,15 @@
 
 {% block body %}
 
+{% if not is_granted("ROLE_USER") %}
+<div class="presentation">
+    <h1>Bienvenue dans notre site de mise en relation entreprise/etudiant</h1>
+    <a class="btn btn-lg btn-primary" href="https://www.lyceerobertschuman.com">
+        Retrouver le site du lycée ici <img src="/assets/images/arrow.png" class="arrow">
+    </a>
+</div>
+{% endif %}
+
 
 {% if is_granted("ROLE_ADMIN") or is_granted("ROLE_SUPERADMIN") %}
     {{ include('admin/user/_index.html.twig', {'users': users}) }}
@@ -28,16 +37,17 @@
         {{ include('admin/user/_index.html.twig', {'users': users}) }}
     {% endif %}
     {% if (is_granted("ROLE_USER") or is_granted("ROLE_ENTREPRISE")) and is_granted("ROLE_VALID")%}
-<section class="preview-section">
-    <div class="w-100">
-        <h3>Evenements</h3>
-    </div>
-    {% for evenement in evenements %}
-        {{ include('main/_viewEvenement.html.twig', {'evenement': evenement}) }}
-    {% else %}
-        <tr>
-            <td colspan="5">no records found</td>
-        </tr>
-    {% endfor %}
-</section>
+        <section class="preview-section">
+            <div class="w-100">
+                <h3>Evenements</h3>
+            </div>
+            {% for evenement in evenements %}
+                {{ include('main/_viewEvenement.html.twig', {'evenement': evenement}) }}
+            {% else %}
+                <tr>
+                    <td colspan="5">no records found</td>
+                </tr>
+            {% endfor %}
+        </section>
+    {% endif %}
 {% endblock %}
