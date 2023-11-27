@@ -85,7 +85,7 @@ class UserController extends AbstractController
                     return $this->redirectToRoute('app_admin_user_index');
                 }
             } else {
-                $error = new FormError('Adress not compleate !');
+                $error = new FormError('Adress not complete !');
                 $form->addError($error);
             }
         }
@@ -216,4 +216,6 @@ class UserController extends AbstractController
         }
         return $this->redirectToRoute('app_main');
     }
+
+
 }
