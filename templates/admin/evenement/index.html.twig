@@ -3,41 +3,48 @@
 {% block title %}Evenement index{% endblock %}
 
 {% block body %}
-    <h1>Evenement index</h1>
+    <div class="container">
+        <h1 class="mt-4 mb-4">Liste des événements</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Description</th>
-                <th>Date</th>
-                <th>Heure</th>
-                <th>Duree</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for evenement in evenements %}
-            <tr>
-                <td>{{ evenement.id }}</td>
-                <td>{{ evenement.nom }}</td>
-                <td>{{ evenement.description }}</td>
-                <td>{{ evenement.date ? evenement.date|date('Y-m-d') : '' }}</td>
-                <td>{{ evenement.heure ? evenement.heure|date('H:i:s') : '' }}</td>
-                <td>{{ evenement.duree ? evenement.duree|date('H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_evenement_show', {'id': evenement.id}) }}">show</a>
-                    <a href="{{ path('app_evenement_edit', {'id': evenement.id}) }}">edit</a>
-                </td>
-            </tr>
+        {% if evenements is not empty %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Heure</th>
+                        <th scope="col">Durée</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for evenement in evenements %}
+                        <tr>
+                            <td>{{ evenement.id }}</td>
+                            <td>{{ evenement.nom }}</td>
+                            <td>{{ evenement.description }}</td>
+                            <td>{{ evenement.date ? evenement.date|date('Y-m-d') : '' }}</td>
+                            <td>{{ evenement.heure ? evenement.heure|date('H:i:s') : '' }}</td>
+                            <td>{{ evenement.duree ? evenement.duree|date('H:i:s') : '' }}</td>
+                            <td>
+                                <a href="{{ path('app_evenement_show', {'id': evenement.id}) }}" class="btn btn-primary btn-sm">Voir</a>
+                                <a href="{{ path('app_evenement_edit', {'id': evenement.id}) }}" class="btn btn-secondary btn-sm">Modifier</a>
+                                {% if not evenement.valide %}
+                                    <a href="{{ path('admin-evenement-valide', {'id': evenement.id}) }}" class="btn btn-secondary btn-sm">Valider</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            <p>Aucun événement trouvé.</p>
+        {% endif %}
 
-    <a href="{{ path('app_evenement_new') }}">Create new</a>
+        <a href="{{ path('app_evenement_new') }}" class="btn btn-success mt-4">Créer un nouvel événement</a>
+    </div>
 {% endblock %}

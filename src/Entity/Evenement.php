@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\EvenementRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\Callback;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Entity(repositoryClass: EvenementRepository::class)]
 class Evenement
@@ -28,9 +30,50 @@ class Evenement
 
     #[ORM\Column(type: Types::TIME_MUTABLE)]
     private ?\DateTimeInterface $duree = null;
-    #[ORM\OneToOne(inversedBy: 'evenements', cascade: ['persist', 'remove'])]
+
+    #[ORM\ManyToOne(inversedBy: 'evenements')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Salle $ref_salle = null;
+    private ?Salle $salle = null;
+
+    #[ORM\Column]
+    private ?bool $valide = false;
+
+
+
+    #[Callback]
+    public function validate(ExecutionContextInterface $context, mixed $payload): void
+    {
+        // Vérifier si la date est un jour de la semaine (lundi = 1, vendredi = 5)
+        if ($this->getDate()->format('N') < 1 || $this->getDate()->format('N') > 5) {
+            $context->buildViolation("L'événement doit être du lundi au vendredi")
+                ->atPath('date')
+                ->addViolation();
+        }
+
+        # Validation heure début à partir de 18h et max à 22h
+        if ($this->getHeure()->format('H') < 18 || $this->getHeure()->format('H') > 22) {
+
+            $context->buildViolation("L'événement doit commencer entre 18h et 22h")
+                ->atPath('heure')
+                ->addViolation();
+        }
+
+        # Validation durée éxcède pas 23h
+        $heureFinPlusDuree = clone ($this->getHeure());
+        $dureeHeures = intval( $this->duree->format('H') );
+        $dureeMin = intval( $this->duree->format('i') );
+        $heureFinPlusDuree->modify('+' . $dureeHeures . 'hour');
+        $heureFinPlusDuree->modify('+' . $dureeMin . 'minute');
+        $hFin = intval( $heureFinPlusDuree->format('H') );
+        $minFin = $heureFinPlusDuree->format('i');
+        $hFin += $minFin/60;
+        if ($hFin<18 || $hFin>23  ) {
+
+            $context->buildViolation("L'événement doit se terminer maxi à 23h")
+                ->atPath('duree')
+                ->addViolation();
+        }
+    }
 
     public function getId(): ?int
     {
@@ -96,14 +139,27 @@ class Evenement
 
         return $this;
     }
-    public function getRefSalle(): ?Salle
+
+    public function getSalle(): ?Salle
     {
-        return $this->ref_salle;
+        return $this->salle;
     }
 
-    public function setRefSalle(Salle $ref_salle): static
+    public function setSalle(?Salle $salle): static
     {
-        $this->ref_salle = $ref_salle;
+        $this->salle = $salle;
+
+        return $this;
+    }
+
+    public function isValide(): ?bool
+    {
+        return $this->valide;
+    }
+
+    public function setValide(bool $valide): static
+    {
+        $this->valide = $valide;
 
         return $this;
     }

@@ -16,13 +16,13 @@ class EvenementType extends AbstractType
         $builder
             ->add('nom')
             ->add('description')
-            ->add('date')
-            ->add('heure')
+            ->add('date', null, ['widget'=>'single_text'])
+            ->add('heure', null, ['hours'=>[18,19,20,21,22,23]])
             ->add('duree')
-            ->add('ref_salle', EntityType::class, [
+            ->add('salle', EntityType::class, [
                 'class' => Salle::class,
-                'choice_label' => 'label',
-                'placeholder' => 'Select un evenement',
+                'choice_label' => 'nom',
+                'placeholder' => 'Select une salle',
             ]);
 
     }

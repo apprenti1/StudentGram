@@ -13,19 +13,19 @@ class MainController extends AbstractController
 {
     #[Route('/', name: 'app_main')]
     public function index(
-        OffreRepository $offresrespo,
+        OffreRepository     $offresrespo,
         EvenementRepository $evenementrepo,
-        UserRepository $userRepository,
-        Security $security
-        ): Response
+        UserRepository      $userRepository,
+        Security            $security
+    ): Response
     {
         if ($security->isGranted("ROLE_ADMIN")) {
             $users = $userRepository->findAll();
         }
         return $this->render('main/index.html.twig', [
             'controller_name' => 'MainController',
-            'offres'=> $offresrespo ->findAll(),
-            'evenements'=> $evenementrepo ->findAll(),
+            'offres' => $offresrespo->findAll(),
+            'evenements' => $evenementrepo->findAll(),
             'users' => $userRepository->findAll(),
         ]);
     }

@@ -7,9 +7,9 @@
 
 
 {% if is_granted("ROLE_ADMIN") or is_granted("ROLE_SUPERADMIN") %}
-{{ include('admin/user/_index.html.twig', {'users': users}) }}
+    {{ include('admin/user/_index.html.twig', {'users': users}) }}
 {% endif %}
-{% if is_granted("ROLE_USER") or is_granted("ROLE_ENTREPRISE") and is_granted("ROLE_VALID")%}
+{% if (is_granted("ROLE_USER") or is_granted("ROLE_ENTREPRISE")) and is_granted("ROLE_VALID")%}
     <section class="preview-section">
         <div class="w-100">
             <h3>Offres</h3>
@@ -23,6 +23,11 @@
         {% endfor %}
     </section>
 {% endif %}
+
+    {% if is_granted("ROLE_ADMIN") or is_granted("ROLE_SUPERADMIN") %}
+        {{ include('admin/user/_index.html.twig', {'users': users}) }}
+    {% endif %}
+    {% if (is_granted("ROLE_USER") or is_granted("ROLE_ENTREPRISE")) and is_granted("ROLE_VALID")%}
 <section class="preview-section">
     <div class="w-100">
         <h3>Evenements</h3>
@@ -35,5 +40,4 @@
         </tr>
     {% endfor %}
 </section>
-
 {% endblock %}

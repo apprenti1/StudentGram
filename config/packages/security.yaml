@@ -40,7 +40,7 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/registration/offer, allow_if: "is_granted('ROLE_ENTREPRISE') and is_granted('ROLE_VALID')" }
-
+        - {path: ^/evenement, allow_if: "is_granted('ROLE_USER') and is_granted('ROLE_ENTREPRISE') and is_granted('ROLE_VALID')"}
 
 when@test:
     security:

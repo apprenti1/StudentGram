@@ -10,10 +10,21 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/evenement')]
 class EvenementController extends AbstractController
 {
+    #[Route('/valide/{id}',name: 'admin-evenement-valide')]
+    public function valider($id, EvenementRepository $evenementRepository, EntityManagerInterface $entityManager){
+
+        $evenement = $evenementRepository->find($id);
+        $evenement->setValide(true);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_evenement_index');
+    }
+
     #[Route('/', name: 'app_evenement_index', methods: ['GET'])]
     public function index(EvenementRepository $evenementRepository): Response
     {
@@ -23,18 +34,19 @@ class EvenementController extends AbstractController
     }
 
     #[Route('/new', name: 'app_evenement_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, ValidatorInterface $validator): Response
     {
         $evenement = new Evenement();
         $form = $this->createForm(EvenementType::class, $evenement);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $entityManager->persist($evenement);
             $entityManager->flush();
-
-            return $this->redirectToRoute('app_evenement_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_evenement_index');
         }
+
 
         return $this->render('admin/evenement/new.html.twig', [
             'evenement' => $evenement,

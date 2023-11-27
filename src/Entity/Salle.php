@@ -18,8 +18,11 @@ class Salle
     #[ORM\Column]
     private ?int $nombre_de_place = null;
 
-    #[ORM\OneToMany(mappedBy: 'ref_salle', targetEntity: Evenement::class)]
+    #[ORM\OneToMany(mappedBy: 'salle', targetEntity: Evenement::class)]
     private Collection $evenements;
+
+    #[ORM\Column(length: 255)]
+    private ?string $nom = null;
 
     public function __construct()
     {
@@ -72,4 +75,23 @@ class Salle
 
         return $this;
     }
+
+    public function getNom(): ?string
+    {
+        return $this->nom;
+    }
+
+    public function setNom(string $nom): static
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+       return $this->nom;
+    }
+
+
 }
