@@ -59,6 +59,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn(nullable: true)]
     private ?Etudiant $etudiant = null;
 
+    #[ORM\OneToMany(mappedBy: 'ref_user', targetEntity: ReponseOffre::class)]
+    private Collection $reponce_offres;
+
+    public function __construct()
+    {
+        $this->reponce_offres = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -221,6 +229,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEtudiant(?Etudiant $etudiant): static
     {
         $this->etudiant = $etudiant;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ReponseOffre>
+     */
+    public function getReponceOffres(): Collection
+    {
+        return $this->reponce_offres;
+    }
+
+    public function addReponceOffre(ReponseOffre $reponceOffre): static
+    {
+        if (!$this->reponce_offres->contains($reponceOffre)) {
+            $this->reponce_offres->add($reponceOffre);
+            $reponceOffre->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReponceOffre(ReponseOffre $reponceOffre): static
+    {
+        if ($this->reponce_offres->removeElement($reponceOffre)) {
+            // set the owning side to null (unless already changed)
+            if ($reponceOffre->getUser() === $this) {
+                $reponceOffre->setUser(null);
+            }
+        }
 
         return $this;
     }

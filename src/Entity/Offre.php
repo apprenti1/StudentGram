@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\OffreRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -33,6 +35,14 @@ class Offre
 
     #[ORM\Column(nullable: true)]
     private ?bool $valid = false;
+
+    #[ORM\OneToMany(mappedBy: 'offre', targetEntity: ReponseOffre::class)]
+    private Collection $response_offres;
+
+    public function __construct()
+    {
+        $this->response_offres = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -107,6 +117,36 @@ class Offre
     public function setValid(bool $valid): static
     {
         $this->valid = $valid;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ReponseOffre>
+     */
+    public function getResponseOffres(): Collection
+    {
+        return $this->response_offres;
+    }
+
+    public function addResponseOffre(ReponseOffre $responseOffre): static
+    {
+        if (!$this->response_offres->contains($responseOffre)) {
+            $this->response_offres->add($responseOffre);
+            $responseOffre->setOffre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeResponseOffre(ReponseOffre $responseOffre): static
+    {
+        if ($this->response_offres->removeElement($responseOffre)) {
+            // set the owning side to null (unless already changed)
+            if ($responseOffre->getOffre() === $this) {
+                $responseOffre->setOffre(null);
+            }
+        }
 
         return $this;
     }
