@@ -33,6 +33,13 @@
                         
                         <div class="col-md-6">
                             <input value="" type="password" class="form-control" name="password" placeholder="Mot de passe" autocomplete="current-password" required="">
+                            {% if error %}
+                            {% if error.messageKey == 'Your password should be at least {{ limit }} characters long.' %}
+                                <div class="alert alert-danger">Le mot de passe doit contenir au moins 6 caractères.</div>
+                            {% else %}
+                                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                            {% endif %}
+                            {% endif %}
                         </div>
 
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">

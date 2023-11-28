@@ -85,7 +85,7 @@ class UserController extends AbstractController
                     return $this->redirectToRoute('app_admin_user_index');
                 }
             } else {
-                $error = new FormError('Adress not complete !');
+                $error = new FormError('Adresse mail incomplete !');
                 $form->addError($error);
             }
         }
@@ -94,7 +94,7 @@ class UserController extends AbstractController
                 $form->isSubmitted() &&
                 (!$security->isGranted('IS_AUTHENTICATED_FULLY'))
             ) {
-            $error = new FormError('Problem found with your registration éléments.');
+            $error = new FormError('Le mot de passe doit contenir 6 caractères minimun');
             $form->addError($error);
         }
 
@@ -164,7 +164,7 @@ class UserController extends AbstractController
                     $user->setPhotoProfil($profilePictureBase64);
                 }
 
-                
+
                 
                 // encode the plain password
                 if ($form->get('plainPassword')->getData()){
@@ -189,12 +189,12 @@ class UserController extends AbstractController
                 return $this->redirectToRoute('app_main');
 
             } else {
-                $error = new FormError('Adress not compleate !');
+                $error = new FormError('Adresse mail incomplete !');
                 $form->addError($error);
             }
         }
         if ($form->isSubmitted()) {
-            $error = new FormError('Problem found with your registration éléments.');
+            $error = new FormError('le mot de passe doit contenir 6 caractères minimum');
             $form->addError($error);
         }
         return $this->render('User/edit.html.twig', [
