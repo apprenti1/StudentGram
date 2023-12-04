@@ -187,7 +187,6 @@ class UserController extends AbstractController
 
                 
                 return $this->redirectToRoute('app_main');
-
             } else {
                 $error = new FormError('Adresse mail incomplete !');
                 $form->addError($error);
