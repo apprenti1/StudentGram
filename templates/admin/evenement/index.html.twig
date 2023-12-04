@@ -22,6 +22,7 @@
                     </thead>
                     <tbody>
                     {% for evenement in evenements %}
+                        {% if evenement.valide %}
                         <tr>
                             <td>{{ evenement.id }}</td>
                             <td>{{ evenement.nom }}</td>
@@ -37,6 +38,7 @@
                                 {% endif %}
                             </td>
                         </tr>
+                        {% endif %}
                     {% endfor %}
                     </tbody>
                 </table>

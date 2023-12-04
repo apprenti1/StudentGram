@@ -21,6 +21,18 @@
 {% if is_granted("ROLE_ADMIN") or is_granted("ROLE_SUPERADMIN") %}
     {{ include('admin/user/_index.html.twig', {'users': users}) }}
 {% endif %}
+
+{% if (is_granted("ROLE_USER") or is_granted("ROLE_ENTREPRISE")) and not is_granted("ROLE_VALID") %}
+    <!-- Message pour les utilisateurs en attente de validation -->
+    <div class="presentation">
+        <h1>Votre compte est en attente de validation</h1>
+        <a class="btn btn-lg btn-primary" href="https://www.lyceerobertschuman.com">
+            Retrouvez le site du lycée privé et UFA - Robert Schuman ici <img src="/assets/images/arrow.png" class="arrow">
+        </a>
+    </div>
+    <img src="/assets/images/etudiantAccueil.jpg" alt="img">
+{% endif %}
+
 {% if (is_granted("ROLE_USER") or is_granted("ROLE_ENTREPRISE")) and is_granted("ROLE_VALID")%}
     <section class="preview-section">
         <div class="w-100">
@@ -30,7 +42,7 @@
             {{ include('main/_viewOffre.html.twig', {'offre': offre}) }}
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="5">pas d'offres disponibles</td>
             </tr>
         {% endfor %}
     </section>
@@ -48,7 +60,7 @@
                 {{ include('main/_viewEvenement.html.twig', {'evenement': evenement}) }}
             {% else %}
                 <tr>
-                    <td colspan="5">no records found</td>
+                    <td colspan="5">pas d'évènements disponibles</td>
                 </tr>
             {% endfor %}
         </section>
