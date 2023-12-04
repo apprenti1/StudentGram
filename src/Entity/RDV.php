@@ -20,8 +20,12 @@ class RDV
     #[ORM\Column(type: Types::TIME_MUTABLE)]
     private ?\DateTimeInterface $heure = null;
 
-    #[ORM\Column]
-    private ?bool $statut = null;
+    #[ORM\Column(nullable: true)]
+    private ?int $etat = null;
+
+    #[ORM\OneToOne(inversedBy: 'RDVs', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?ReponseOffre $ref_reponse_offre = null;
 
     public function getId(): ?int
     {
@@ -52,14 +56,26 @@ class RDV
         return $this;
     }
 
-    public function isStatut(): ?bool
+    public function getEtat(): ?int
     {
-        return $this->statut;
+        return $this->etat;
     }
 
-    public function setStatut(bool $statut): static
+    public function setEtat(?int $etat): static
     {
-        $this->statut = $statut;
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    public function getRefReponseOffre(): ?ReponseOffre
+    {
+        return $this->ref_reponse_offre;
+    }
+
+    public function setRefReponseOffre(ReponseOffre $ref_reponse_offre): static
+    {
+        $this->ref_reponse_offre = $ref_reponse_offre;
 
         return $this;
     }

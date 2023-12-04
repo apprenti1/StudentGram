@@ -61,13 +61,18 @@
                                     <div class="col-md-6 mt-3">
                                         <input id="nom_entreprise" value="{{ registrationForm.entreprise.nom_entreprise.vars.value }}" type="text" class="form-control inputcompany" name="{{ field_name(registrationForm.entreprise.nom_entreprise) }}" maxlength="255" placeholder="Company-Name">
                                     </div>
-                                    
-                                    <div class="col-md-6 mt-3">
-                                        <input id="fonction_employe" value="{{ registrationForm.entreprise.fonction_employe.vars.value }}" type="text" class="form-control inputcompany" name="{{ field_name(registrationForm.entreprise.fonction_employe) }}" maxlength="255" placeholder="Position-Held">
+
+                                    <div class="col-md-6 mt-3" id="fonction_employe" style="">
+                                      <select name="{{ field_name(registrationForm.entreprise.fonction_employe) }}" class="form-control inputcompany" required="required">
+                                          <option value="" disabled selected hidden>Position dans l'entreprise</option>
+                                          <option value="directeur">directeur</option>
+                                          <option value="secretaire">secretaire</option>
+                                          <option value="adjoint">adjoint</option>
+                                      </select>
                                     </div>
                                 
                                 </div>
-                
+
 
                                 <div class="col-md-6">
                                     <input value="{{ registrationForm.nom.vars.value }}" type="text" class="form-control" name="{{ field_name(registrationForm.nom) }}" maxlength="255" placeholder="Family-Name" autocomplete="family-name" required="">
@@ -84,8 +89,11 @@
                                 <div class="col-md-6 optionalform" id="etudiantform"  style="filter: opacity(1); visibility: visible;">
                                     <select name="{{ field_name(registrationForm.etudiant.domaine_etude) }}" class="form-control selectinput etudiantinput" required="required">
                                         <option value="" disabled selected hidden>Domaine d'étude</option>
-                                        <option value="SLAM">SLAM</option>
-                                        <option value="SISR">SISR</option>
+                                        <option value="economique">economique</option>
+                                        <option value="informatique">informatique</option>
+                                        <option value="commerce">commerce</option>
+                                        <option value="politique">politique</option>
+                                        <option value="géographique">géographique</option>
                                       </select>
                                 </div>
                                 

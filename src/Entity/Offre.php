@@ -22,7 +22,7 @@ class Offre
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[ORM\OneToOne()]
+    #[ORM\ManyToOne(inversedBy: 'Offres', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Entreprise $ref_entreprise = null;
 
