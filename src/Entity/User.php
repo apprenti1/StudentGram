@@ -60,11 +60,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Etudiant $etudiant = null;
 
     #[ORM\OneToMany(mappedBy: 'ref_user', targetEntity: ReponseOffre::class)]
-    private Collection $reponce_offres;
+    private Collection $reponse_offres;
 
     public function __construct()
     {
-        $this->reponce_offres = new ArrayCollection();
+        $this->reponse_offres = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -236,27 +236,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, ReponseOffre>
      */
-    public function getReponceOffres(): Collection
+    public function getreponseOffres(): Collection
     {
-        return $this->reponce_offres;
+        return $this->reponse_offres;
     }
 
-    public function addReponceOffre(ReponseOffre $reponceOffre): static
+    public function addreponseOffre(ReponseOffre $reponseOffre): static
     {
-        if (!$this->reponce_offres->contains($reponceOffre)) {
-            $this->reponce_offres->add($reponceOffre);
-            $reponceOffre->setUser($this);
+        if (!$this->reponse_offres->contains($reponseOffre)) {
+            $this->reponse_offres->add($reponseOffre);
+            $reponseOffre->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeReponceOffre(ReponseOffre $reponceOffre): static
+    public function removereponseOffre(ReponseOffre $reponseOffre): static
     {
-        if ($this->reponce_offres->removeElement($reponceOffre)) {
+        if ($this->reponse_offres->removeElement($reponseOffre)) {
             // set the owning side to null (unless already changed)
-            if ($reponceOffre->getUser() === $this) {
-                $reponceOffre->setUser(null);
+            if ($reponseOffre->getUser() === $this) {
+                $reponseOffre->setUser(null);
             }
         }
 

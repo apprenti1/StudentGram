@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ReponseOffreRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -20,13 +22,21 @@ class ReponseOffre
     #[ORM\Column(type: Types::TEXT)]
     private ?string $motivation = null;
 
-    #[ORM\OneToOne(inversedBy: 'reponce_offres', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'reponse_offres', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $ref_user = null;
 
-    #[ORM\OneToOne(inversedBy: 'reponce_offres', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'reponse_offres', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Offre $ref_offre = null;
+
+    #[ORM\OneToMany(mappedBy: 'ref_reponse_offre', targetEntity: RDV::class)]
+    private Collection $RDVs;
+
+    public function __construct()
+    {
+        $this->RDVs = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -77,6 +87,36 @@ class ReponseOffre
     public function setRefOffre(Offre $ref_offre): static
     {
         $this->ref_offre = $ref_offre;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, RDV>
+     */
+    public function getRDVs(): Collection
+    {
+        return $this->RDVs;
+    }
+
+    public function addRDV(RDV $rDV): static
+    {
+        if (!$this->RDVs->contains($rDV)) {
+            $this->RDVs->add($rDV);
+            $rDV->setReponseOffre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRDV(RDV $rDV): static
+    {
+        if ($this->RDVs->removeElement($rDV)) {
+            // set the owning side to null (unless already changed)
+            if ($rDV->getReponseOffre() === $this) {
+                $rDV->setReponseOffre(null);
+            }
+        }
 
         return $this;
     }

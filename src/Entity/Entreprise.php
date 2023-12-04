@@ -33,7 +33,7 @@ class Entreprise
     #[ORM\OneToOne(inversedBy: 'entreprise', cascade: ['persist', 'remove'])]
     private ?User $ref_user = null;
 
-    #[ORM\ManyToOne(inversedBy: 'ref_entreprise', cascade: ["persist", "remove"])]
+    #[ORM\OneToMany(mappedBy: 'ref_entreprise', cascade: ["persist", "remove"], targetEntity: Offre::class)]
     #[ORM\JoinColumn(nullable: true)]
     private ?Offre $offres = null;
 
