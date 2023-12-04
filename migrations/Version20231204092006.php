@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20231127091808 extends AbstractMigration
+final class Version20231204092006 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -26,6 +26,7 @@ final class Version20231127091808 extends AbstractMigration
         $this->addSql('CREATE TABLE offre (id INT AUTO_INCREMENT NOT NULL, ref_entreprise_id INT NOT NULL, ref_type_contrat_id INT NOT NULL, titre VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, image LONGTEXT DEFAULT NULL, valid TINYINT(1) DEFAULT NULL, UNIQUE INDEX UNIQ_AF86866F80FEF88A (ref_entreprise_id), INDEX IDX_AF86866F95D25B9A (ref_type_contrat_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE rdv (id INT AUTO_INCREMENT NOT NULL, date DATE NOT NULL, heure TIME NOT NULL, statut TINYINT(1) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE reponse_offre (id INT AUTO_INCREMENT NOT NULL, ref_user_id INT NOT NULL, ref_offre_id INT NOT NULL, cv LONGTEXT NOT NULL, motivation LONGTEXT NOT NULL, UNIQUE INDEX UNIQ_406FFD0C637A8045 (ref_user_id), UNIQUE INDEX UNIQ_406FFD0CCADF96DD (ref_offre_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE reset_password_request (id INT AUTO_INCREMENT NOT NULL, user_id INT NOT NULL, selector VARCHAR(20) NOT NULL, hashed_token VARCHAR(100) NOT NULL, requested_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', expires_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', INDEX IDX_7CE748AA76ED395 (user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE salle (id INT AUTO_INCREMENT NOT NULL, nombre_de_place INT NOT NULL, nom VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE statut (id INT AUTO_INCREMENT NOT NULL, libelle VARCHAR(255) NOT NULL, couleur VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE type_contrat (id INT AUTO_INCREMENT NOT NULL, label VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -39,6 +40,7 @@ final class Version20231127091808 extends AbstractMigration
         $this->addSql('ALTER TABLE offre ADD CONSTRAINT FK_AF86866F95D25B9A FOREIGN KEY (ref_type_contrat_id) REFERENCES type_contrat (id)');
         $this->addSql('ALTER TABLE reponse_offre ADD CONSTRAINT FK_406FFD0C637A8045 FOREIGN KEY (ref_user_id) REFERENCES `user` (id)');
         $this->addSql('ALTER TABLE reponse_offre ADD CONSTRAINT FK_406FFD0CCADF96DD FOREIGN KEY (ref_offre_id) REFERENCES offre (id)');
+        $this->addSql('ALTER TABLE reset_password_request ADD CONSTRAINT FK_7CE748AA76ED395 FOREIGN KEY (user_id) REFERENCES `user` (id)');
         $this->addSql('ALTER TABLE `user` ADD CONSTRAINT FK_8D93D649A4AEAFEA FOREIGN KEY (entreprise_id) REFERENCES entreprise (id)');
         $this->addSql('ALTER TABLE `user` ADD CONSTRAINT FK_8D93D649DDEAB1A3 FOREIGN KEY (etudiant_id) REFERENCES etudiant (id)');
     }
@@ -54,6 +56,7 @@ final class Version20231127091808 extends AbstractMigration
         $this->addSql('ALTER TABLE offre DROP FOREIGN KEY FK_AF86866F95D25B9A');
         $this->addSql('ALTER TABLE reponse_offre DROP FOREIGN KEY FK_406FFD0C637A8045');
         $this->addSql('ALTER TABLE reponse_offre DROP FOREIGN KEY FK_406FFD0CCADF96DD');
+        $this->addSql('ALTER TABLE reset_password_request DROP FOREIGN KEY FK_7CE748AA76ED395');
         $this->addSql('ALTER TABLE `user` DROP FOREIGN KEY FK_8D93D649A4AEAFEA');
         $this->addSql('ALTER TABLE `user` DROP FOREIGN KEY FK_8D93D649DDEAB1A3');
         $this->addSql('DROP TABLE entreprise');
@@ -62,6 +65,7 @@ final class Version20231127091808 extends AbstractMigration
         $this->addSql('DROP TABLE offre');
         $this->addSql('DROP TABLE rdv');
         $this->addSql('DROP TABLE reponse_offre');
+        $this->addSql('DROP TABLE reset_password_request');
         $this->addSql('DROP TABLE salle');
         $this->addSql('DROP TABLE statut');
         $this->addSql('DROP TABLE type_contrat');

@@ -373,3 +373,8 @@ th {
   .presentation .arrow{
     height: 30px;
   }
+  .hero{
+    padding-top: 90px;
+    height: auto;
+    min-height: calc(100vh - 90px);
+  }
