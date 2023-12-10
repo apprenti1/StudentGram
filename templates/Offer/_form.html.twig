@@ -23,9 +23,13 @@
 
                                 {{ dump(form) }}
                                 {{ dump(type_contrats) }}
-                                <div class="col-md-12">
-                                    <select class="form-control" name="{{ field_name(form.ref_type_contrat) }}" maxlength="180" required="">
-                                        <option value="" disabled selected hidden>Type de contrat</option>
+                                <div class="col-md-12" id="type_contrat">
+                                    <select name="{{ field_name(form.ref_type_contrat) }}" class="form-control" required="required">
+                                        <option value="">Type de contrat</option>
+                                        <option value="cdi" {% if form.ref_type_contrat.vars.value == 'cdi' %} selected {% endif %}>CDI</option>
+                                        <option value="cdd" {% if form.ref_type_contrat.vars.value == 'cdd' %} selected {% endif %}>CDD</option>
+                                        <option value="stage" {% if form.ref_type_contrat.vars.value == 'stage' %} selected {% endif %}>Stage</option>
+                                        <option value="alternance" {% if form.ref_type_contrat.vars.value == 'alternance' %} selected {% endif %}>Alternance</option>
                                         {% for type_contrat in type_contrats %}
                                             <option value="{{ type_contrat.id }}" {% if form.ref_type_contrat.vars.value == type_contrat.id %} selected {% endif %}>
                                                 {{ type_contrat.label }}

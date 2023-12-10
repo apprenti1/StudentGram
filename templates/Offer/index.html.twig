@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Offre index{% endblock %}
+{% block title %}Les offres{% endblock %}
 
 {% block body %}
     <section class="preview-section">
@@ -8,7 +8,7 @@
             {{ include('Offer/_preview.html.twig', {'offre': offre}) }}
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="5">Pas d'offres trouvées</td>
             </tr>
         {% endfor %}
         <div class="form-box m-1 p-0 preview">

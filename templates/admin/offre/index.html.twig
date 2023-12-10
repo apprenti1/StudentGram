@@ -43,12 +43,12 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">no records found</td>
+                <td colspan="6">Pas de données</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_offre_new') }}">Create new</a>
+    <a href="{{ path('app_offre_new') }}">Creer une nouvelle offre</a>
     {{ include('admin/offre/_index.html.twig', {'offres': offres}) }}
 {% endblock %}
