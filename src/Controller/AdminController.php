@@ -10,6 +10,7 @@ use App\Entity\User;
 use App\Form\SalleType;
 use App\Form\TypeContratType;
 use App\Form\OffreType;
+use App\Repository\EvenementRepository;
 use App\Repository\SalleRepository;
 use App\Repository\TypeContratRepository;
 use App\Repository\OffreRepository;
@@ -279,4 +280,80 @@ class AdminController extends AbstractController
 
         return $this->redirectToRoute('app_salle_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
+
+    #[Route('/evenement', name: 'app_evenement_index', methods: ['GET'])]
+    public function evenementIndex(EvenementRepository $evenementRepository): Response
+    {
+        return $this->render('admin/evenement/index.html.twig', [
+            'evenement' => $evenementRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/evenement/new', name: 'app_evenement_new', methods: ['GET', 'POST'])]
+    public function evenementNew(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $evenement = new Evenement();
+        $form = $this->createForm(EvenementType::class, $evenement);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $salleId = $request->request->get('salle');
+            $salle = $salleRepository->find($salleId);
+
+
+            if ($salle) {
+                $evenement->setSalle($salle);
+                $entityManager->persist($evenement);
+                $entityManager->flush();
+
+
+                return $this->redirectToRoute('app_evenement_index', [], Response::HTTP_SEE_OTHER);
+            }
+        }
+        return $this->render('admin/evenement/new.html.twig', [
+            'evenement' => $evenement,
+            'form' => $form->createView(),
+            'salles' => $salleRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/evenement/{id}', name: 'app_evenement_show', methods: ['GET'])]
+    public function evenementShow(evenement $evenement): Response
+    {
+        return $this->render('admin/evenement/show.html.twig', [
+            'evenement' => $evenement,
+        ]);
+    }
+
+    #[Route('/evenement/{id}/edit', name: 'app_evenement_edit', methods: ['GET', 'POST'])]
+    public function evenementEdit(Request $request, evenement $evenement, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(evenementType::class, $evenement);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_evenement_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('admin/evenement/edit.html.twig', [
+            'evenement' => $evenement,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/evenement/{id}', name: 'app_evenement_delete', methods: ['POST'])]
+    public function evenementDelete(Request $request, evenement $evenement, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$evenement->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($evenement);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_evenement', [], Response::HTTP_SEE_OTHER);
+    }
+
 }

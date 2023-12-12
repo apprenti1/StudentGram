@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[Route('/evenement')]
+#[Route('admin/evenement')]
 class EvenementController extends AbstractController
 {
     #[Route('/valide/{id}',name: 'admin-evenement-valide')]
@@ -25,13 +25,29 @@ class EvenementController extends AbstractController
         return $this->redirectToRoute('app_evenement_index');
     }
 
-    #[Route('/', name: 'app_evenement_index', methods: ['GET'])]
-    public function index(EvenementRepository $evenementRepository): Response
+    #[Route('/', name: 'app_evenement_index', methods: ['GET', 'POST'])]
+    public function index(Request $request, EvenementRepository $evenementRepository, EntityManagerInterface $entityManager): Response
     {
+        if ($request->isMethod('POST')) {
+            $data = $request->request->get('valid');
+
+            foreach ($data as $id => $valid) {
+                $evenement = $evenementRepository->find($id);
+
+                if ($evenement && $this->isGranted('ROLE_ADMIN')) {
+                    $evenement->setValide($valid === 'on');
+                    $entityManager->persist($evenement);
+                }
+            }
+
+            $entityManager->flush();
+        }
+
         return $this->render('admin/evenement/index.html.twig', [
             'evenements' => $evenementRepository->findAll(),
         ]);
     }
+
 
     #[Route('/new', name: 'app_evenement_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, ValidatorInterface $validator): Response
