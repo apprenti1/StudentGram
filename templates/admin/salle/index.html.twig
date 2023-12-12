@@ -1,35 +1,46 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Salle index{% endblock %}
+{% block title %}Salles {% endblock %}
 
 {% block body %}
-    <h1>Salle index</h1>
+    <h1>Liste des salles</h1>
 
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nombre_de_place</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <th>Nom</th>
+            <th>Nombre de places</th>
+            <th>Événements associés</th>
+            <th>Actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for salle in salles %}
             <tr>
                 <td>{{ salle.id }}</td>
-                <td>{{ salle.nombreDePlace }}</td>
+                <td>{{ salle.nom }}</td>
+                <td>{{ salle.nombre_de_place }}</td>
+                    <ul>
+                        {% for evenement in salle.evenements %}
+                            <li>{{ evenement.nom }}</li>
+                        {% else %}
+                            <li>Aucun événement associé</li>
+                        {% endfor %}
+                    </ul>
+                </td>
                 <td>
-                    <a href="{{ path('app_salle_show', {'id': salle.id}) }}">show</a>
-                    <a href="{{ path('app_salle_edit', {'id': salle.id}) }}">edit</a>
+                    <a href="{{ path('app_salle_show', {'id': salle.id}) }}">Voir</a>
+                    <a href="{{ path('app_salle_edit', {'id': salle.id}) }}">Éditer</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="3">no records found</td>
+                <td colspan="5">Aucun enregistrement trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_salle_new') }}">Create new</a>
+    <a href="{{ path('app_salle_new') }}">Créer une nouvelle salle</a>
 {% endblock %}

@@ -1,4 +1,4 @@
-{# 
+{#
 {% extends 'base.html.twig' %}
 
 {% block title %}User index{% endblock %}
@@ -34,7 +34,13 @@
                 <td>{{ offre.id }}</td>
                 <td>{{ offre.titre }}</td>
                 <td>{{ offre.description }}</td>
-                <td>{{ offre.refTypeContrat.label }}</td>
+                <td>
+                    {% if offre.refTypeContrat is not null %}
+                        {{ offre.refTypeContrat.label }}
+                    {% else %}
+                        Type de contrat non défini
+                    {% endif %}
+                </td>
                 <td>{{ offre.image }}</td>
                 <td>
                     <a href="{{ path('app_offre_show', {'id': offre.id}) }}">show</a>
