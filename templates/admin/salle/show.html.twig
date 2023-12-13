@@ -12,15 +12,18 @@
                 <td>{{ salle.id }}</td>
             </tr>
             <tr>
-                <th>Nombre_de_place</th>
-                <td>{{ salle.nombreDePlace }}</td>
+                <th>Nombre de place</th>
+                <td>{{ salle.nombre_de_place }}</td>
+            </tr><tr>
+                <th>Nom</th>
+                <td>{{ salle.nom }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('app_salle_index') }}">back to list</a>
+    <a href="{{ path('app_salle_index') }}">Retour à la liste</a>
 
-    <a href="{{ path('app_salle_edit', {'id': salle.id}) }}">edit</a>
+    <a href="{{ path('app_salle_edit', {'id': salle.id}) }}">Modifier</a>
 
     {{ include('admin/salle/_delete_form.html.twig') }}
 {% endblock %}

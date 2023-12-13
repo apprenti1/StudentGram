@@ -22,8 +22,8 @@
                         <a class="dropdown-item" href="/admin/offre">Offres</a>
                         <a class="dropdown-item" href="/admin/typecontrat">Type de contrat</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Evenements</a>
-                        <a class="dropdown-item" href="#">Salles</a>
+                        <a class="dropdown-item" href="/admin/evenement">Evenements</a>
+                        <a class="dropdown-item" href="/admin/salle">Salles</a>
                     </div>
                 </li>
                 {% endif %}
@@ -37,7 +37,7 @@
 
                 {% if is_granted('ROLE_VALID') %}
                     <li class="nav-item dropdown">
-                        <a class="nav-link" href="/evenement">Mes évènements</a>
+                        <a class="nav-link" href="/admin/evenement">Mes évènements</a>
                     </li>
 
                 {% endif %}
