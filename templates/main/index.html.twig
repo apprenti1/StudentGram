@@ -6,167 +6,41 @@
 {% block body %}
 
 
+    {% if not is_granted("ROLE_VALID") %}
+
         <style>
-            @import url('https://fonts.googleapis.com/css2?family=Red+Hat+Text:wght@400;700&display=swap');
-
-            .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-            .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-
-            :root{
-                --color: #333;
-            }
-
-            body {
-                font-family: 'Red Hat Text', sans-serif;
-            }
-
-            .container {
-                text-align: center;
-                color: white;
-                width: 100%;
-                min-height: 100vh;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                background-image: url(https://www.sante-sur-le-net.com/wp-content/uploads/2021/01/psy-etudiant.jpg);
+            body{
+                background: url("assets/images/banner.jpg") no-repeat fixed center center;
                 background-size: cover;
-                background-position: center;
-
-                /*  this is where the magic happens:  */
-                background-attachment: fixed;
+                backdrop-filter: brightness(0.5);
             }
-
-            h1 {
-                font-weight: 700;
-                font-size: 3rem;
-
-            }
-
-            p {
-                max-width: 52ch;
-                line-height: 1.5;
-                padding: 1em;
-            }
-
-            a {
-                display: inline-block;
-                padding: 1em 3.5em;
-                background-color: var(--color);
-                color: white;
-                text-decoration: none;
-                text-transform: uppercase;
-                border-radius: 0.3em;
-                font-weight: 700;
-                letter-spacing: .5px;
-                font-size: .875rem;
-            }
-
-            .blank,
-            .other {
-                width: 100%;
-                min-height: 60vh;
-                background-color: var(--color);
-            }
-
-            .second {
-                background-image:url(https://storage.letudiant.fr/mediatheque/letudiant/2/5/2469825-adobestock-364545019-766x438.jpeg);
-                background-attachment: fixed;
-                height: 1200px;
-            }
-
-            h3 {
-                font-weight: 700;
-                font-size: 1.6rem;
-                margin-top: 1em;
-            }
-
-            .card > a {
-                margin-bottom: 2em;
-            }
-
-            .item {
-                display: flex;
-                max-width: 320px;
-                background-color: white;;
-                flex-direction: column;
-                align-items: center;
-                border-radius: .5em;
-                -webkit-box-shadow: 0px 29px 38px -15px rgba(0,0,0,0.43);
-                -moz-box-shadow: 0px 29px 38px -15px rgba(0,0,0,0.43);
-                box-shadow: 0px 29px 38px -15px rgba(0,0,0,0.43);
-            }
-
-            .img {
-                width: 90%;
-                height: 200px;
-                background-color: lightgrey;
-                background-size: cover;
-                background-position: center;
-                margin-top: 20px;
-                border-radius: .3em;;
-            }
-
-            .img-first {
-                background-image: url(https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/LinkedIn_Logo.svg/437px-LinkedIn_Logo.svg.png);
-            }
-
-            .img-second {
-                background-image: url(https://www.lyceerobertschuman.com/wp-content/uploads/2016/03/logo.png);
-            }
-
-            .img-third {
-                background-image: url(https://www.aquaportail.com/pictures1703/foret-pluie-acide.jpg);
-            }
-
-            .second {
-                flex-direction: row;
-                gap: 1.6em;
-            }
-
         </style>
 
-
-
-
-        <div class="container">
+        <div class="d-flex align-items-center justify-content-center flex-column" style="height: 40vh;">
             <h1>Bienvenue sur studentgram</h1>
             <p>Ce site met en relation les entreprises et les étudiants</p>
+            {% if is_granted("ROLE_USER") %}
+            <p>Votre compte doit être validé !!!</p>
+            {% endif %}
 
         </div>
-
-        <div class="blank">
-            <a class="btn btn-lg btn-primary" href="https://www.lyceerobertschuman.com">
-                Retrouvez le site du lycée privé et UFA - Robert Schuman ici <img src="/assets/images/arrow.png" class="arrow">
-            </a>
-        </div>
-
-        <div class="container second">
-            <div class="item">
-                <div class="img img-first"></div>
-                <div class="card">
-                    <h3>L'importance de Linkedin</h3>
-                    <p>Ce site vous permettra de développer votre réseau et de fournir les outils nécessaires pour votre vie professionnelle</p>
-                    <a href="https://www.linkedin.com/">Lien du site </a>
-
-                </div>
+        
+        <div class="d-flex align-items-center justify-content-center" style="background-color: bootstrap height 100vh;">
+            <div style="height: 300px; width: 300px; background-color: #333; " class="m-5 rounded-3 d-flex justify-content-center align-items-center">
+                <a href="#" class="p-0">
+                    <img src="assets/images/lprs.png" alt="LPRS" class="icon" style="max-width: 200px; max-height: 150px;">
+                </a>
             </div>
-            <div class="item">
-                <div class="img img-second"></div>
-                    <div class="card">
-                        <h3>Lycée Robert Schuman</h3>
-                        <p>"L’école met à votre disposition des outils, logiciels et matériels. Les formateurs, de toute section, sont à votre disposition pour répondre à vos questions. Votre rôle est de réaliser le projet de manière organisée et planifiée.</p>
-                        <a href="https://www.lyceerobertschuman.com/">Lien du site Robert Schuman</a>
-
-                    </div>
+            <div style="height: 300px; width: 300px; background-color: #333; " class="m-5 rounded-3 d-flex justify-content-center align-items-center">
+                <a href="#" class="p-0">
+                    <img src="assets/images/linkedin.png" alt="linkedin" class="icon" style="max-width: 200px; max-height: 150px;">
+                </a>
             </div>
         </div>
 
-
-
-{% if not is_granted("ROLE_USER") %}
-
-{% endif %}
+    {% endif %}
+ 
+    
 
 
 {% if is_granted("ROLE_ADMIN") or is_granted("ROLE_SUPERADMIN") %}
