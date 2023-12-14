@@ -28,9 +28,8 @@
                         <td>{{ offre.titre }}</td>
                         <td>{{ offre.description }}</td>
                         <td>{{ offre.refTypeContrat.label }}</td>
-                        <td>{{ dump(offres) }}</td>
-                        {# <td>{{ offre.refEntreprise.nomEntreprise }}</td> #}
-                        <td>{{ offre.titre }}</td>
+                        <td>{{ offre.refEntreprise.nomEntreprise }}</td>
+                        <td>{{ offre.valid ? 'Oui' : 'Non' }}</td>
                     </tr>
                 {% else %}
                     <tr>

@@ -102,9 +102,9 @@ class Offre
         return $this->ref_type_contrat;
     }
 
-    public function setRefTypeContrat(TypeContrat $ref_type_contrat): static
+    public function setRefTypeContrat(TypeContrat $typeDeContrat): static
     {
-        $this->ref_type_contrat = $ref_type_contrat;
+        $this->ref_type_contrat = $typeDeContrat;
 
         return $this;
     }

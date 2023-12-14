@@ -18,12 +18,19 @@ class TypeContrat
     #[ORM\Column(length: 255)]
     private ?string $label = null;
 
+    /** @ORM\ManyToOne(inversedBy="offres", cascade={"persist", "remove"}) */
+    /** @ORM\JoinColumn(nullable=false) */
+
     #[ORM\OneToMany(mappedBy: 'ref_type_contrat', targetEntity: Offre::class)]
-    private Collection $Offres;
+    private Collection $offres;
 
     public function __construct()
     {
-        $this->Offres = new ArrayCollection();
+        $this->offres = new ArrayCollection();
+    }
+    public function __toString()
+    {
+        return $this->label;
     }
 
     public function getId(): ?int
@@ -48,14 +55,14 @@ class TypeContrat
      */
     public function getOffres(): Collection
     {
-        return $this->Offres;
+        return $this->offres;
     }
 
     public function addOffre(Offre $offre): static
     {
-        if (!$this->Offres->contains($offre)) {
-            $this->Offres->add($offre);
-            $offre->setTypeContrat($this);
+        if (!$this->offres->contains($offre)) {
+            $this->offres->add($offre);
+            $offre->setRefTypeContrat($this);
         }
 
         return $this;
@@ -63,10 +70,10 @@ class TypeContrat
 
     public function removeOffre(Offre $offre): static
     {
-        if ($this->Offres->removeElement($offre)) {
+        if ($this->offres->removeElement($offre)) {
             // set the owning side to null (unless already changed)
-            if ($offre->getTypeContrat() === $this) {
-                $offre->setTypeContrat(null);
+            if ($offre->getRefTypeContrat() === $this) {
+                $offre->setRefTypeContrat(null);
             }
         }
 

@@ -14,7 +14,7 @@ class OffreType extends AbstractType
         $builder
             ->add('titre')
             ->add('description')
-            ->add('type_de_contrat')
+            ->add('ref_type_contrat')
             ->add('image')
             ->add('ref_entreprise')
         ;

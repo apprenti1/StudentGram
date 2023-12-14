@@ -23,7 +23,7 @@
                 <th>Id</th>
                 <th>Titre</th>
                 <th>Description</th>
-                <th>Type_de_contrat</th>
+                <th>Type de contrat</th>
                 <th>Image</th>
                 <th>actions</th>
             </tr>
@@ -35,16 +35,15 @@
                 <td>{{ offre.titre }}</td>
                 <td>{{ offre.description }}</td>
                 <td>
-                    {% if offre.refTypeContrat is not null %}
+                    {% if offre.refTypeContrat.label is not null %}
                         {{ offre.refTypeContrat.label }}
                     {% else %}
-                        Type de contrat non défini
-                    {% endif %}
+                        <span class="text-muted">Type de contrat non défini</span>                    {% endif %}
                 </td>
                 <td>{{ offre.image }}</td>
                 <td>
-                    <a href="{{ path('app_offre_show', {'id': offre.id}) }}">show</a>
-                    <a href="{{ path('app_offre_edit', {'id': offre.id}) }}">edit</a>
+                    <a href="{{ path('app_offre_show', {'id': offre.id}) }}">Voir</a>
+                    <a href="{{ path('app_offre_edit', {'id': offre.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
@@ -56,5 +55,4 @@
     </table>
 
     <a href="{{ path('app_offre_new') }}">Creer une nouvelle offre</a>
-    {{ include('admin/offre/_index.html.twig', {'offres': offres}) }}
 {% endblock %}

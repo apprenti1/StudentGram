@@ -25,7 +25,7 @@ class OfferController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_offer_new', methods: ['GET', 'POST'])]
+    #[Route('admin/new', name: 'app_offer_new', methods: ['GET', 'POST'])]
     public function new(
         Request $request,
         TypeContratRepository $contratRepository,
@@ -51,7 +51,7 @@ class OfferController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_offer_show', methods: ['GET'])]
+    #[Route('admin/offre/{id}', name: 'app_offer_show', methods: ['GET'])]
     public function show(Offre $offre): Response
     {
         return $this->render('Offer/show.html.twig', [
@@ -59,7 +59,7 @@ class OfferController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_offer_edit', methods: ['GET', 'POST'])]
+    #[Route('admin/offre/{id}/edit', name: 'app_offer_edit', methods: ['GET', 'POST'])]
     public function edit(
         Request $request,
         Offre $offre,

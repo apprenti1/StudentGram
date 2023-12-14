@@ -1,13 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Offre{% endblock %}
+{% block title %}Modifier l'offre{% endblock %}
 
 {% block body %}
     <h1>Modifier l'offre</h1>
+
+    {% if offre.getRefTypeContrat() is not null %}
+        <p>Type de contrat : {{ offre.getRefTypeContrat().getLabel() }}</p>
+    {% else %}
+        <p>Aucun type de contrat spécifié</p>
+    {% endif %}
 
     {{ include('admin/offre/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('app_offre_index') }}">Retour à la liste</a>
 
-    {{ include('offre/_delete_form.html.twig') }}
+    {{ include('admin/offre/_delete_form.html.twig') }}
 {% endblock %}
