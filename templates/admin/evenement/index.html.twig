@@ -6,49 +6,60 @@
     <div class="container">
         <h1 class="mt-4 mb-4">Liste des événements</h1>
 
-        {% if evenements is not empty %}
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th scope="col">Id</th>
-                        <th scope="col">Nom</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Heure</th>
-                        <th scope="col">Durée</th>
-                        <th scope="col">Valide</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for evenement in evenements %}
+        <form method="POST" action="{{ path('app_evenement_index') }}">
+            {% if evenements is not empty %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
                         <tr>
-                            <td>{{ evenement.id }}</td>
-                            <td>{{ evenement.nom }}</td>
-                            <td>{{ evenement.description }}</td>
-                            <td>{{ evenement.date ? evenement.date|date('Y-m-d') : '' }}</td>
-                            <td>{{ evenement.heure ? evenement.heure|date('H:i:s') : '' }}</td>
-                            <td>{{ evenement.duree ? evenement.duree|date('H:i:s') : '' }}</td>
-                            <td>
-                                {% if is_granted('ROLE_ADMIN') %}
-                                    <input type="hidden" name="valid[{{evenement.id}}]" value="false">
-                                    <input type="checkbox" name="valid[{{evenement.id}}]" {{ evenement.valide ? 'checked' : '' }}>
-                                {% endif %}
-                            </td>
-                            <td>
-                                <a href="{{ path('app_evenement_show', {'id': evenement.id}) }}" class="btn btn-primary btn-sm">Voir</a>
-                            </td>
+                            <th scope="col">Id</th>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Heure</th>
+                            <th scope="col">Durée</th>
+                            <th scope="col">Valide</th>
+                            <th scope="col">Actions</th>
                         </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                        {% if evenements is defined and evenements is not null %}
+                        {% for evenement in evenements %}
+                            <tr>
+                                <td>{{ evenement.id }}</td>
+                                <td>{{ evenement.nom }}</td>
+                                <td>{{ evenement.description }}</td>
+                                <td>{{ evenement.date ? evenement.date|date('Y-m-d') : '' }}</td>
+                                <td>{{ evenement.heure ? evenement.heure|date('H:i:s') : '' }}</td>
+                                <td>{{ evenement.duree ? evenement.duree|date('H:i:s') : '' }}</td>
+                                <td>
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <input type="hidden" name="valide[{{ evenement.id }}]" value="false">
+                                        <input type="checkbox" name="valide[{{ evenement.id }}]" {{ 'valide : bool' in evenement.valide ? 'checked' : '' }}>
+
+
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{{ path('app_evenement_show', {'id': evenement.id }) }}" class="btn btn-primary btn-sm">Voir</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p>Aucun événement trouvé.</p>
+            {% endif %}
+            {% endif %}
+            <script>
+                let table = new DataTable('#evenementtable');
+            </script>
+            <div class="w-100 d-flex justify-content-center align-items-center">
+                <button class="btn btn-lg btn-primary m-2" type="submit" name="submit" value="true">enregistrer</button>
             </div>
-        {% else %}
-            <p>Aucun événement trouvé.</p>
-        {% endif %}
+        </form>
 
         <a href="{{ path('app_evenement_new') }}" class="btn btn-success mt-4">Créer un nouvel événement</a>
     </div>
 {% endblock %}
-

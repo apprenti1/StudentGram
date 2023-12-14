@@ -7,6 +7,7 @@ use App\Entity\Salle;
 use App\Entity\TypeContrat;
 use App\Entity\Offre;
 use App\Entity\User;
+use App\Entity\Evenement;
 use App\Form\SalleType;
 use App\Form\TypeContratType;
 use App\Form\OffreType;
@@ -26,6 +27,7 @@ use Symfony\Component\Security\Core\Security;
 #[Route('/admin')]
 class AdminController extends AbstractController
 {
+
     #[Route('/user', name: 'app_admin_user_index')]
     public function userIndex(
         UserRepository $userRepository,
@@ -300,7 +302,7 @@ class AdminController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $salleId = $request->request->get('salle');
-            $salle = $salleRepository->find($salleId);
+            $salle = $this->salleRepository->find($salleId);
 
 
             if ($salle) {
@@ -315,7 +317,7 @@ class AdminController extends AbstractController
         return $this->render('admin/evenement/new.html.twig', [
             'evenement' => $evenement,
             'form' => $form->createView(),
-            'salles' => $salleRepository->findAll(),
+            'salles' => $this-> salleRepository->findAll(),
         ]);
     }
 

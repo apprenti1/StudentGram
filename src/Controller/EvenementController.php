@@ -16,12 +16,14 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class EvenementController extends AbstractController
 {
     #[Route('/valide/{id}',name: 'admin-evenement-valide')]
-    public function valider($id, EvenementRepository $evenementRepository, EntityManagerInterface $entityManager){
+    public function valider($id, EvenementRepository $evenementRepository, EntityManagerInterface $entityManager):Response{
 
         $evenement = $evenementRepository->find($id);
-        $evenement->setValide(true);
-        $entityManager->flush();
+        if ($evenement && $this->isGranted('ROLE_ADMIN')) {
 
+            $evenement->setValide(true);
+            $entityManager->flush();
+        }
         return $this->redirectToRoute('app_evenement_index');
     }
 
@@ -30,17 +32,19 @@ class EvenementController extends AbstractController
     {
         if ($request->isMethod('POST')) {
             $data = $request->request->get('valid');
+            if ($data && is_array($data)) {
 
-            foreach ($data as $id => $valid) {
-                $evenement = $evenementRepository->find($id);
+                foreach ($data as $id => $valid) {
+                    $evenement = $evenementRepository->find($id);
 
-                if ($evenement && $this->isGranted('ROLE_ADMIN')) {
-                    $evenement->setValide($valid === 'on');
-                    $entityManager->persist($evenement);
+                    if ($evenement && $this->isGranted('ROLE_ADMIN')) {
+                        $evenement->setValide($valid === 'on');
+                        $entityManager->persist($evenement);
+                    }
                 }
-            }
 
-            $entityManager->flush();
+                $entityManager->flush();
+            }
         }
 
         return $this->render('admin/evenement/index.html.twig', [
@@ -57,7 +61,8 @@ class EvenementController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+            $selectedSalle = $form->get('salle')->getData();
+            $evenement->setSalle($selectedSalle);
             $entityManager->persist($evenement);
             $entityManager->flush();
             return $this->redirectToRoute('app_evenement_index');
@@ -73,7 +78,7 @@ class EvenementController extends AbstractController
     #[Route('/{id}', name: 'app_evenement_show', methods: ['GET'])]
     public function show(Evenement $evenement): Response
     {
-        return $this->render('evenement/show.html.twig', [
+        return $this->render('admin/evenement/show.html.twig', [
             'evenement' => $evenement,
         ]);
     }
@@ -90,7 +95,7 @@ class EvenementController extends AbstractController
             return $this->redirectToRoute('app_evenement_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('evenement/edit.html.twig', [
+        return $this->render('admin/evenement/edit.html.twig', [
             'evenement' => $evenement,
             'form' => $form,
         ]);
