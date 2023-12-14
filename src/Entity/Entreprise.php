@@ -35,7 +35,48 @@ class Entreprise
 
     #[ORM\OneToMany(mappedBy: 'ref_entreprise', cascade: ["persist", "remove"], targetEntity: Offre::class)]
     #[ORM\JoinColumn(nullable: true)]
-    private ?Offre $offres = null;
+    private Collection $offres;
+
+    public function __construct()
+    {
+        $this->offres = new ArrayCollection();
+    }
+
+    /**
+     * @return Collection<int, Offre>
+     */
+    public function getOffres(): Collection
+    {
+        return $this->offres;
+    }
+    public function __toString()
+    {
+        return $this->nom_entreprise;
+    }
+
+
+
+    public function addOffre(Offre $offre): self
+    {
+        if (!$this->offres->contains($offre)) {
+            $this->offres[] = $offre;
+            $offre->setRefEntreprise($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOffre(Offre $offre): self
+    {
+        if ($this->offres->removeElement($offre)) {
+            // set the owning side to null (unless already changed)
+            if ($offre->getRefEntreprise() === $this) {
+                $offre->setRefEntreprise(null);
+            }
+        }
+
+        return $this;
+    }
 
     public function getId(): ?int
     {
@@ -113,10 +154,6 @@ class Entreprise
         return $this;
     }
 
-    public function getOffres(): ?Offre
-    {
-        return $this->offres;
-    }
 
     public function setOffres(?Offre $offres): static
     {
