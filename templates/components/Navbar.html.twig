@@ -10,7 +10,7 @@
             <ul class="navbar-nav me-auto">
                 {% if is_granted('ROLE_ENTREPRISE') and is_granted('ROLE_VALID') %}
                 <li class="nav-item">
-                    <a class="nav-link{{ (route starts with 'app_registration_offer')?' active':'' }}" href="/registration/offer">My offers</a>
+                    <a class="nav-link{{ (route starts with 'app_registration_offer')?' active':'' }}" href="/registration/offer">Mes offres</a>
                 </li>
                 {% endif %}
                 {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPERADMIN') %}
@@ -55,7 +55,7 @@
                     <div class="dropdown-menu dropdown-menu-end">
                         <a class="dropdown-item blue-drop-item" href="/edit/user">
                             <div class="btn btn-outline-info" style=" transition: 0.4s all 0s;">
-                                <p>View/Edit</p>
+                                <p>Consulter/Modifier</p>
                             </div>
                         </a>
                         <div class="dropdown-divider"></div>
@@ -63,7 +63,7 @@
                             <div >
                                 <a href="/logout">
                                     <div class="btn btn-outline-danger logout">
-                                        <p>Logout</p>
+                                        <p>Déconnections</p>
                                     </div>
                                 </a>
                             </div>
@@ -91,19 +91,18 @@
     <div class="delscreen" id="delscreen" style="filter: opacity(0); visibility: hidden;">
         <div class="delscreen-card">
             <div class="delscreen-header">
-              <div class="delscreen-image"><svg aria-hidden="true" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" fill="none">
-                          <path d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" stroke-linejoin="round" stroke-linecap="round"></path>
-                        </svg></div>
-              <div class="delscreen-content">
-                 <span class="delscreen-title">Suppression de compte</span>
-                 <p class="delscreen-message">Toutes les données seront supprimé! <br> Action irréversible!</p>
-              </div>
-               <div class="delscreen-actions">
-                 <a class="delscreen-desactivate" href="/delete" style="text-decoration: none;">Supprimer</a>
-                 <button class="delscreen-cancel" type="button" onclick="delscreenUpd()">Anuler</button>
-              </div>
+                <div class="delscreen-image"><svg aria-hidden="true" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" stroke-linejoin="round" stroke-linecap="round"></path>
+                    </svg></div>
+                <div class="delscreen-content">
+                    <span class="delscreen-title">Suppression de compte</span>
+                    <p class="delscreen-message">Toutes les données seront supprimé ! <br> Action irréversible !</p>
+                </div>
+                <div class="delscreen-actions">
+                    <a class="delscreen-desactivate" href="/delete" style="text-decoration: none;">Supprimer</a>
+                    <button class="delscreen-cancel" type="button" onclick="delscreenUpd()">Annuler</button>
+                </div>
             </div>
-            </div>
+        </div>
     </div>
-    
 </div>
