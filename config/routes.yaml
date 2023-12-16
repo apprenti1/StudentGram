@@ -8,3 +8,4 @@ controllers:
 app_forgot_password_request:
     path: '/forgot-password'
     controller: 'App\Controller\ResetPasswordController::requestPasswordReset'
+    methods: [GET, POST]
