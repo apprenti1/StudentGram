@@ -35,8 +35,11 @@ class Evenement
     #[ORM\JoinColumn(nullable: true)]
     private ?Salle $salle = null;
 
-    #[ORM\Column]
-    private ?bool $valide = false;
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private bool $valide = false;
+
 
 
 
@@ -152,12 +155,12 @@ class Evenement
         return $this;
     }
 
-    public function isValide(): ?bool
+    public function getValide(): bool
     {
         return $this->valide;
     }
 
-    public function setValide(bool $valide): static
+    public function setValide(bool $valide): self
     {
         $this->valide = $valide;
 
