@@ -2,34 +2,58 @@
 
 {% block title %}Salles {% endblock %}
 
+
+{% block javascripts %}
+    <link rel="stylesheet" href="//cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="//cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+
+{% endblock %}
+
 {% block body %}
-    <h1>Liste des salles</h1>
 
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Nom</th>
-            <th>Nombre de places</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for salle in salles %}
-            <tr>
+    <div class="container">
+        <h1 class="mt-4 mb-4">Liste des salles</h1>
 
-                <td>{{ salle.nom }}</td>
-                <td>{{ salle.NombreDePlace }}</td>
-                <td>
-                    <a href="{{ path('app_salle_show', {'id': salle.id}) }}">Voir</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">Aucun enregistrement trouvé</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        <form method="post" action="{{ path('app_salle_index') }}">
+            {% if salles is not empty %}
+                <div class="table-responsive">
+                    <table class="table table-striped" id="salletable">
+                        <thead>
+                            <tr>
+                                <th scope="col">Nom</th>
+                                <th cope="col">Nombre de places</th>
+                                <th cope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if salles is defined and salles is not null %}
+                                {% for salle in salles %}
+                                    <tr>
+                                        <td>{{ salle.nom }}</td>
+                                        <td>{{ salle.NombreDePlace }}</td>
+                                        <td>
+                                            <a href="{{ path('app_salle_show', {'id': salle.id}) }}" class="btn btn-primary btn-sm">Voir</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p>Aucune salle trouvée</p>
+            {% endif %}
+            <script>
+                let table = new DataTable('#salletable')
+            </script>
+            <div class="w-100 d-flex justify-content-center align-item-center">
+                <button class="btn btn-lg btn-primary m-2" type="submit" name="submit" value="true">enregistrer</button>
+            </div>
+        </form>
 
-    <a href="{{ path('app_salle_new') }}">Créer une nouvelle salle</a>
+
+        <a href="{{ path('app_salle_new') }}" class="btn btn-success mt-4">Créer une nouvelle salle</a>
+    </div>
+
 {% endblock %}

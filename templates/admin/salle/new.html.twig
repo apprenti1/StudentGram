@@ -2,10 +2,19 @@
 
 {% block title %}Nouvelle Salle{% endblock %}
 
+
 {% block body %}
-    <h1>Creer une Salle</h1>
+    <div class="container">
 
-    {{ include('admin/salle/_form.html.twig') }}
+        <h1 class="mt-4 mb-4">Créer une Salle</h1>
 
-    <a href="{{ path('app_salle_index') }}">Retour à la liste</a>
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                {{ include('admin/salle/_form.html.twig') }}
+            </div>
+        </div>
+
+
+        <a href="{{ path('app_salle_index') }}" class="btn btn-secondary mt-4">Retour à la liste</a>
+    </div>
 {% endblock %}
