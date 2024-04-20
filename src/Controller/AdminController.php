@@ -20,6 +20,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
@@ -85,6 +86,21 @@ class AdminController extends AbstractController
         }
 
         return $this->redirectToRoute('app_admin_user_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('admin/delete', name: 'app_delete')]
+    public function index(EntityManagerInterface $entityManager, FlashBagInterface $flashBag): Response
+    {
+
+        $user = $this->getUser();
+        if (!$user) {
+            $flashBag->add('warning', 'Vous devez être connecté pour supprimer votre compte.');
+        } else {
+            $entityManager->remove($user);
+            $entityManager->flush();
+            $flashBag->add('success', 'Votre compte a été supprimé avec succès.');
+        }
+        return $this->redirectToRoute('app_main');
     }
 
     #[Route('/offre', name: 'app_offre_index', methods: ['GET'])]

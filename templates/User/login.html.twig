@@ -25,14 +25,16 @@
 
             <div class="col-lg-6 contact">
                 <form method="post" class="php-email-form" style="height: auto; background-color: #ffffff08; padding: 30px; margin: 30px; ">
-                    <div class="row gy-4 counts" style="padding:10px; ">
+                    <div class="" style="padding:10px; ">
 
-                        <div class="col-md-6">
+                        <div class="form-floating">
                             <input value="{{ last_username }}" type="email" class="form-control" name="email" placeholder="E-mail" autocomplete="email" required="">
+                            <label for="email">E-mail</label>
                         </div>
                         
-                        <div class="col-md-6">
+                        <div class="form-floating">
                             <input value="" type="password" class="form-control" name="password" placeholder="Mot de passe" autocomplete="current-password" required="">
+                            <label for="password">Mot de passe</label>
                             {% if error %}
                             {% if error.messageKey == 'Your password should be at least {{ limit }} characters long.' %}
                                 <div class="alert alert-danger">Le mot de passe doit contenir au moins 6 caractères.</div>
