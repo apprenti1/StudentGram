@@ -55,25 +55,24 @@ class EvenementController extends AbstractController
 
     #[Route('/new', name: 'app_evenement_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, ValidatorInterface $validator): Response
-    {
-        $evenement = new Evenement();
-        $form = $this->createForm(EvenementType::class, $evenement);
-        $form->handleRequest($request);
+{
+    $evenement = new Evenement();
+    $form = $this->createForm(EvenementType::class, $evenement, ['is_admin' => true]); // Pass is_admin as true
+    $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $selectedSalle = $form->get('salle')->getData();
-            $evenement->setSalle($selectedSalle);
-            $entityManager->persist($evenement);
-            $entityManager->flush();
-            return $this->redirectToRoute('app_evenement_index');
-        }
-
-
-        return $this->render('admin/evenement/new.html.twig', [
-            'evenement' => $evenement,
-            'form' => $form,
-        ]);
+    if ($form->isSubmitted() && $form->isValid()) {
+        $selectedSalle = $form->get('salle')->getData();
+        $evenement->setSalle($selectedSalle);
+        $entityManager->persist($evenement);
+        $entityManager->flush();
+        return $this->redirectToRoute('app_evenement_index');
     }
+
+    return $this->render('admin/evenement/new.html.twig', [
+        'evenement' => $evenement,
+        'form' => $form,
+    ]);
+}
 
     #[Route('/{id}', name: 'app_evenement_show', methods: ['GET'])]
     public function show(Evenement $evenement): Response
